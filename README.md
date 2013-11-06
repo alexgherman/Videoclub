@@ -1,4 +1,4 @@
-Vid-oclub
+Vidéoclub
 =========
 
 Vidéoclub projet
