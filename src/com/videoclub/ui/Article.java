@@ -1,5 +1,8 @@
 package com.videoclub.ui;
 
+import com.videoclub.i18n.*;
+
+
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
