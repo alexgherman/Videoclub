@@ -1,11 +1,12 @@
 package com.videoclub.database;
 
-import com.videoclub.article.Article;
+import com.videoclub.article.*;
 
 public enum DatabaseTableName {
 
     SQLITE_MASTER("sqlite_master", new Object()),
-    ARTICLES("articles", new Article());
+    ARTICLES("articles", new Article()),
+    DESCRIPTION_ARTICLES("description_articles", new DescriptionArticle());
     
     private final String tableName;
     private final Object obj;

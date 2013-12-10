@@ -85,45 +85,36 @@ public class SQLiteJDBC {
         return columnNames;
     }
     
-    public HashMap<String, Object> iterateResultSet(ResultSet rs, Map<String, Class> columnNames) throws SQLException {
+    public HashMap<String, String> iterateResultSet(ResultSet rs, Map<String, Class> columnNames) throws SQLException {
         
         Map<String, Class> columnNames2 = new HashMap<String, Class>(columnNames);
         Iterator it = columnNames.entrySet().iterator();
         
-        HashMap<String, Object> result = new HashMap<String, Object>();
+        HashMap<String, String> result = new HashMap<String, String>();
         
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Object val = pair.getValue();
             
-//            System.out.println("hello - " + pair.getKey().toString());
-            
             // System.out.println(val);
             // TODO: figure out why no switch statement is allowed... 
-            if (val == Integer.TYPE) {
-                
-//                System.out.println(pair.getKey().toString() + " - " + new Integer(rs.getInt(pair.getKey().toString())));
-                result.put(pair.getKey().toString(), new Integer(rs.getInt(pair.getKey().toString())));
-            } else if(val == String.class) {
-                
-//                if (pair.getKey().toString() == "sql") {
-//                    System.out.println("test");
-//                }
-//                System.out.println(pair.getKey().toString() + " - " + rs.getString(pair.getKey().toString()));
+//            if (val == Integer.TYPE) {
+//                result.put(pair.getKey().toString(), new Integer(rs.getInt(pair.getKey().toString())));
+//            } else if(val == String.class) {
+//                result.put(pair.getKey().toString(), rs.getString(pair.getKey().toString()));
+//            } else {
                 result.put(pair.getKey().toString(), rs.getString(pair.getKey().toString()));
-            } else {
-                
                 // ... 
-                System.out.println("???" + (val == Integer.TYPE));
-            }
+//                System.out.println("???" + (val == Integer.TYPE) + "[" + val + "]");
+//            }
              
         }
         
         return result;
     }
     
-    public HashMap<String, Object> selectOne(String sql, DatabaseTableName obj) {
-        ArrayList<HashMap<String, Object>> r = this.select(sql, obj);
+    public HashMap<String, String> selectOne(String sql, DatabaseTableName obj) {
+        ArrayList<HashMap<String, String>> r = this.select(sql, obj);
         return (r.size() == 0 ? null : r.get(0));
     }
 
@@ -134,13 +125,13 @@ public class SQLiteJDBC {
      * @param obj 
      * @return
      */
-    public ArrayList<HashMap<String, Object>> select(String sql, DatabaseTableName obj) {
+    public ArrayList<HashMap<String, String>> select(String sql, DatabaseTableName obj) {
         
         Statement stmt = null;
         
         ArrayList<Map<String, java.lang.Object>> collect = new ArrayList<Map<String, java.lang.Object>>();
         
-        ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+        ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
                 
         try {
             

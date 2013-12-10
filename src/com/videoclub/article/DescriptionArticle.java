@@ -1,10 +1,14 @@
 package com.videoclub.article;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import com.videoclub.database.Database;
+import com.videoclub.database.DatabaseTableName;
+import com.videoclub.models.Common;
+import com.videoclub.models.CommonInterface;
 
-public class DescriptionArticle {
+public class DescriptionArticle extends Common<DescriptionArticle> implements CommonInterface<DescriptionArticle> {
 
     private Integer id = null;
     
@@ -16,7 +20,12 @@ public class DescriptionArticle {
     
     private float price;
 
+    public DescriptionArticle() {
+        super(DatabaseTableName.DESCRIPTION_ARTICLES, DescriptionArticle.class);
+    }
+    
     public DescriptionArticle(String code, String name, String description, float price) {
+        super(DatabaseTableName.DESCRIPTION_ARTICLES, DescriptionArticle.class);
         this.code = code;
         this.name = name;
         this.description = description;
@@ -28,6 +37,7 @@ public class DescriptionArticle {
     }
 
     public void setId(int id) {
+        super.setId(id);
         this.id = id;
     }
     
@@ -94,6 +104,42 @@ public class DescriptionArticle {
         } else {
             update();
         }
+    }
+    
+    public boolean load() {
+        return super.load(this);
+    }
+    
+    public void updateSelf(DescriptionArticle loaded) {
+        System.out.println("updating self description article:" + loaded);
+        this.setId(23);
+        this.setCode("testCode");
+        this.setName("testName");
+        this.setDescription("testDescription");
+        this.setPrice(11.11f);
+    }
+    
+    /**
+     * Construct the article entity from a resultSet row
+     */
+    @Override
+    public DescriptionArticle constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
+        
+        
+        
+        DescriptionArticle descriptionArticle = new DescriptionArticle();
+        descriptionArticle.setId(Integer.parseInt((String) row.get("ID")));
+        descriptionArticle.setCode((String) row.get("CODE"));
+        descriptionArticle.setName((String) row.get("NAME"));
+        descriptionArticle.setDescription((String) row.get("DESCRIPTION"));
+        descriptionArticle.setPrice(Float.parseFloat((String) row.get("PRICE")));
+        
+        
+        
+        
+        System.out.println("description artcile construct entity: " + descriptionArticle);
+        
+        return descriptionArticle;
     }
     
     public static void main(String [] args) {

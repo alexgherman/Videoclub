@@ -31,7 +31,7 @@ public class Fixtures {
                 + "WHERE            type='table' "
                 + "AND              name='" + tableName + "';";
 
-        HashMap<String, Object> r = db.selectOne(sql, DatabaseTableName.SQLITE_MASTER);
+        HashMap<String, String> r = db.selectOne(sql, DatabaseTableName.SQLITE_MASTER);
         
         return (r != null && r.get("name").equals(tableName));
     }

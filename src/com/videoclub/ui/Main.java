@@ -14,14 +14,18 @@ import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.videoclub.article.Article;
 import com.videoclub.article.DescriptionArticle;
 import com.videoclub.i18n.*;
+import com.videoclub.models.Common;
 import com.videoclub.ui.article.Add;
 
 public class Main extends JFrame {
     
-    public Main(com.videoclub.article.Article[] articles) {
+    public Main(ArrayList<com.videoclub.article.Article> articles) {
         
         JLabel label = new JLabel(StringUtils.capitalize(Locale.instance("en", "US").getMessages().getString("article_list")));
         
@@ -29,8 +33,8 @@ public class Main extends JFrame {
  
         /* Populate the list with articles */
         
-        for (int i = 0; i < articles.length; i++) {
-            articleList.add(articles[i].toString());
+        for (com.videoclub.article.Article a : articles) {
+            articleList.add(a.toString());
         }
         
         JButton addButton = new JButton(StringUtils.capitalize(Locale.instance("en", "US").getMessages().getString("add")));
@@ -64,6 +68,8 @@ public class Main extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
+    
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -75,10 +81,48 @@ public class Main extends JFrame {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                com.videoclub.article.Article[] articles = new com.videoclub.article.Article[2];
-                articles[0] = new com.videoclub.article.Article(new DescriptionArticle("001", "BlaArticle", "blaDescription", 1.80f));
-                articles[1] = new com.videoclub.article.Article(new DescriptionArticle("002", "BlaArticle 2", "blaDescription 2", 1.81f));
                 
+                
+                com.videoclub.article.Article articleObj = new com.videoclub.article.Article();
+                
+                ArrayList<com.videoclub.article.Article> articles = null;
+                try {
+                    articles = articleObj.getAll();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace(); // TODO: change the exception error
+                }
+                
+//                ----- unnecessary overhead for an sqlite database ----
+//                Uncomment if situation changes
+//                ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
+                
+                // collect the description ids
+                for (com.videoclub.article.Article article : articles) {
+//                    ----- unnecessary overhead for an sqlite database ----
+//                    descriptionIds.add(article.getDescription().getId());
+                    DescriptionArticle descriptionArticle = new DescriptionArticle();
+                    descriptionArticle.setId(article.getDescription().getId());
+                    descriptionArticle.load();
+                    System.out.println("description article: " + descriptionArticle.toString());
+                    article.setDescription(descriptionArticle);
+                    System.out.println("article: " + article.toString());
+                }
+                
+                System.out.println("boom");
+                
+//                ----- unnecessary overhead for an sqlite database ----
+//                // resolve the description objects
+//                DescriptionArticle descriptionArticle = new DescriptionArticle();
+//                ArrayList<DescriptionArticle> descriptionArticles = null;
+//                try {
+//                    descriptionArticles = descriptionArticle.getById(descriptionIds);
+//                } catch (InstantiationException | IllegalAccessException e) {
+//                    e.printStackTrace(); // TODO: change the exception error
+//                }
+//                
+//                // link the articles with their collected description objects
+//                // ...
+
                 new Main(articles).setVisible(true);
             }
         });
