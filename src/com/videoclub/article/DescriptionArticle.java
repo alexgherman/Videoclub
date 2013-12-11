@@ -1,6 +1,9 @@
 package com.videoclub.article;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.videoclub.database.Database;
@@ -32,13 +35,23 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
         this.price = price;
     }
         
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         super.setId(id);
         this.id = id;
+    }
+    
+    /**
+     * Generates a random code
+     * 
+     * @return random code
+     */
+    public String generateRandomCode() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
     }
     
     public String getCode() {
@@ -77,32 +90,39 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
         return this.name + " [" + this.price + "]";
     }
     
-    public void create() throws SQLException {
+    /**
+     * TODO: do this in the Common class, will do for now
+     * @throws SQLException
+     */
+    public Integer create() throws SQLException {
         
         String sql = "INSERT INTO description_articles ("
-                            + "CODE,"
-                            + "NAME,"
-                            + "DESCRIPTION,"
-                            + "PRICE" +
-                     ") VALUES ("
-                            + "'" + code + "', "
-                            + "'" + name + "', "
-                            + "'" + description + "', " 
-                            + price + "" +
-                     ");";
-     
-        Database.instance().update(sql);
+                + "CODE,"
+                + "NAME,"
+                + "DESCRIPTION,"
+                + "PRICE" +
+         ") VALUES ("
+                + "'" + code + "', "
+                + "'" + name + "', "
+                + "'" + description + "', " 
+                + price + "" +
+         ");";
+
+        return Database.instance().update(sql);
     }
     
     public void update() {
         
     }
     
-    public void save() throws SQLException {
+    public boolean save() throws SQLException {
         if (id == null) {
-            create();
+            Integer lastId = create();
+            this.setId(lastId);
+            return lastId > 0;
         } else {
             update();
+            return true;
         }
     }
     
@@ -111,12 +131,11 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
     }
     
     public void updateSelf(DescriptionArticle loaded) {
-        System.out.println("updating self description article:" + loaded);
-        this.setId(23);
-        this.setCode("testCode");
-        this.setName("testName");
-        this.setDescription("testDescription");
-        this.setPrice(11.11f);
+        this.setId(loaded.getId());
+        this.setCode(loaded.getCode());
+        this.setName(loaded.getName());
+        this.setDescription(loaded.getDescription());
+        this.setPrice(loaded.getPrice());
     }
     
     /**
@@ -125,8 +144,6 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
     @Override
     public DescriptionArticle constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
         
-        
-        
         DescriptionArticle descriptionArticle = new DescriptionArticle();
         descriptionArticle.setId(Integer.parseInt((String) row.get("ID")));
         descriptionArticle.setCode((String) row.get("CODE"));
@@ -134,12 +151,44 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
         descriptionArticle.setDescription((String) row.get("DESCRIPTION"));
         descriptionArticle.setPrice(Float.parseFloat((String) row.get("PRICE")));
         
-        
-        
-        
-        System.out.println("description artcile construct entity: " + descriptionArticle);
-        
         return descriptionArticle;
+    }
+    
+    /**
+     * Returns the article list with populated descriptions
+     * @param articles Articles
+     * @return Populated articles
+     */
+    public static ArrayList<com.videoclub.article.Article> returnWithPopulatedDescriptions(ArrayList<com.videoclub.article.Article> articles) {
+
+//      ----- unnecessary overhead for an sqlite database ----
+//      Uncomment if situation changes
+//      ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
+      
+      // collect the description ids
+        for (com.videoclub.article.Article article : articles) {
+//          ----- unnecessary overhead for an sqlite database ----
+//          descriptionIds.add(article.getDescription().getId());
+            DescriptionArticle descriptionArticle = new DescriptionArticle();
+            descriptionArticle.setId(article.getDescription().getId());
+            descriptionArticle.load();
+            article.setDescription(descriptionArticle);
+        }
+       
+//      ----- unnecessary overhead for an sqlite database ----
+//      // resolve the description objects
+//      DescriptionArticle descriptionArticle = new DescriptionArticle();
+//      ArrayList<DescriptionArticle> descriptionArticles = null;
+//      try {
+//          descriptionArticles = descriptionArticle.getById(descriptionIds);
+//      } catch (InstantiationException | IllegalAccessException e) {
+//          e.printStackTrace(); // TODO: change the exception error
+//      }
+//      
+//      // link the articles with their collected description objects
+//      // ...
+        
+        return articles;
     }
     
     public static void main(String [] args) {

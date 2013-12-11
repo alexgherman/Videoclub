@@ -10,6 +10,7 @@ import com.videoclub.models.*;
 
 public class Article extends Common<Article> implements CommonInterface<Article> {
     
+    HashMap<String, String> fieldValues = new HashMap<String, String>();
     
     private Integer id = null;
     
@@ -49,9 +50,12 @@ public class Article extends Common<Article> implements CommonInterface<Article>
         return description.toString();
     }
 
-    
-    
+    /**
+     * TODO: do this in the Common class, will do for now
+     * @throws SQLException
+     */
     public void create() throws SQLException {
+//        super.create(fieldValues);
         
         String sql = "INSERT INTO articles (DESCRIPTION_ID) "
                    + "VALUES (" + description.getId() + ");";
@@ -61,6 +65,18 @@ public class Article extends Common<Article> implements CommonInterface<Article>
     
     public void update() {
         
+    }
+    
+    public Integer save() throws SQLException {
+        if (id == null) {
+            create();
+            Integer lastId = Database.instance().getLastInsertedId();
+            this.setId(lastId);
+            return lastId;
+        } else {
+            update();
+            return 0;
+        }
     }
     
     /**

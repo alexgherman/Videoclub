@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import com.videoclub.article.Article;
 import com.videoclub.article.DescriptionArticle;
 import com.videoclub.i18n.*;
 
@@ -75,12 +76,16 @@ public class Add extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                /* DescriptionArticle */
                 String name = nameField.getText();
                 String description = descriptionField.getText();
                 Float price = Float.parseFloat(priceField.getText());
                 DescriptionArticle descriptionObj = new DescriptionArticle("0001", name, description, price);
                 try {
                     descriptionObj.save();
+                    Article articleObj = new Article();
+                    articleObj.setDescription(descriptionObj);
+                    articleObj.save();
                     System.out.println("success");
                 } catch (SQLException e) {
                     // should never get here.

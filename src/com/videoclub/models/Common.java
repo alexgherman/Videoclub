@@ -1,12 +1,14 @@
 package com.videoclub.models;
 
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.videoclub.article.DescriptionArticle;
 import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 
@@ -60,31 +62,20 @@ abstract public class Common<T extends Common> implements CommonInterface<T> {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    @SuppressWarnings("null")
+    @SuppressWarnings({ "unchecked" })
     public T constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
-//        Class<T> clazz = null;
         T obj = (T) clazz.newInstance();
-//        return obj;
         System.out.println("bla:" + obj.toString());
         return (T) obj.constructEntity(row);
     }
     
-    @SuppressWarnings({ "null", "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public boolean load(T obj) {
-//        Class<T> clazz = T.class;
-        
-//        T obj = null;
         T loaded = null;
         
         try {
-//            System.out.println("test");
-//            System.out.println("test2:" + clazz.getCanonicalName());
-//            obj = (T) clazz.newInstance();
             loaded = (T) obj.getById(this.id);
-            
-//            System.out.println("test2:" + loaded.toString());
             obj.updateSelf(loaded);
-//            updateSelf((T) loaded);
         } catch (InstantiationException | IllegalAccessException  | SecurityException | NoSuchFieldException e) {
             return false;
         }
@@ -125,7 +116,7 @@ abstract public class Common<T extends Common> implements CommonInterface<T> {
     }
     
     public ArrayList<T> getById(ArrayList<Integer> ids) throws InstantiationException, IllegalAccessException {
-        String sql = "SELECT * FROM articles WHERE id IN (" + implode(",", ids) + ")";
+        String sql = "SELECT * FROM articles WHERE id IN (" + implode(",", ids, false) + ")";
 
         return constructEntities(Database.instance().select(sql, tableName));
     }
@@ -138,23 +129,118 @@ abstract public class Common<T extends Common> implements CommonInterface<T> {
         return Database.instance().select(sql, DatabaseTableName.ARTICLES);
     }
     
+    @SuppressWarnings("unchecked")
+    public void create(HashMap<String, String> fieldValues) {
+        String sql = "INSERT INTO " + tableName + " ("
+                  + implode(",", (ArrayList<? extends Object>) fieldValues.keySet(), false)
+                  + ") VALUES ("
+                  + implode(",", (ArrayList<? extends Object>) fieldValues.entrySet(), true)
+                  + ");";
+
+//        Database.instance().update(sql);
+    }
+    
+    public void update() {
+        
+    }
+    
+    public void save(HashMap<String, String> fieldValues) throws SQLException {
+        if (id == null) {
+            create(fieldValues);
+        } else {
+//            update();
+        }
+    }
+    
     /**
      * Join the array elements with a glue string
      * 
      * @param glue
      * @param pieces
+     * @param quotes add quotations
      * @return
      */
-    public String implode(String glue, ArrayList<Integer> pieces) {
+    @SuppressWarnings("unchecked")
+    public static String implode(String glue, ArrayList<? extends Object> pieces, boolean quotes) {
+        
+        String result = "";
+        
+        Object s = pieces.get(0);
+        if (s.getClass() == Integer.class) {
+            result = implodeInteger(glue, (ArrayList<Integer>) pieces);
+        } else {
+            result = implodeString(glue, (ArrayList<String>) pieces, quotes);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Join the array of integer elements with a glue string
+     * 
+     * @param glue
+     * @param pieces
+     * @return
+     */
+    public static String implodeInteger(String glue, ArrayList<Integer> pieces) {
         StringBuilder builder = new StringBuilder();
         builder.append(pieces.remove(0));
 
-        for(Integer piece : pieces) {
-            builder.append(glue);
+        for(int i = 0; i < pieces.size(); i++) {
+            Integer piece = pieces.get(i);
+            if (i != 0) {
+                builder.append(glue);
+            }
             builder.append(String.valueOf(piece));
         }
         
         return builder.toString();
+    }
+    
+    /**
+     * Join the array of string elements with a glue string
+     * 
+     * @param glue
+     * @param pieces
+     * @param quotes add quotations
+     * @return
+     */
+    public static String implodeString(String glue, ArrayList<String> pieces, boolean quotes) {
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < pieces.size(); i++) {
+            String piece = pieces.get(i);
+            if (i != 0) {
+                builder.append(glue);
+            }
+            if (quotes) {
+                builder.append("'" + piece + "'");
+            } else {
+                builder.append(piece);
+            }
+        }
+        
+        return builder.toString();
+    }
+    
+    public static void main(String [] args) {
+        
+        /* implodes test */
+        ArrayList<Integer> pieces = new ArrayList<Integer>();
+        pieces.add(1);
+        pieces.add(2);
+        System.out.println("imploded integers: " + Common.implode(",", pieces, false));
+        
+        ArrayList<String> stringPieces = new ArrayList<String>();
+        stringPieces.add("first");
+        stringPieces.add("second");
+        System.out.println("imploded strings without quotations: " + Common.implode(",", stringPieces, false));
+        
+        System.out.println("imploded strings with quotations: " + Common.implode(",", stringPieces, true));
+        
+        
+        
+        
     }
     
 }

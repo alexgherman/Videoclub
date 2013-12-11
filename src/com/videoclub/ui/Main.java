@@ -25,20 +25,27 @@ import com.videoclub.ui.article.Add;
 
 public class Main extends JFrame {
     
-    public Main(ArrayList<com.videoclub.article.Article> articles) {
-        
-        JLabel label = new JLabel(StringUtils.capitalize(Locale.instance("en", "US").getMessages().getString("article_list")));
-        
-        List articleList = new List(10);
- 
-        /* Populate the list with articles */
-        
+    JLabel label = new JLabel(StringUtils.capitalize(Locale.instance("en", "US").getMessages().getString("article_list")));
+    List articleList = new List(10);
+    
+    /**
+     * Populate the list with articles
+     * @param articles Article list
+     */
+    public void populateArticleList(ArrayList<com.videoclub.article.Article> articles) {
         for (com.videoclub.article.Article a : articles) {
             articleList.add(a.toString());
         }
+    }
+    
+    public Main(ArrayList<com.videoclub.article.Article> articles) {
         
+        populateArticleList(articles);
+ 
         JButton addButton = new JButton(StringUtils.capitalize(Locale.instance("en", "US").getMessages().getString("add")));
 
+        JButton refreshButton = new JButton("refresh");
+        
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setAutoCreateGaps(true);
@@ -49,12 +56,15 @@ public class Main extends JFrame {
                 .addComponent(label)
                 .addComponent(articleList)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(addButton))));
+                    .addComponent(addButton)
+                    .addComponent(refreshButton))));
         
         layout.setVerticalGroup(layout.createSequentialGroup()
             .addComponent(label)
             .addComponent(articleList)
-            .addComponent(addButton));
+            .addGroup(layout.createParallelGroup(LEADING)
+                .addComponent(addButton)
+                .addComponent(refreshButton)));
  
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -63,12 +73,27 @@ public class Main extends JFrame {
             }
         });
         
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                articleList.removeAll();
+                com.videoclub.article.Article article = new Article();
+                try {
+                    
+                    ArrayList<Article> articles = article.getAll();
+                    articles = DescriptionArticle.returnWithPopulatedDescriptions(articles);
+                    populateArticleList(articles);
+                    
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace(); // TODO: change the exception error
+                }
+            }
+        });
+        
         setTitle(Locale.instance("en", "US").getMessages().getString("main_title"));
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-    
-    
     
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -87,42 +112,11 @@ public class Main extends JFrame {
                 
                 ArrayList<com.videoclub.article.Article> articles = null;
                 try {
-                    articles = articleObj.getAll();
+                    articles = DescriptionArticle.returnWithPopulatedDescriptions(articleObj.getAll());
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace(); // TODO: change the exception error
                 }
                 
-//                ----- unnecessary overhead for an sqlite database ----
-//                Uncomment if situation changes
-//                ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
-                
-                // collect the description ids
-                for (com.videoclub.article.Article article : articles) {
-//                    ----- unnecessary overhead for an sqlite database ----
-//                    descriptionIds.add(article.getDescription().getId());
-                    DescriptionArticle descriptionArticle = new DescriptionArticle();
-                    descriptionArticle.setId(article.getDescription().getId());
-                    descriptionArticle.load();
-                    System.out.println("description article: " + descriptionArticle.toString());
-                    article.setDescription(descriptionArticle);
-                    System.out.println("article: " + article.toString());
-                }
-                
-                System.out.println("boom");
-                
-//                ----- unnecessary overhead for an sqlite database ----
-//                // resolve the description objects
-//                DescriptionArticle descriptionArticle = new DescriptionArticle();
-//                ArrayList<DescriptionArticle> descriptionArticles = null;
-//                try {
-//                    descriptionArticles = descriptionArticle.getById(descriptionIds);
-//                } catch (InstantiationException | IllegalAccessException e) {
-//                    e.printStackTrace(); // TODO: change the exception error
-//                }
-//                
-//                // link the articles with their collected description objects
-//                // ...
-
                 new Main(articles).setVisible(true);
             }
         });

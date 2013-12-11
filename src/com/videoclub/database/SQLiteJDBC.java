@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.videoclub.article.DescriptionArticle;
+
 public class SQLiteJDBC {
 
     private String tableName = null;
@@ -13,6 +15,10 @@ public class SQLiteJDBC {
     private String databaseName = "test";
     
     private Connection connection = null;
+    
+//    private ResultSet lastStatementResultSet = null;
+    
+    Integer lastId;
     
     public SQLiteJDBC() {
         connect();
@@ -41,6 +47,7 @@ public class SQLiteJDBC {
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+    
     
     private boolean connect() {
         try {
@@ -127,8 +134,6 @@ public class SQLiteJDBC {
      */
     public ArrayList<HashMap<String, String>> select(String sql, DatabaseTableName obj) {
         
-        Statement stmt = null;
-        
         ArrayList<Map<String, java.lang.Object>> collect = new ArrayList<Map<String, java.lang.Object>>();
         
         ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
@@ -140,11 +145,27 @@ public class SQLiteJDBC {
             /**
              * Select Query
              */
-            ResultSet rs = connection.createStatement().executeQuery(sql);
+            Statement stmt = connection.createStatement();
+            
+            ResultSet rs = null;
+            try {
+                rs = stmt.executeQuery(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+//                stmt.close();
+            }
+            
+            
+            
+//            lastStatementResultSet = stmt.getGeneratedKeys();
+//            stmt.close();
             
             while (rs.next()) {
                 result.add(iterateResultSet(rs, columnNames));
             }
+//            stmt.close();
+//            rs.close();
             
         } catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -154,10 +175,32 @@ public class SQLiteJDBC {
         return result;
     }
     
-    public void update(String sql) throws SQLException {
+    public Integer update(String sql) throws SQLException {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(sql);
+        Integer lastInsertedId = stmt.getGeneratedKeys().getInt(1);
+        lastId = (lastInsertedId == (Integer)lastInsertedId ? lastInsertedId : 0);
         stmt.close();
+        return lastId;
+    }
+    
+    public Integer getLastInsertedId() {
+        return lastId;
+    }
+    
+    public static void main(String [] args) {
+        
+        SQLiteJDBC db = new SQLiteJDBC();
+//        try {
+//            db.select("insert into articles (description_id) values (8);", DatabaseTableName.ARTICLES);
+        db.select("select * from articles;", DatabaseTableName.ARTICLES);
+//        } catch (SQLException e) {
+//            System.out.println("error");
+//            e.printStackTrace();
+//        }
+        
+        System.out.println("sdfds");
+//        System.out.println(description.toString());
         
     }
     
