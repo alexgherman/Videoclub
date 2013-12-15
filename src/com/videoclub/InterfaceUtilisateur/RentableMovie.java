@@ -8,8 +8,8 @@ package com.videoclub.InterfaceUtilisateur;
  */
 public class RentableMovie
 {
-	String name;
-	boolean isNewMovie;
+	private String name;
+	private boolean isNewMovie;
 	
 	public RentableMovie(String name, boolean isNewMovie)
 	{

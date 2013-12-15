@@ -27,8 +27,8 @@ public class PickItemsWindow extends JDialog
 	private Vector<SellableItem> itemChoices = new Vector<SellableItem>();
 	private Vector<SellableItem> selectedItems = new Vector<SellableItem>();
 
-	JLabel choiceLabel = new JLabel("Choix:");
-	JLabel selectionLabel = new JLabel("Votre sélection:");
+	private JLabel choiceLabel = new JLabel("Choix:");
+	private JLabel selectionLabel = new JLabel("Votre sélection:");
 
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
@@ -36,8 +36,8 @@ public class PickItemsWindow extends JDialog
 	private JPanel itemChoicesPanel = new JPanel();
 	private JScrollPane choicesPanel = new JScrollPane(itemChoicesPanel);	//Un JScrollPane garde toujours la même dimension. S'il y a trop de composants, il crée un scrollBar
 	
-	private JPanel ItemselectionPanel = new JPanel();
-	private JScrollPane selectionPanel = new JScrollPane(ItemselectionPanel);
+	private JPanel itemSelectionPanel = new JPanel();
+	private JScrollPane selectionPanel = new JScrollPane(itemSelectionPanel);
 
 	public Vector<SellableItem> getSelection()
 	{
@@ -62,7 +62,7 @@ public class PickItemsWindow extends JDialog
 				- getSize().height / 2);
 
 		itemChoicesPanel.setLayout(new BoxLayout(itemChoicesPanel, BoxLayout.Y_AXIS));
-		ItemselectionPanel.setLayout(new BoxLayout(ItemselectionPanel, BoxLayout.Y_AXIS));
+		itemSelectionPanel.setLayout(new BoxLayout(itemSelectionPanel, BoxLayout.Y_AXIS));
 		
 		itemChoices = videoClub.getItemChoices();
 		
@@ -170,7 +170,7 @@ public class PickItemsWindow extends JDialog
 	private void addSelectionitem(final SellableItem item)
 	{
 		JButton bouton = new JButton(item.toString());
-		ItemselectionPanel.add(bouton);
+		itemSelectionPanel.add(bouton);
 
 		bouton.addActionListener(new ActionListener()
 			{
@@ -191,14 +191,14 @@ public class PickItemsWindow extends JDialog
 	 */
 	private void removeSelectionitem(SellableItem item)
 	{
-		for(Component c : ItemselectionPanel.getComponents())
+		for(Component c : itemSelectionPanel.getComponents())
 		{
 			JButton bouton = (JButton)c;
 			bouton.setVisible(true);
 			
 			if(bouton.getText().equals(item.toString()))
 			{
-				ItemselectionPanel.remove(bouton);
+				itemSelectionPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}

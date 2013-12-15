@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  */
 public class WelcomeWindow extends JFrame
 {
-	JLabel welcomeLabel = new JLabel("<HTML><U>Bienvenue!<U><HTML>");
+	private JLabel welcomeLabel = new JLabel("<HTML><U>Bienvenue!<U><HTML>");
 
 	private JButton employeeButton = new JButton("Employé");
 	private JButton managerButton = new JButton("Gérant");

@@ -27,9 +27,11 @@ public class ManagerWindow extends JDialog
 
 	private JButton addMovieButton = new JButton("Ajouter film");
 	private JButton addItemButton = new JButton("Ajouter article");
+	private JButton addUserButton = new JButton("Ajouter utilisateur");
 
-	private JButton removeMovieButton = new JButton("Modifier film");
-	private JButton removeItemButton = new JButton("Modifier article");
+	private JButton removeMovieButton = new JButton("Enlever film");
+	private JButton removeItemButton = new JButton("Enlever article");
+	private JButton removeUserButton = new JButton("Enlever utilisateur");
 
 	/**
 	 * Constructeur
@@ -40,8 +42,8 @@ public class ManagerWindow extends JDialog
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Screen Size
-		setSize(300, 200);
-		setMinimumSize(new Dimension(300,200));
+		setSize(425, 200);
+		setMinimumSize(new Dimension(425,200));
 		
 		//Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,7 +59,7 @@ public class ManagerWindow extends JDialog
 
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		panel.add(identificationButton, c);
 
 		c.gridy = 1;
@@ -67,6 +69,9 @@ public class ManagerWindow extends JDialog
 		c.gridx = 1;
 		c.gridy = 1;
 		panel.add(addItemButton, c);
+		
+		c.gridx = 2;
+		panel.add(addUserButton, c);
 
 		c.gridx = 0;
 		c.gridy = 2;
@@ -75,6 +80,9 @@ public class ManagerWindow extends JDialog
 		c.gridx = 1;
 		c.gridy = 2;
 		panel.add(removeItemButton, c);
+		
+		c.gridx = 2;
+		panel.add(removeUserButton, c);
 
 		getContentPane().add(panel);
 
@@ -92,7 +100,7 @@ public class ManagerWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					AddRentableMovieWindow win = new AddRentableMovieWindow(videoClub);
+					CreateRentableMovieWindow win = new CreateRentableMovieWindow(videoClub);
 					win.setVisible(true);
 				}
 			});
@@ -106,6 +114,19 @@ public class ManagerWindow extends JDialog
 					win.setVisible(true);
 				}
 			});
+		
+		addUserButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				LoginWindow win = new LoginWindow();
+				win.setVisible(true);
+				
+				LoginInfo info = win.getLoginInfo();
+				videoClub.createUser(info);
+			}
+		});
 
 		removeMovieButton.addActionListener(new ActionListener()
 			{
@@ -132,6 +153,19 @@ public class ManagerWindow extends JDialog
 					videoClub.removeItems(selectedItems);
 				}
 			});
+		
+		removeUserButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				PickUsersWindow win = new PickUsersWindow(videoClub);
+				win.setVisible(true);
+
+				Vector<User> selectedUsers = win.getSelection();
+				videoClub.removeUsers(selectedUsers);
+			}
+		});
 	}
 
 	/**

@@ -25,19 +25,17 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public class LoginWindow extends JDialog
-{
-	VideoClub videoClub;
+{	
+	private JLabel nameLabel = new JLabel("Nom:");
+	private JTextField nameField = new JTextField();
 	
-	JLabel nameLabel = new JLabel("Nom:");
-	JTextField nameField = new JTextField();
+	private JLabel passwordLabel = new JLabel("Password:");
+	private JPasswordField passwordField = new JPasswordField();
 	
-	JLabel passwordLabel = new JLabel("Password:");
-	JPasswordField passwordField = new JPasswordField();
+	private JButton saveButton = new JButton("OK");
+	private JButton closeButton = new JButton("Fermer");
 	
-	JButton saveButton = new JButton("OK");
-	JButton closeButton = new JButton("Fermer");
-	
-	LoginInfo loginInfo = null;
+	private LoginInfo loginInfo = null;
 	
 	public LoginInfo getLoginInfo()
 	{
@@ -50,8 +48,8 @@ public class LoginWindow extends JDialog
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		// Screen Size
-		setSize(400,250);
-		setMinimumSize(new Dimension(400,250));
+		setSize(300,175);
+		setMinimumSize(new Dimension(300,175));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

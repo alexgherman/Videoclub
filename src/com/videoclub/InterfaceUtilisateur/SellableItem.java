@@ -8,8 +8,8 @@ package com.videoclub.InterfaceUtilisateur;
  */
 public class SellableItem
 {
-	String name;
-	int price;	//Le prix est en cent(¢) pour être plus précis *ATTENTION*
+	private String name;
+	private int price;	//Le prix est en cent(¢) pour être plus précis *ATTENTION*
 	
 	public SellableItem(String nom, int prix)
 	{

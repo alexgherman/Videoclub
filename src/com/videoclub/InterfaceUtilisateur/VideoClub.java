@@ -3,14 +3,13 @@ package com.videoclub.InterfaceUtilisateur;
 import java.util.Vector;
 
 /**
- * Lien entre l'interface graphique et la database
- * Contrôleur
+ * Lien entre l'interface graphique et la database Contrôleur
  * 
  * @author Maxime Dupuis
  */
 public class VideoClub
 {
-	final String name = "Video Club Awesome";
+	private final String name = "Video Club Awesome";
 
 	public static void main(String[] args)
 	{
@@ -27,6 +26,7 @@ public class VideoClub
 
 	/**
 	 * Add movie to database
+	 * 
 	 * @param location
 	 */
 	public void addRentableMovie(RentableMovie location)
@@ -37,6 +37,7 @@ public class VideoClub
 
 	/**
 	 * Add item to database
+	 * 
 	 * @param article
 	 */
 	public void addItem(SellableItem article)
@@ -46,8 +47,8 @@ public class VideoClub
 	}
 
 	/**
-	 * Rent item from database
-	 * Item no longer avaible to customer until returned
+	 * Rent item from database Item no longer avaible to customer until returned
+	 * 
 	 * @param movieSelection
 	 */
 	public void rentMovies(Vector<RentableMovie> movieSelection)
@@ -60,15 +61,14 @@ public class VideoClub
 		}
 		System.out.println("]");
 	}
-	
+
 	/**
-	 * Buy items from database
-	 * Items no longer avaible for sell to customers
+	 * Buy items from database Items no longer avaible for sell to customers
+	 * 
 	 * @param itemSelection
 	 */
 	public void buyItems(Vector<SellableItem> itemSelection)
 	{
-		// On pourrait ajouter les articles au panier
 		System.out.println("pickItems(Vector<SellableItem> itemSelection)");
 		System.out.println("Items selected: \n[");
 		for (SellableItem item : itemSelection)
@@ -80,6 +80,7 @@ public class VideoClub
 
 	/**
 	 * Asks database for movie choices
+	 * 
 	 * @return movie choices
 	 */
 	public Vector<RentableMovie> getMovieChoices()
@@ -99,6 +100,7 @@ public class VideoClub
 
 	/**
 	 * Asks database for item choices
+	 * 
 	 * @return item choices
 	 */
 	public Vector<SellableItem> getItemChoices()
@@ -117,7 +119,26 @@ public class VideoClub
 	}
 
 	/**
+	 * Asks database for a list of all the usernames
+	 */
+	public Vector<User> getUserChoices()
+	{
+		System.out.println("getUserChoices()");
+
+		Vector<User> choices = new Vector<User>();
+		choices.add(new User("Alice", "Nom"));
+		choices.add(new User("Bob", "Nom"));
+		choices.add(new User("Casper", "Nom"));
+		choices.add(new User("Donald", "Nom"));
+		choices.add(new User("Emile", "Nom"));
+		choices.add(new User("Francis", "Nom"));
+
+		return choices;
+	}
+
+	/**
 	 * Name of the videoclub
+	 * 
 	 * @return
 	 */
 	public String getName()
@@ -130,54 +151,68 @@ public class VideoClub
 	 */
 	public boolean validManager(LoginInfo info)
 	{
-		System.out.println("hasManagerRights(LoginInfo info)");
-		
+		System.out.println("validManager(LoginInfo info)");
+		System.out.println(info);
+
 		return true;
 	}
-	
+
 	/**
 	 * Asks database if user exists
 	 */
 	public boolean validUser(LoginInfo info)
 	{
+		System.out.println("validUser(LoginInfo info)");
+		System.out.println(info);
+		
 		return true;
 	}
-	
+
 	/**
 	 * Add a user to database
+	 * 
 	 * @param info
 	 */
 	public void createUser(LoginInfo info)
 	{
-		
+		System.out.println("createUser(LoginInfo info)");
+		System.out.println(info);
 	}
-	
+
 	/**
 	 * Remove user from database
+	 * 
 	 * @param name
 	 */
-	public void removeUser(String name)
+	public void removeUsers(Vector<User> users)
 	{
-		
+		System.out.println("removeUsers(Vector<User> users)");
+		System.out.println(users);
 	}
 
 	/**
 	 * Remove items from database
+	 * 
 	 * @param itemsToRemove
 	 */
 	public void removeItems(Vector<SellableItem> itemsToRemove)
 	{
+		System.out.println("removeItems(Vector<SellableItem> itemsToRemove)");
+		System.out.println(itemsToRemove);
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
 	 * Remove movies from database
+	 * 
 	 * @param moviesToRemove
 	 */
 	public void removeMovies(Vector<RentableMovie> moviesToRemove)
 	{
+		System.out.println("removeMovies(Vector<RentableMovie> moviesToRemove)");
+		System.out.println(moviesToRemove);
 		// TODO Auto-generated method stub
-		
+
 	}
 }

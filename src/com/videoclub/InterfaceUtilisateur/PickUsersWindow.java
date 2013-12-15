@@ -18,14 +18,14 @@ import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 /**
- * Fenêtre de sélection de films à louer
+ * Fenêtre d'articles à acheter
  * @author Maxime Dupuis
  *
  */
-public class PickMoviesWindow extends JDialog
+public class PickUsersWindow extends JDialog
 {
-	private Vector<RentableMovie> movieChoices = new Vector<RentableMovie>();
-	private Vector<RentableMovie> selectedMovies = new Vector<RentableMovie>();
+	private Vector<User> userChoices = new Vector<User>();
+	private Vector<User> selectedusers = new Vector<User>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
 	private JLabel selectionLabel = new JLabel("Votre sélection:");
@@ -33,24 +33,24 @@ public class PickMoviesWindow extends JDialog
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
 
-	private JPanel movieChoicesPanel = new JPanel();
-	private JScrollPane choicesPanel = new JScrollPane(movieChoicesPanel);	//Un JScrollPane garde toujours la même dimension. S'il y a trop de composants, il crée un scrollBar
-	
-	private JPanel movieSelectionPanel = new JPanel();
-	private JScrollPane selectionPanel = new JScrollPane(movieSelectionPanel);
+	private JPanel userChoicesPanel = new JPanel();
+	private JScrollPane choicesPanel = new JScrollPane(userChoicesPanel);
 
-	public Vector<RentableMovie> getSelection()
+	private JPanel userSelectionPanel = new JPanel();
+	private JScrollPane selectionPanel = new JScrollPane(userSelectionPanel);
+
+	public Vector<User> getSelection()
 	{
-		return selectedMovies;
+		return selectedusers;
 	}
-	
+
 	/**
 	 * Constructeur
 	 */
-	PickMoviesWindow(final VideoClub videoClub)
+	PickUsersWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Choisir films", true);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		super((Frame) null, "Choisir articles", true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
 		setSize(600, 400);
@@ -61,14 +61,16 @@ public class PickMoviesWindow extends JDialog
 		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
 				- getSize().height / 2);
 
-		movieChoicesPanel.setLayout(new BoxLayout(movieChoicesPanel, BoxLayout.Y_AXIS));
-		movieSelectionPanel.setLayout(new BoxLayout(movieSelectionPanel, BoxLayout.Y_AXIS));
-		
-		movieChoices = videoClub.getMovieChoices();
-		
-		for (RentableMovie movie : movieChoices)
+		userChoicesPanel.setLayout(new BoxLayout(userChoicesPanel,
+				BoxLayout.Y_AXIS));
+		userSelectionPanel.setLayout(new BoxLayout(userSelectionPanel,
+				BoxLayout.Y_AXIS));
+
+		userChoices = videoClub.getUserChoices();
+
+		for (User user : userChoices)
 		{
-			addChoiceMovie(movie);
+			addChoiceuser(user);
 		}
 
 		JPanel panel = new JPanel();
@@ -101,7 +103,7 @@ public class PickMoviesWindow extends JDialog
 		c.gridx = 1;
 		panel.add(closeButton, c);
 
-		getContentPane().add(panel);
+		setContentPane(panel);
 
 		okButton.addActionListener(new ActionListener()
 			{
@@ -117,95 +119,94 @@ public class PickMoviesWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					selectedMovies.clear();
+					selectedusers.clear();
 					dispose();
 				}
 			});
 	}
-	
-	
+
 	/**
-	 * Ajoute un film dans la liste des choix
+	 * Ajoute un user dans la liste des choix
 	 */
-	private void addChoiceMovie(final RentableMovie movie)
+	private void addChoiceuser(final User user)
 	{
-		JButton bouton = new JButton(movie.toString());
-		movieChoicesPanel.add(bouton);
+		JButton bouton = new JButton(user.getName());
+		userChoicesPanel.add(bouton);
 
 		bouton.addActionListener(new ActionListener()
 			{
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					addSelectionMovie(movie);
-					removeChoiceMovie(movie);
+					addSelectionuser(user);
+					removeChoiceuser(user);
 				}
 			});
 		revalidate();
 	}
-	
+
 	/**
-	 * Enlève un film de la liste des choix
+	 * Enlève un user de la liste des choix
 	 */
-	private void removeChoiceMovie(RentableMovie movie)
+	private void removeChoiceuser(User user)
 	{
-		for(Component c : movieChoicesPanel.getComponents())
+		for (Component c : userChoicesPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
-			
-			if(bouton.getText().equals(movie.toString()))
+			JButton bouton = (JButton) c;
+
+			if (bouton.getText().equals(user.getName()))
 			{
-				movieChoicesPanel.remove(bouton);
+				userChoicesPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
+
 		revalidate();
 	}
-	
+
 	/**
-	 * Ajoute un film dans la liste de sélection
+	 * Ajoute un user dans la liste de sélection
 	 */
-	private void addSelectionMovie(final RentableMovie movie)
+	private void addSelectionuser(final User user)
 	{
-		JButton bouton = new JButton(movie.toString());
-		movieSelectionPanel.add(bouton);
+		JButton bouton = new JButton(user.getName());
+		userSelectionPanel.add(bouton);
 
 		bouton.addActionListener(new ActionListener()
 			{
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					addChoiceMovie(movie);
-					removeSelectionMovie(movie);
+					addChoiceuser(user);
+					removeSelectionuser(user);
 				}
 			});
-		
-		selectedMovies.add(movie);
+
+		selectedusers.add(user);
 		revalidate();
 	}
-	
+
 	/**
-	 * Enlève un film de la liste des sélections
+	 * Enlève un user de la liste des sélections
 	 */
-	private void removeSelectionMovie(RentableMovie movie)
+	private void removeSelectionuser(User user)
 	{
-		for(Component c : movieSelectionPanel.getComponents())
+		for (Component c : userSelectionPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
+			JButton bouton = (JButton) c;
 			bouton.setVisible(true);
-			
-			if(bouton.getText().equals(movie.toString()))
+
+			if (bouton.getText().equals(user.getName()))
 			{
-				movieSelectionPanel.remove(bouton);
+				userSelectionPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
-		selectedMovies.remove(movie);
-		
+
+		selectedusers.remove(user);
+
 		revalidate();
 	}
 }
