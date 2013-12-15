@@ -51,23 +51,63 @@ public class Fixtures {
             /**
              * Article table
              */
-            String sql = "CREATE TABLE if not exists    articles (" +
+            String sql = "CREATE TABLE if not exists    " + DatabaseTableName.ARTICLES.getTableName() + " (" +
                          "ID                            INTEGER PRIMARY KEY AUTOINCREMENT   NOT NULL, " +
                          "DESCRIPTION_ID                INTEGER                             NOT NULL)"; 
             
             db.update(sql);
-            
+
             /**
              * Description Article table
              */
             
-            sql = "CREATE TABLE IF NOT EXISTS    description_articles (" +
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.DESCRIPTION_ARTICLES.getTableName() + " (" +
                   "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
                   "CODE                          TEXT                                   NOT NULL, " +
                   "NAME                          TEXT                                   NOT NULL, " +
                   "DESCRIPTION                   TEXT                                   NOT NULL, " +
                   "PRICE                         REAL                                   NOT NULL)"; 
             
+            db.update(sql);
+
+            /**
+             * Movie table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.MOVIES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT   NOT NULL, " +
+                  "DESCRIPTION_ID                INTEGER                             NOT NULL)"; 
+            
+            db.update(sql);
+
+            /**
+             * Description Movie table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.DESCRIPTION_MOVIES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
+                  "CODE                          TEXT                                   NOT NULL, " +
+                  "TITLE                         TEXT                                   NOT NULL, " +
+                  "DESCRIPTION                   TEXT                                   NOT NULL, " +
+                  "RELEASE_DATE                  TEXT                                   NOT NULL, " +
+                  "NEW                           BOOLEAN                                NOT NULL, " +
+                  "PRICE                         REAL                                   NOT NULL)";
+
+            db.update(sql);
+            
+            /**
+             * Description Movie table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.USERS.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
+                  "USERNAME                      TEXT                                   NOT NULL, " +
+                  "PASSWORD                      TEXT                                   NOT NULL, " +
+                  "FIRST_NAME                    TEXT                                   NOT NULL, " +
+                  "LAST_NAME                     TEXT                                   NOT NULL, " +
+                  "CREATED                       TEXT                                   NOT NULL, " +
+                  "LAST_VISIT                    TEXT                                   NOT NULL)";
+
             db.update(sql);
             
         } catch (Exception e) {
@@ -89,11 +129,23 @@ public class Fixtures {
         fixtures.createStructure();
         fixtures.populate();
         
+        ArrayList<String> databaseTableNameList = new ArrayList<String>();
+        databaseTableNameList.add(DatabaseTableName.ARTICLES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.DESCRIPTION_ARTICLES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.MOVIES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.DESCRIPTION_MOVIES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.USERS.getTableName());
+        
+        
         /**
          * check if table exists
          */
         try {
-            System.out.println(fixtures.checkTableExists("articles") ? "articles table created" : "oups, something went wrong");
+            
+            for (String tableName : databaseTableNameList) {
+                System.out.println(tableName + " " + (fixtures.checkTableExists(tableName) ? "table created" : "table NOT created"));
+            }
+            
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

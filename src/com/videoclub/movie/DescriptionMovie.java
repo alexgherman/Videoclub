@@ -1,4 +1,4 @@
-package com.videoclub.article;
+package com.videoclub.movie;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -11,7 +11,7 @@ import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.Common;
 import com.videoclub.models.CommonInterface;
 
-public class DescriptionArticle extends Common<DescriptionArticle> implements CommonInterface<DescriptionArticle> {
+public class DescriptionMovie extends Common<DescriptionMovie> implements CommonInterface<DescriptionMovie> {
 
     private Integer id = null;
     
@@ -23,12 +23,12 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
     
     private float price;
 
-    public DescriptionArticle() {
-        super(DatabaseTableName.DESCRIPTION_ARTICLES, DescriptionArticle.class);
+    public DescriptionMovie() {
+        super(DatabaseTableName.DESCRIPTION_MOVIES, DescriptionMovie.class);
     }
     
-    public DescriptionArticle(String code, String name, String description, float price) {
-        super(DatabaseTableName.DESCRIPTION_ARTICLES, DescriptionArticle.class);
+    public DescriptionMovie(String code, String name, String description, float price) {
+        super(DatabaseTableName.DESCRIPTION_MOVIES, DescriptionMovie.class);
         this.code = code;
         this.name = name;
         this.description = description;
@@ -96,14 +96,16 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
      */
     public Integer create() throws SQLException {
         
-        String sql = "INSERT INTO " + DatabaseTableName.DESCRIPTION_ARTICLES.getTableName() + " ("
+        Long currentDate = (System.currentTimeMillis() / 1000L);
+        
+        String sql = "INSERT INTO " + DatabaseTableName.DESCRIPTION_MOVIES +" ("
                 + "CODE,"
-                + "NAME,"
+                + "RELEASE_DATE,"
                 + "DESCRIPTION,"
                 + "PRICE" +
          ") VALUES ("
                 + "'" + code + "', "
-                + "'" + name + "', "
+                + "'" + currentDate + "', "
                 + "'" + description + "', " 
                 + price + "" +
          ");";
@@ -130,7 +132,7 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
         return super.load(this);
     }
     
-    public void updateSelf(DescriptionArticle loaded) {
+    public void updateSelf(DescriptionMovie loaded) {
         this.setId(loaded.getId());
         this.setCode(loaded.getCode());
         this.setName(loaded.getName());
@@ -142,9 +144,9 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
      * Construct the article entity from a resultSet row
      */
     @Override
-    public DescriptionArticle constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
+    public DescriptionMovie constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
         
-        DescriptionArticle descriptionArticle = new DescriptionArticle();
+        DescriptionMovie descriptionArticle = new DescriptionMovie();
         descriptionArticle.setId(Integer.parseInt((String) row.get("ID")));
         descriptionArticle.setCode((String) row.get("CODE"));
         descriptionArticle.setName((String) row.get("NAME"));
@@ -159,20 +161,20 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
      * @param articles Articles
      * @return Populated articles
      */
-    public static ArrayList<com.videoclub.article.Article> returnWithPopulatedDescriptions(ArrayList<com.videoclub.article.Article> articles) {
+    public static ArrayList<Movie> returnWithPopulatedDescriptions(ArrayList<Movie> articles) {
 
 //      ----- unnecessary overhead for an sqlite database ----
 //      Uncomment if situation changes
 //      ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
       
       // collect the description ids
-        for (com.videoclub.article.Article article : articles) {
+        for (Movie movie : articles) {
 //          ----- unnecessary overhead for an sqlite database ----
 //          descriptionIds.add(article.getDescription().getId());
-            DescriptionArticle descriptionArticle = new DescriptionArticle();
-            descriptionArticle.setId(article.getDescription().getId());
+            DescriptionMovie descriptionArticle = new DescriptionMovie();
+            descriptionArticle.setId(movie.getDescription().getId());
             descriptionArticle.load();
-            article.setDescription(descriptionArticle);
+            movie.setDescription(descriptionArticle);
         }
        
 //      ----- unnecessary overhead for an sqlite database ----
@@ -193,7 +195,7 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
     
     public static void main(String [] args) {
         
-        DescriptionArticle description = new DescriptionArticle("code2", "Coke2", "blabla_description2", 10.95f);
+        DescriptionMovie description = new DescriptionMovie("code3", "Coke5", "blabla_description2", 10.95f);
         
         try {
             description.save();
@@ -207,3 +209,4 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
         
     }
 }
+
