@@ -1,4 +1,4 @@
-package com.videoclub.account;
+package com.videoclub.models.account;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -14,11 +14,11 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import com.videoclub.article.DescriptionArticle;
 import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.Common;
 import com.videoclub.models.CommonInterface;
+import com.videoclub.models.article.DescriptionArticle;
 
 public class User extends Common<User> implements CommonInterface<User> {
 	

@@ -1,4 +1,4 @@
-package com.videoclub.article;
+package com.videoclub.models.article;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

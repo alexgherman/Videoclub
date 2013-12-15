@@ -2,8 +2,10 @@ package com.videoclub.InterfaceUtilisateur;
 
 import java.util.Vector;
 
+import com.videoclub.account.Account;
+
 /**
- * Lien entre l'interface graphique et la database Contrôleur
+ * Lien entre l'interface graphique et la database Contrï¿½leur
  * 
  * @author Maxime Dupuis
  */
@@ -89,7 +91,7 @@ public class VideoClub
 
 		Vector<RentableMovie> choices = new Vector<RentableMovie>();
 		choices.add(new RentableMovie("Les totons volants", true));
-		choices.add(new RentableMovie("Martine au club échangiste", false));
+		choices.add(new RentableMovie("Martine au club ï¿½changiste", false));
 		choices.add(new RentableMovie("Les foufounes rouges", false));
 		choices.add(new RentableMovie("Lucile va au garage", false));
 		choices.add(new RentableMovie("Bleu nuit version Miley Cyrus", false));
@@ -177,6 +179,8 @@ public class VideoClub
 	{
 		System.out.println("createUser(LoginInfo info)");
 		System.out.println(info);
+		
+		Account.registration(info.getName(), info.getPassword(), info.getFirstName(), info.getLastName());
 	}
 
 	/**

@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * Fenêtre qui demande le nom et le mot de passe à l'utilisateur
+ * Fenï¿½tre qui demande le nom et le mot de passe ï¿½ l'utilisateur
  * 
  * @author Maxime Dupuis
  *
@@ -32,6 +32,12 @@ public class LoginWindow extends JDialog
 	private JLabel passwordLabel = new JLabel("Password:");
 	private JPasswordField passwordField = new JPasswordField();
 	
+	private JLabel firstNameLabel = new JLabel("First name:");
+    private JTextField firstNameField = new JTextField();
+    
+    private JLabel lastNameLabel = new JLabel("Last name:");
+    private JTextField lastNameField = new JTextField();
+    
 	private JButton saveButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
 	
@@ -48,7 +54,7 @@ public class LoginWindow extends JDialog
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		// Screen Size
-		setSize(300,175);
+		setSize(300,250);
 		setMinimumSize(new Dimension(300,175));
 
 		// Screen centered
@@ -82,7 +88,25 @@ public class LoginWindow extends JDialog
 		panel.add(passwordField,c);
 		
 		c.gridx = 0;
-		c.gridy = 2;
+        c.gridy = 2;
+        c.weightx = 0;
+        panel.add(firstNameLabel,c);
+        
+        c.gridx = 1;
+        c.weightx = 1;
+        panel.add(firstNameField,c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        c.weightx = 0;
+        panel.add(lastNameLabel,c);
+        
+        c.gridx = 1;
+        c.weightx = 1;
+        panel.add(lastNameField,c);
+        
+		c.gridx = 0;
+		c.gridy = 4;
 		c.weighty = 0;
 		panel.add(saveButton,c);
 
@@ -110,7 +134,10 @@ public class LoginWindow extends JDialog
 					return;
 				}
 				
-				loginInfo = new LoginInfo(name, password);
+				String firstName = firstNameField.getText();
+				String lastName = lastNameField.getText();
+				
+				loginInfo = new LoginInfo(name, password, firstName, lastName);
 				
 				dispose();
 			}

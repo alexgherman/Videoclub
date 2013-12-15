@@ -2,7 +2,8 @@ package com.videoclub.account;
 
 import java.sql.SQLException;
 
-import com.videoclub.article.DescriptionArticle;
+import com.videoclub.models.account.User;
+import com.videoclub.models.article.DescriptionArticle;
 
 public class Account {
     

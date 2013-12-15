@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.videoclub.article.Article;
+import com.videoclub.models.article.Article;
 
 /**
  * Fixtures class
@@ -90,7 +90,7 @@ public class Fixtures {
                   "TITLE                         TEXT                                   NOT NULL, " +
                   "DESCRIPTION                   TEXT                                   NOT NULL, " +
                   "RELEASE_DATE                  TEXT                                   NOT NULL, " +
-                  "NEW                           BOOLEAN                                NOT NULL, " +
+                  "NEW                           INTEGER                                NOT NULL, " +
                   "PRICE                         REAL                                   NOT NULL)";
 
             db.update(sql);

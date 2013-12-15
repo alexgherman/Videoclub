@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.videoclub.article.DescriptionArticle;
 import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
+import com.videoclub.models.article.DescriptionArticle;
 
 abstract public class Common<T extends Common> implements CommonInterface<T> {
     

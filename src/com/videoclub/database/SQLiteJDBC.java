@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.videoclub.article.DescriptionArticle;
+import com.videoclub.models.article.DescriptionArticle;
+import com.videoclub.util.PrettyPrintingMap;
 
 public class SQLiteJDBC {
 
@@ -142,6 +143,8 @@ public class SQLiteJDBC {
             
             HashMap<String, Class> columnNames = getColumnNames(obj.getTableName());
             
+            // System.out.println("test:" + new PrettyPrintingMap(columnNames));
+            
             /**
              * Select Query
              */
@@ -156,16 +159,15 @@ public class SQLiteJDBC {
 //                stmt.close();
             }
             
+//            System.out.println(rs.);
             
-            
-//            lastStatementResultSet = stmt.getGeneratedKeys();
-//            stmt.close();
-            
-            while (rs.next()) {
-                result.add(iterateResultSet(rs, columnNames));
+            if (!rs.next()) {
+                System.out.println("no rows found");
+            } else {
+                do {
+                    result.add(iterateResultSet(rs, columnNames));
+                } while(rs.next());
             }
-//            stmt.close();
-//            rs.close();
             
         } catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -194,6 +196,7 @@ public class SQLiteJDBC {
 //        try {
 //            db.select("insert into articles (description_id) values (8);", DatabaseTableName.ARTICLES);
         db.select("select * from articles;", DatabaseTableName.ARTICLES);
+
 //        } catch (SQLException e) {
 //            System.out.println("error");
 //            e.printStackTrace();

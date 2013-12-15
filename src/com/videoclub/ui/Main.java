@@ -17,10 +17,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.videoclub.article.Article;
-import com.videoclub.article.DescriptionArticle;
 import com.videoclub.i18n.*;
 import com.videoclub.models.Common;
+import com.videoclub.models.article.Article;
+import com.videoclub.models.article.DescriptionArticle;
 import com.videoclub.ui.article.Add;
 
 public class Main extends JFrame {
@@ -32,13 +32,13 @@ public class Main extends JFrame {
      * Populate the list with articles
      * @param articles Article list
      */
-    public void populateArticleList(ArrayList<com.videoclub.article.Article> articles) {
-        for (com.videoclub.article.Article a : articles) {
+    public void populateArticleList(ArrayList<com.videoclub.models.article.Article> articles) {
+        for (com.videoclub.models.article.Article a : articles) {
             articleList.add(a.toString());
         }
     }
     
-    public Main(ArrayList<com.videoclub.article.Article> articles) {
+    public Main(ArrayList<com.videoclub.models.article.Article> articles) {
         
         populateArticleList(articles);
  
@@ -77,7 +77,7 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 articleList.removeAll();
-                com.videoclub.article.Article article = new Article();
+                com.videoclub.models.article.Article article = new Article();
                 try {
                     
                     ArrayList<Article> articles = article.getAll();
@@ -108,9 +108,9 @@ public class Main extends JFrame {
                 }
                 
                 
-                com.videoclub.article.Article articleObj = new com.videoclub.article.Article();
+                com.videoclub.models.article.Article articleObj = new com.videoclub.models.article.Article();
                 
-                ArrayList<com.videoclub.article.Article> articles = null;
+                ArrayList<com.videoclub.models.article.Article> articles = null;
                 try {
                     articles = DescriptionArticle.returnWithPopulatedDescriptions(articleObj.getAll());
                 } catch (InstantiationException | IllegalAccessException e) {

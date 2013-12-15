@@ -1,4 +1,4 @@
-package com.videoclub.movie;
+package com.videoclub.models.movie;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -17,9 +17,13 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
     
     private String code;
     
-    private String name;
+    private String title;
     
     private String description;
+    
+    private String releaseDate;
+    
+    private boolean newRelease;
     
     private float price;
 
@@ -27,14 +31,16 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
         super(DatabaseTableName.DESCRIPTION_MOVIES, DescriptionMovie.class);
     }
     
-    public DescriptionMovie(String code, String name, String description, float price) {
+    public DescriptionMovie(String code, String title, String description, String releaseDate, boolean newRelease, float price) {
         super(DatabaseTableName.DESCRIPTION_MOVIES, DescriptionMovie.class);
         this.code = code;
-        this.name = name;
+        this.title = title;
         this.description = description;
+        this.releaseDate = releaseDate;
+        this.newRelease = newRelease;
         this.price = price;
     }
-        
+
     public Integer getId() {
         return id;
     }
@@ -62,12 +68,12 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     public String getDescription() {
@@ -78,6 +84,22 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
         this.description = description;
     }
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public boolean isNewRelease() {
+        return newRelease;
+    }
+
+    public void setNewRelease(boolean newRelease) {
+        this.newRelease = newRelease;
+    }
+    
     public float getPrice() {
         return price;
     }
@@ -87,7 +109,13 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
     }
     
     public String toString() {
-        return this.name + " [" + this.price + "]";
+        return this.title + " [" + this.price + "]";
+    }
+    
+    public ArrayList<DescriptionMovie> getOldReleases() throws InstantiationException, IllegalAccessException {
+        String sql = "SELECT * FROM " + tableName + " where NEW = 0";
+        
+        return constructEntities(Database.instance().select(sql, DatabaseTableName.DESCRIPTION_MOVIES));
     }
     
     /**
@@ -95,18 +123,20 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
      * @throws SQLException
      */
     public Integer create() throws SQLException {
-        
-        Long currentDate = (System.currentTimeMillis() / 1000L);
-        
+
         String sql = "INSERT INTO " + DatabaseTableName.DESCRIPTION_MOVIES +" ("
                 + "CODE,"
-                + "RELEASE_DATE,"
+                + "TITLE,"
                 + "DESCRIPTION,"
+                + "RELEASE_DATE,"
+                + "NEW,"
                 + "PRICE" +
          ") VALUES ("
                 + "'" + code + "', "
-                + "'" + currentDate + "', "
-                + "'" + description + "', " 
+                + "'" + title + "', "
+                + "'" + description + "', "
+                + "'" + releaseDate + "', "
+                + "" + (newRelease ? 1 : 0) + ", "
                 + price + "" +
          ");";
 
@@ -135,7 +165,7 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
     public void updateSelf(DescriptionMovie loaded) {
         this.setId(loaded.getId());
         this.setCode(loaded.getCode());
-        this.setName(loaded.getName());
+        this.setTitle(loaded.getTitle());
         this.setDescription(loaded.getDescription());
         this.setPrice(loaded.getPrice());
     }
@@ -149,8 +179,10 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
         DescriptionMovie descriptionArticle = new DescriptionMovie();
         descriptionArticle.setId(Integer.parseInt((String) row.get("ID")));
         descriptionArticle.setCode((String) row.get("CODE"));
-        descriptionArticle.setName((String) row.get("NAME"));
+        descriptionArticle.setTitle((String) row.get("TITLE"));
         descriptionArticle.setDescription((String) row.get("DESCRIPTION"));
+        descriptionArticle.setReleaseDate((String) row.get("RELEASE_DATE"));
+        descriptionArticle.setNewRelease(((String) row.get("NEW")) == "1");
         descriptionArticle.setPrice(Float.parseFloat((String) row.get("PRICE")));
         
         return descriptionArticle;
@@ -195,7 +227,7 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
     
     public static void main(String [] args) {
         
-        DescriptionMovie description = new DescriptionMovie("code3", "Coke5", "blabla_description2", 10.95f);
+        DescriptionMovie description = new DescriptionMovie("code3", "Coke5", "blabla_description2", "1387132240", true, 10.95f);
         
         try {
             description.save();
@@ -208,5 +240,6 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
         System.out.println(description.toString());
         
     }
+
 }
 

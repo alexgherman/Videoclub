@@ -1,7 +1,8 @@
-package com.videoclub.movie;
+package com.videoclub.models.movie;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.videoclub.database.Database;
@@ -53,7 +54,7 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
     public void create() throws SQLException {
 //        super.create(fieldValues);
         
-        String sql = "INSERT INTO articles (DESCRIPTION_ID) "
+        String sql = "INSERT INTO " + tableName + " (DESCRIPTION_ID) "
                    + "VALUES (" + description.getId() + ");";
         
         Database.instance().update(sql);
@@ -91,19 +92,69 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
         return article;
     }
     
+    public ArrayList<Movie> getOldReleases() {
+        
+        DescriptionMovie dm = new DescriptionMovie();
+        ArrayList<DescriptionMovie> descriptions = null;
+        try {
+            descriptions = dm.getOldReleases();
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        // collect descriptions
+        HashMap<Integer, DescriptionMovie> descriptionMap = new HashMap<Integer, DescriptionMovie>();
+        
+        for (DescriptionMovie description: descriptions) {
+            if (description.isNewRelease() == false) {
+                descriptionMap.put(description.getId(), description);
+            }
+        }
+        
+        // collect the description ids
+        ArrayList<Integer> descriptionIds = new ArrayList<Integer>(descriptionMap.keySet());
+        
+//        System.out.println("list: "+ descriptionIds);
+        
+        Movie m = new Movie();
+        ArrayList<Movie> movies = null;
+        try {
+            movies = m.getbyDescriptinIds(descriptionIds);
+        } catch (InstantiationException | IllegalAccessException e) {
+            movies = new ArrayList<Movie>();
+        }
+        
+        return movies;
+    }
+    
+    public ArrayList<Movie> getbyDescriptinIds(ArrayList<Integer> ids) throws InstantiationException, IllegalAccessException {
+        String sql = "SELECT * FROM " + tableName + " where DESCRIPTION_ID IN (" + implode(",", ids, false) + ")";
+        
+        return constructEntities(Database.instance().select(sql, DatabaseTableName.MOVIES));
+    }
     
     public static void main(String [] args) {
         
-        DescriptionMovie description = new DescriptionMovie("code1", "Coke", "blabla_description", 10.85f);
-//        description.save();
-        
-        Movie article = new Movie();
-        
-        
-        
-//        article.save();
-        
-        System.out.println(article);
+//        DescriptionMovie description = new DescriptionMovie("code1", "Inception ", "blabla_description", "1387132283", true, 20.85f);
+//        try {
+//            description.save();
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        
+//        Movie movie = new Movie();
+//        movie.setDescription(description);
+//        
+//        try {
+//            movie.save();
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        
+//        System.out.println("Success");
         
     }
     

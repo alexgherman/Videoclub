@@ -15,9 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import com.videoclub.article.Article;
-import com.videoclub.article.DescriptionArticle;
 import com.videoclub.i18n.*;
+import com.videoclub.models.article.Article;
+import com.videoclub.models.article.DescriptionArticle;
 
 public class Add extends JFrame {
     

@@ -1,8 +1,8 @@
 package com.videoclub.database;
 
-import com.videoclub.article.*;
-import com.videoclub.movie.*;
-import com.videoclub.account.*;
+import com.videoclub.models.article.*;
+import com.videoclub.models.movie.*;
+import com.videoclub.models.account.*;
 
 public enum DatabaseTableName {
 

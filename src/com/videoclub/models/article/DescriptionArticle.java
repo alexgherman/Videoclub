@@ -1,4 +1,4 @@
-package com.videoclub.article;
+package com.videoclub.models.article;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -159,14 +159,14 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
      * @param articles Articles
      * @return Populated articles
      */
-    public static ArrayList<com.videoclub.article.Article> returnWithPopulatedDescriptions(ArrayList<com.videoclub.article.Article> articles) {
+    public static ArrayList<com.videoclub.models.article.Article> returnWithPopulatedDescriptions(ArrayList<com.videoclub.models.article.Article> articles) {
 
 //      ----- unnecessary overhead for an sqlite database ----
 //      Uncomment if situation changes
 //      ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
       
       // collect the description ids
-        for (com.videoclub.article.Article article : articles) {
+        for (com.videoclub.models.article.Article article : articles) {
 //          ----- unnecessary overhead for an sqlite database ----
 //          descriptionIds.add(article.getDescription().getId());
             DescriptionArticle descriptionArticle = new DescriptionArticle();

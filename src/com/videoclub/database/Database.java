@@ -3,7 +3,7 @@ package com.videoclub.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import com.videoclub.article.Article;
+import com.videoclub.models.article.Article;
 
 public class Database extends SQLiteJDBC {
 
