@@ -110,6 +110,18 @@ public class Fixtures {
 
             db.update(sql);
             
+            /**
+             * Movie copies table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.MOVIE_COPIES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT   NOT NULL, " +
+                  "MOVIE_ID                      INTEGER                             NOT NULL)"; 
+
+            db.update(sql);
+            
+                        
+            
         } catch (Exception e) {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
           System.exit(0);
@@ -135,7 +147,7 @@ public class Fixtures {
         databaseTableNameList.add(DatabaseTableName.MOVIES.getTableName());
         databaseTableNameList.add(DatabaseTableName.DESCRIPTION_MOVIES.getTableName());
         databaseTableNameList.add(DatabaseTableName.USERS.getTableName());
-        
+        databaseTableNameList.add(DatabaseTableName.MOVIE_COPIES.getTableName());
         
         /**
          * check if table exists

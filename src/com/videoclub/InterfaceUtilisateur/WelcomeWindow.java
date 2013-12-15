@@ -14,27 +14,27 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 /**
- * Fenêtre de bienvenue
- * La première fenêtre ouverte par le programme
+ * Fenï¿½tre de bienvenue
+ * La premiï¿½re fenï¿½tre ouverte par le programme
  * 
- * Donne le choix entre le mode Employé ou Gérant
+ * Donne le choix entre le mode Employï¿½ ou Gï¿½rant
  * 
  * @author Maxime Dupuis
  *
  */
 public class WelcomeWindow extends JFrame
 {
-	private JLabel welcomeLabel = new JLabel("<HTML><U>Bienvenue!<U><HTML>");
+	private JLabel welcomeLabel = new JLabel("<HTML><U>Bienvenue!</U></HTML>");
 
-	private JButton employeeButton = new JButton("Employé");
-	private JButton managerButton = new JButton("Gérant");
+	private JButton employeeButton = new JButton("Employï¿½");
+	private JButton managerButton = new JButton("Gï¿½rant");
 
 	/**
 	 * Constructeur
 	 */
 	WelcomeWindow(final VideoClub videoClub)
 	{
-		super(videoClub.getName());	//Titre de la fenêtre		
+		super(videoClub.getName());	//Titre de la fenï¿½tre		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Screen Size

@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 /**
- * Fenêtre du gérant
- * Le gérant doit s'identifier
+ * Fenï¿½tre du gï¿½rant
+ * Le gï¿½rant doit s'identifier
  * 
  * @author Maxime Dupuis
  *
@@ -38,7 +38,7 @@ public class ManagerWindow extends JDialog
 	 */
 	ManagerWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Mode Gérant", true);
+		super((Frame)null, "Mode Gï¿½rant", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Screen Size
@@ -120,7 +120,7 @@ public class ManagerWindow extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				LoginWindow win = new LoginWindow();
+				CreateUserWindow win = new CreateUserWindow();
 				win.setVisible(true);
 				
 				LoginInfo info = win.getLoginInfo();
@@ -169,8 +169,8 @@ public class ManagerWindow extends JDialog
 	}
 
 	/**
-	 * Si c'est bien le gérant, on active les boutons pour qu'il puisse utiliser
-	 * ses fonctionnalités réservées
+	 * Si c'est bien le gï¿½rant, on active les boutons pour qu'il puisse utiliser
+	 * ses fonctionnalitï¿½s rï¿½servï¿½es
 	 */
 	private void updateAuthorizations(VideoClub videoClub)
 	{

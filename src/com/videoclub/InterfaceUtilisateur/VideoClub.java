@@ -1,5 +1,6 @@
 package com.videoclub.InterfaceUtilisateur;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.videoclub.account.Account;
@@ -49,7 +50,7 @@ public class VideoClub
 	}
 
 	/**
-	 * Rent item from database Item no longer avaible to customer until returned
+	 * Rent item from database Item no longer available to customer until returned
 	 * 
 	 * @param movieSelection
 	 */
@@ -65,7 +66,7 @@ public class VideoClub
 	}
 
 	/**
-	 * Buy items from database Items no longer avaible for sell to customers
+	 * Buy items from database Items no longer available for sell to customers
 	 * 
 	 * @param itemSelection
 	 */
@@ -105,11 +106,11 @@ public class VideoClub
 	 * 
 	 * @return item choices
 	 */
-	public Vector<SellableItem> getItemChoices()
+	public ArrayList<SellableItem> getItemChoices()
 	{
 		System.out.println("getMovieChoices()");
 
-		Vector<SellableItem> choices = new Vector<SellableItem>();
+		ArrayList<SellableItem> choices = new ArrayList<SellableItem>();
 		choices.add(new SellableItem("Chips", 150)); // Prix en cents btw
 		choices.add(new SellableItem("Liqueur", 200));
 		choices.add(new SellableItem("Bonbons", 100));

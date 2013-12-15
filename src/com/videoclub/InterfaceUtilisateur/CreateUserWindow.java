@@ -24,7 +24,7 @@ import javax.swing.JTextField;
  *
  */
 @SuppressWarnings("serial")
-public class LoginWindow extends JDialog
+public class CreateUserWindow extends JDialog
 {	
 	private JLabel nameLabel = new JLabel("Nom:");
 	private JTextField nameField = new JTextField();
@@ -48,13 +48,13 @@ public class LoginWindow extends JDialog
 		return loginInfo;
 	}
 	
-	LoginWindow()
+	CreateUserWindow()
 	{
 		super((Frame)null, "Identification", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		// Screen Size
-		setSize(300,175);
+		setSize(300,250);
 		setMinimumSize(new Dimension(300,175));
 
 		// Screen centered
@@ -86,9 +86,27 @@ public class LoginWindow extends JDialog
 		c.gridx = 1;
 		c.weightx = 1;
 		panel.add(passwordField,c);
+		
+		c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 0;
+        panel.add(firstNameLabel,c);
+        
+        c.gridx = 1;
+        c.weightx = 1;
+        panel.add(firstNameField,c);
+        
+        c.gridx = 0;
+        c.gridy = 3;
+        c.weightx = 0;
+        panel.add(lastNameLabel,c);
+        
+        c.gridx = 1;
+        c.weightx = 1;
+        panel.add(lastNameField,c);
         
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 4;
 		c.weighty = 0;
 		panel.add(saveButton,c);
 

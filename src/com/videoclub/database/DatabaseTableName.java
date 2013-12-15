@@ -10,6 +10,7 @@ public enum DatabaseTableName {
     ARTICLES("articles", new Article()),
     DESCRIPTION_ARTICLES("description_articles", new DescriptionArticle()),
     MOVIES("movies", new Movie()),
+    MOVIE_COPIES("movie_copies", new MovieCopy()),
     DESCRIPTION_MOVIES("description_movies", new DescriptionMovie()),
     USERS("users", new User());
     

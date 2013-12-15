@@ -9,26 +9,21 @@ import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.*;
 
-public class Movie extends Common<Movie> implements CommonInterface<Movie> {
+public class MovieCopy extends Common<MovieCopy> implements CommonInterface<MovieCopy> {
     
     HashMap<String, String> fieldValues = new HashMap<String, String>();
     
     private Integer id = null;
     
-    private DescriptionMovie description = null;
+    private Movie movie = null;
     
-    public Movie() {
-        super(DatabaseTableName.MOVIES, Movie.class);
+    public MovieCopy() {
+        super(DatabaseTableName.MOVIE_COPIES, MovieCopy.class);
     }
     
-    public Movie(Integer id) {
-        super(DatabaseTableName.MOVIES, Movie.class);
-        setId(id);
-    }
-    
-    public Movie(DescriptionMovie description) {
-        super(DatabaseTableName.MOVIES, Movie.class);
-        this.description = description;
+    public MovieCopy(Movie movie) {
+        super(DatabaseTableName.MOVIE_COPIES, MovieCopy.class);
+        this.movie = movie;
     }
     
     public int getId() {
@@ -40,16 +35,16 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
         this.id = id;
     }
 
-    public DescriptionMovie getDescription() {
-        return description;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setDescription(DescriptionMovie description) {
-        this.description = description;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
     
     public String toString() {
-        return description.toString();
+        return getId() + " - " + movie.toString();
     }
 
     /**
@@ -59,8 +54,8 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
     public void create() throws SQLException {
 //        super.create(fieldValues);
         
-        String sql = "INSERT INTO " + tableName + " (DESCRIPTION_ID) "
-                   + "VALUES (" + description.getId() + ");";
+        String sql = "INSERT INTO " + tableName + " (MOVIE_ID) "
+                   + "VALUES (" + movie.getId() + ");";
         
         Database.instance().update(sql);
     }
@@ -69,9 +64,13 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
         
     }
     
-    public Integer save() throws SQLException {
+    public Integer save() {
         if (id == null) {
-            create();
+            try {
+                create();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             Integer lastId = Database.instance().getLastInsertedId();
             this.setId(lastId);
             return lastId;
@@ -85,19 +84,19 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
      * Construct the article entity from a resultSet row
      */
     @Override
-    public Movie constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
+    public MovieCopy constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
         
-        DescriptionMovie descriptionArticle = new DescriptionMovie();
-        descriptionArticle.setId(Integer.parseInt((String) row.get("DESCRIPTION_ID")));
+        Movie movie = new Movie();
+        movie.setId(Integer.parseInt((String) row.get("MOVIE_ID")));
         
-        Movie article = new Movie();
-        article.setId(Integer.parseInt((String) row.get("ID")));
-        article.setDescription(descriptionArticle);
+        MovieCopy movieCopy = new MovieCopy();
+        movieCopy.setId(Integer.parseInt((String) row.get("ID")));
+        movieCopy.setMovie(movie);
         
-        return article;
+        return movieCopy;
     }
     
-    public ArrayList<Movie> getOldReleases() {
+    public ArrayList<MovieCopy> getOldReleases() {
         
         DescriptionMovie dm = new DescriptionMovie();
         ArrayList<DescriptionMovie> descriptions = null;
@@ -122,45 +121,27 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
         
 //        System.out.println("list: "+ descriptionIds);
         
-        Movie m = new Movie();
-        ArrayList<Movie> movies = null;
+        MovieCopy m = new MovieCopy();
+        ArrayList<MovieCopy> movies = null;
         try {
-            movies = m.getbyDescriptinIds(descriptionIds);
+            movies = m.getbyMovieIds(descriptionIds);
         } catch (InstantiationException | IllegalAccessException e) {
-            movies = new ArrayList<Movie>();
+            movies = new ArrayList<MovieCopy>();
         }
         
         return movies;
     }
     
-    public ArrayList<Movie> getbyDescriptinIds(ArrayList<Integer> ids) throws InstantiationException, IllegalAccessException {
-        String sql = "SELECT * FROM " + tableName + " where DESCRIPTION_ID IN (" + implode(",", ids, false) + ")";
+    public ArrayList<MovieCopy> getbyMovieIds(ArrayList<Integer> ids) throws InstantiationException, IllegalAccessException {
+        String sql = "SELECT * FROM " + tableName + " where MOVIE_ID IN (" + implode(",", ids, false) + ")";
         
         return constructEntities(Database.instance().select(sql, DatabaseTableName.MOVIES));
     }
     
     public static void main(String [] args) {
-        
-//        DescriptionMovie description = new DescriptionMovie("code1", "Inception ", "blabla_description", "1387132283", true, 20.85f);
-//        try {
-//            description.save();
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        
-//        Movie movie = new Movie();
-//        movie.setDescription(description);
-//        
-//        try {
-//            movie.save();
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        
-//        System.out.println("Success");
-        
+        MovieCopy movieCopy = new MovieCopy();
+        movieCopy.setMovie(new Movie(1));
+        movieCopy.save();
     }
     
 }
