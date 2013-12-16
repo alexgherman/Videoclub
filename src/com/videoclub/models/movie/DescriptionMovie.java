@@ -55,7 +55,7 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
      * 
      * @return random code
      */
-    public String generateRandomCode() {
+    public static String generateRandomCode() {
         SecureRandom random = new SecureRandom();
         return new BigInteger(130, random).toString(32);
     }

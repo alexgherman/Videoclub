@@ -100,7 +100,7 @@ public class ManagerWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					CreateRentableMovieWindow win = new CreateRentableMovieWindow(videoClub);
+				    CreateRentableMovieWindow win = new CreateRentableMovieWindow(videoClub);
 					win.setVisible(true);
 				}
 			});

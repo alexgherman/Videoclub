@@ -56,13 +56,13 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
      * TODO: do this in the Common class, will do for now
      * @throws SQLException
      */
-    public void create() throws SQLException {
+    public Integer create() throws SQLException {
 //        super.create(fieldValues);
         
         String sql = "INSERT INTO " + tableName + " (DESCRIPTION_ID) "
                    + "VALUES (" + description.getId() + ");";
         
-        Database.instance().update(sql);
+        return Database.instance().update(sql);
     }
     
     public void update() {
