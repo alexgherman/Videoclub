@@ -11,14 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 /**
- * Fenêtre du gérant
- * Le gérant doit s'identifier
+ * Fenêtre de l'employé/client
+ * Construit un Cart
  * 
  * @author Maxime Dupuis
  *
@@ -27,8 +31,12 @@ public class EmployeeWindow extends JDialog
 {
 	private JButton pickMoviesButton = new JButton("Choisir Films");
 	private JButton pickItemsButton = new JButton("Choisir Articles");
+		
+	private JButton payButton = new JButton("Payer");
+	private JButton emptyCartButton = new JButton("Effacer tout");
 
-	private JPanel cart = new JPanel();
+	private Cart cart;
+	private JPanel cartPanel = new JPanel();
 
 	/**
 	 * Constructeur
@@ -36,11 +44,13 @@ public class EmployeeWindow extends JDialog
 	EmployeeWindow(final VideoClub videoClub)
 	{
 		super((Frame)null, "Mode Employé", true);
+		cart = new Cart(videoClub);
+		cartPanel = cartPanel(cart,videoClub);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
-		setSize(300, 200);
-		setMinimumSize(new Dimension(300, 200));
+		setSize(600, 600);
+		setMinimumSize(new Dimension(600, 600));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,6 +64,8 @@ public class EmployeeWindow extends JDialog
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(10, 10, 10, 10);
 
+		panel.revalidate();
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		panel.add(pickMoviesButton, c);
@@ -64,8 +76,18 @@ public class EmployeeWindow extends JDialog
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
-		panel.add(cart, c);
+		c.weighty = 1;
+		c.weightx = 1;
+		panel.add(cartPanel, c);
 
+		c.weighty = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		panel.add(payButton, c);
+		
+		c.gridx = 1;
+		panel.add(emptyCartButton, c);
+		
 		getContentPane().add(panel);
 
 		pickMoviesButton.addActionListener(new ActionListener()
@@ -77,7 +99,9 @@ public class EmployeeWindow extends JDialog
 					win.setVisible(true);
 
 					Vector<RentableMovie> selectedMovies = win.getSelection();
-					videoClub.rentMovies(selectedMovies);
+					cart.setMovies(selectedMovies);
+					cartPanel = cartPanel(cart, videoClub);
+					revalidate();
 				}
 			});
 
@@ -91,9 +115,72 @@ public class EmployeeWindow extends JDialog
 					win.setVisible(true);
 
 					Vector<SellableItem> selectedItems = win.getSelection();
-					videoClub.buyItems(selectedItems);
-
+					cart.setItems(selectedItems);
+					
+					cartPanel = cartPanel(cart, videoClub);
+					revalidate();
 				}
 			});
+	}
+	
+	private JPanel cartPanel(Cart cart, VideoClub videoClub)
+	{
+		JPanel listPanel = new JPanel();
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.X_AXIS));
+
+		JPanel thingsPanel = new JPanel();
+		JPanel pricesPanel= new JPanel();
+		
+		thingsPanel.setLayout(new BoxLayout(thingsPanel, BoxLayout.Y_AXIS));
+		pricesPanel.setLayout(new BoxLayout(pricesPanel, BoxLayout.Y_AXIS));
+		
+		listPanel.add(thingsPanel);
+		listPanel.add(pricesPanel);
+
+		JScrollPane scrollPane = new JScrollPane(listPanel);
+
+		for(RentableMovie movie : cart.getMovies())
+		{
+			String thing = "Location: " + movie.getName();
+			String price = Integer.toString(videoClub.getMoviePrice(movie));
+			
+			thingsPanel.add(new JLabel(thing));
+			pricesPanel.add(new JLabel(price));
+		}
+
+		for(SellableItem item : cart.getItems())
+		{
+			String thing = "Achat: " + item.getName();
+			String price = Integer.toString(item.getPrice());
+			
+			thingsPanel.add(new JLabel(thing));
+			pricesPanel.add(new JLabel(price));
+		}
+
+		String price = ((float)cart.getTotal() / 100) + " $";
+		thingsPanel.add(new JLabel("Total"));
+		pricesPanel.add(new JLabel(price));
+
+		
+		//Put everything in a single JPanel that will be returned
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		//c.insets = new Insets(10, 10, 10, 10);
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		panel.add(new JLabel("Panier"), c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.weighty = 1;
+		c.weightx = 1;
+		panel.add(scrollPane, c);
+		
+		return panel;
 	}
 }

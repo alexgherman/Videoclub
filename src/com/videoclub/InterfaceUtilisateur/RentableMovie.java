@@ -11,6 +11,26 @@ public class RentableMovie
 	private String name;
 	private boolean isNewMovie;
 	
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public boolean isNewMovie()
+	{
+		return isNewMovie;
+	}
+
+	public void setNewMovie(boolean isNewMovie)
+	{
+		this.isNewMovie = isNewMovie;
+	}
+
 	public RentableMovie(String name, boolean isNewMovie)
 	{
 		this.name = name;

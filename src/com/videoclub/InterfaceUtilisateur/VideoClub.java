@@ -1,18 +1,18 @@
 package com.videoclub.InterfaceUtilisateur;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
-import com.videoclub.account.Account;
-
 /**
- * Lien entre l'interface graphique et la database Contrï¿½leur
+ * Lien entre l'interface graphique et la database Contrôleur
  * 
  * @author Maxime Dupuis
  */
 public class VideoClub
 {
 	private final String name = "Video Club Awesome";
+	
+	private int newMoviePrice;	//En cents
+	private int oldMoviePrice;
 
 	public static void main(String[] args)
 	{
@@ -23,6 +23,10 @@ public class VideoClub
 	public void start()
 	{
 		System.out.println("start()");
+		
+		newMoviePrice = 1000;
+		oldMoviePrice = 500;
+		
 		WelcomeWindow win = new WelcomeWindow(this);
 		win.setVisible(true);
 	}
@@ -50,7 +54,7 @@ public class VideoClub
 	}
 
 	/**
-	 * Rent item from database Item no longer available to customer until returned
+	 * Rent item from database Item no longer avaible to customer until returned
 	 * 
 	 * @param movieSelection
 	 */
@@ -66,7 +70,7 @@ public class VideoClub
 	}
 
 	/**
-	 * Buy items from database Items no longer available for sell to customers
+	 * Buy items from database Items no longer avaible for sell to customers
 	 * 
 	 * @param itemSelection
 	 */
@@ -92,7 +96,7 @@ public class VideoClub
 
 		Vector<RentableMovie> choices = new Vector<RentableMovie>();
 		choices.add(new RentableMovie("Les totons volants", true));
-		choices.add(new RentableMovie("Martine au club ï¿½changiste", false));
+		choices.add(new RentableMovie("Martine au club échangiste", false));
 		choices.add(new RentableMovie("Les foufounes rouges", false));
 		choices.add(new RentableMovie("Lucile va au garage", false));
 		choices.add(new RentableMovie("Bleu nuit version Miley Cyrus", false));
@@ -106,11 +110,11 @@ public class VideoClub
 	 * 
 	 * @return item choices
 	 */
-	public ArrayList<SellableItem> getItemChoices()
+	public Vector<SellableItem> getItemChoices()
 	{
 		System.out.println("getMovieChoices()");
 
-		ArrayList<SellableItem> choices = new ArrayList<SellableItem>();
+		Vector<SellableItem> choices = new Vector<SellableItem>();
 		choices.add(new SellableItem("Chips", 150)); // Prix en cents btw
 		choices.add(new SellableItem("Liqueur", 200));
 		choices.add(new SellableItem("Bonbons", 100));
@@ -180,8 +184,6 @@ public class VideoClub
 	{
 		System.out.println("createUser(LoginInfo info)");
 		System.out.println(info);
-		
-		Account.registration(info.getName(), info.getPassword(), info.getFirstName(), info.getLastName());
 	}
 
 	/**
@@ -219,5 +221,13 @@ public class VideoClub
 		System.out.println(moviesToRemove);
 		// TODO Auto-generated method stub
 
+	}
+
+	public int getMoviePrice(RentableMovie movie)
+	{
+		if(movie.isNewMovie())
+			return newMoviePrice;
+		else
+			return oldMoviePrice;
 	}
 }
