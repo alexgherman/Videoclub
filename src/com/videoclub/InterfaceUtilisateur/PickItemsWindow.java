@@ -8,9 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,23 +18,23 @@ import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 /**
- * Fenï¿½tre d'articles ï¿½ acheter
+ * Fenêtre d'articles à acheter
  * @author Maxime Dupuis
  *
  */
 public class PickItemsWindow extends JDialog
 {
-	private ArrayList<SellableItem> itemChoices = new ArrayList<SellableItem>();
+	private Vector<SellableItem> itemChoices = new Vector<SellableItem>();
 	private Vector<SellableItem> selectedItems = new Vector<SellableItem>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
-	private JLabel selectionLabel = new JLabel("Votre sï¿½lection:");
+	private JLabel selectionLabel = new JLabel("Votre sélection:");
 
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
 
 	private JPanel itemChoicesPanel = new JPanel();
-	private JScrollPane choicesPanel = new JScrollPane(itemChoicesPanel);	//Un JScrollPane garde toujours la mï¿½me dimension. S'il y a trop de composants, il crï¿½e un scrollBar
+	private JScrollPane choicesPanel = new JScrollPane(itemChoicesPanel);	
 	
 	private JPanel itemSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(itemSelectionPanel);
@@ -147,7 +145,7 @@ public class PickItemsWindow extends JDialog
 	}
 	
 	/**
-	 * Enlï¿½ve un item de la liste des choix
+	 * Enlève un item de la liste des choix
 	 */
 	private void removeChoiceitem(SellableItem item)
 	{
@@ -167,7 +165,7 @@ public class PickItemsWindow extends JDialog
 	}
 	
 	/**
-	 * Ajoute un item dans la liste de sï¿½lection
+	 * Ajoute un item dans la liste de sélection
 	 */
 	private void addSelectionitem(final SellableItem item)
 	{
@@ -189,7 +187,7 @@ public class PickItemsWindow extends JDialog
 	}
 	
 	/**
-	 * Enlï¿½ve un item de la liste des sï¿½lections
+	 * Enlève un item de la liste des sélections
 	 */
 	private void removeSelectionitem(SellableItem item)
 	{
