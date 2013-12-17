@@ -8,7 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,19 +18,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.videoclub.models.account.User;
+
 @SuppressWarnings("serial")
 /**
- * Fenêtre d'articles à acheter
+ * Fenï¿½tre d'articles ï¿½ acheter
  * @author Maxime Dupuis
  *
  */
 public class PickUsersWindow extends JDialog
 {
-	private Vector<User> userChoices = new Vector<User>();
-	private Vector<User> selectedusers = new Vector<User>();
+	private ArrayList<User> userChoices = new ArrayList<User>();
+	private ArrayList<User> selectedusers = new ArrayList<User>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
-	private JLabel selectionLabel = new JLabel("Votre sélection:");
+	private JLabel selectionLabel = new JLabel("Votre sï¿½lection:");
 
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
@@ -39,7 +43,7 @@ public class PickUsersWindow extends JDialog
 	private JPanel userSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(userSelectionPanel);
 
-	public Vector<User> getSelection()
+	public ArrayList<User> getSelection()
 	{
 		return selectedusers;
 	}
@@ -130,7 +134,7 @@ public class PickUsersWindow extends JDialog
 	 */
 	private void addChoiceuser(final User user)
 	{
-		JButton bouton = new JButton(user.getName());
+		JButton bouton = new JButton(user.getFirstName() + " " + user.getLastName());
 		userChoicesPanel.add(bouton);
 
 		bouton.addActionListener(new ActionListener()
@@ -146,7 +150,7 @@ public class PickUsersWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un user de la liste des choix
+	 * Enlï¿½ve un user de la liste des choix
 	 */
 	private void removeChoiceuser(User user)
 	{
@@ -154,7 +158,7 @@ public class PickUsersWindow extends JDialog
 		{
 			JButton bouton = (JButton) c;
 
-			if (bouton.getText().equals(user.getName()))
+			if (bouton.getText().equals(user.getFirstName() + " " + user.getLastName()))
 			{
 				userChoicesPanel.remove(bouton);
 				this.update(getGraphics());
@@ -166,11 +170,11 @@ public class PickUsersWindow extends JDialog
 	}
 
 	/**
-	 * Ajoute un user dans la liste de sélection
+	 * Ajoute un user dans la liste de sï¿½lection
 	 */
 	private void addSelectionuser(final User user)
 	{
-		JButton bouton = new JButton(user.getName());
+		JButton bouton = new JButton(user.getFirstName() + " " + user.getLastName());
 		userSelectionPanel.add(bouton);
 
 		bouton.addActionListener(new ActionListener()
@@ -188,7 +192,7 @@ public class PickUsersWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un user de la liste des sélections
+	 * Enlï¿½ve un user de la liste des sï¿½lections
 	 */
 	private void removeSelectionuser(User user)
 	{
@@ -197,7 +201,7 @@ public class PickUsersWindow extends JDialog
 			JButton bouton = (JButton) c;
 			bouton.setVisible(true);
 
-			if (bouton.getText().equals(user.getName()))
+			if (bouton.getText().equals(user.getFirstName() + " " + user.getLastName()))
 			{
 				userSelectionPanel.remove(bouton);
 				this.update(getGraphics());

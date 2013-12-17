@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
+import com.videoclub.models.account.User;
 import com.videoclub.models.article.DescriptionArticle;
 
 abstract public class Common<T extends Common> implements CommonInterface<T> {
@@ -103,10 +104,25 @@ abstract public class Common<T extends Common> implements CommonInterface<T> {
      * @throws IllegalAccessException
      */
     public ArrayList<T> getAll() throws InstantiationException, IllegalAccessException {
-        String sql = "SELECT * FROM articles";
+        String sql = "SELECT * FROM " + tableName;
         
         return constructEntities(Database.instance().select(sql, tableName));
     }
+    
+    public boolean remove() throws SQLException {
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        al.add(this.id);
+        return remove(al);
+    }
+    
+    public boolean remove(ArrayList<Integer> ids) throws SQLException {
+        String sql = "DELETE FROM " + tableName + " WHERE id IN (" + implode(",", ids, false) + ")";
+        
+        Database.instance().update(sql);
+        return true;
+    }
+    
+    
     
     
     public T getById(Integer id) throws InstantiationException, IllegalAccessException {
@@ -226,18 +242,31 @@ abstract public class Common<T extends Common> implements CommonInterface<T> {
     public static void main(String [] args) {
         
         /* implodes test */
-        ArrayList<Integer> pieces = new ArrayList<Integer>();
-        pieces.add(1);
-        pieces.add(2);
-        System.out.println("imploded integers: " + Common.implode(",", pieces, false));
+//        ArrayList<Integer> pieces = new ArrayList<Integer>();
+//        pieces.add(1);
+//        pieces.add(2);
+//        System.out.println("imploded integers: " + Common.implode(",", pieces, false));
+//        
+//        ArrayList<String> stringPieces = new ArrayList<String>();
+//        stringPieces.add("first");
+//        stringPieces.add("second");
+//        System.out.println("imploded strings without quotations: " + Common.implode(",", stringPieces, false));
+//        
+//        System.out.println("imploded strings with quotations: " + Common.implode(",", stringPieces, true));
+//        
+//        
         
-        ArrayList<String> stringPieces = new ArrayList<String>();
-        stringPieces.add("first");
-        stringPieces.add("second");
-        System.out.println("imploded strings without quotations: " + Common.implode(",", stringPieces, false));
-        
-        System.out.println("imploded strings with quotations: " + Common.implode(",", stringPieces, true));
-        
+//        /* delete test */
+//        User u = new User();
+//        User user = new User();
+//        try {
+//            user = u.getById(2); // change this to your needs
+//            user.remove();
+//        } catch (InstantiationException | IllegalAccessException | SQLException e) {
+//            e.printStackTrace();
+//        }
+//        
+//        System.out.println("deletion success");
         
         
         

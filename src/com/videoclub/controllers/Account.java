@@ -1,9 +1,11 @@
-package com.videoclub.account;
+package com.videoclub.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.videoclub.models.account.User;
 import com.videoclub.models.article.DescriptionArticle;
+import com.videoclub.models.movie.Movie;
 
 public class Account {
     
@@ -57,5 +59,28 @@ public class Account {
         u2.setPassword(password);
 
         return u1.checkSameUser(u2);
+    }
+    
+    /**
+     * Get the list of users
+     * 
+     * @return list of users
+     */
+    public static ArrayList<User> getUsers() {
+        User u = new User();
+        ArrayList<User> list = new ArrayList<User>();
+        try {
+            list = u.getAll();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public static void main(String [] args) {
+        
+        System.out.println("getUsers() test:");
+        System.out.println(Account.getUsers());
+        
     }
 }

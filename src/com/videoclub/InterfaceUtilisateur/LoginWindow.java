@@ -69,6 +69,9 @@ public class LoginWindow extends JDialog
 		c.insets = new Insets(10,10,10,10);
 		c.weighty = 1;
 
+		/**
+		 * Name
+		 */
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
@@ -78,6 +81,9 @@ public class LoginWindow extends JDialog
 		c.weightx = 1;
 		panel.add(nameField,c);
 		
+		/**
+		 * Password
+		 */
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 0;
@@ -86,9 +92,12 @@ public class LoginWindow extends JDialog
 		c.gridx = 1;
 		c.weightx = 1;
 		panel.add(passwordField,c);
-		
+
+        /**
+         * Controls
+         */
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 4;
 		c.weighty = 0;
 		panel.add(saveButton,c);
 
@@ -103,6 +112,7 @@ public class LoginWindow extends JDialog
 			public void actionPerformed(ActionEvent arg0)
 			{
 				String name = nameField.getText();
+                
 				if(name.equals(""))
 				{
 					JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
@@ -116,10 +126,7 @@ public class LoginWindow extends JDialog
 					return;
 				}
 				
-				String firstName = firstNameField.getText();
-				String lastName = lastNameField.getText();
-				
-				loginInfo = new LoginInfo(name, password, firstName, lastName);
+				loginInfo = new LoginInfo(name, password, "", "");
 				
 				dispose();
 			}

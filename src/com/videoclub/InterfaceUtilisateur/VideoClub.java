@@ -1,9 +1,16 @@
 package com.videoclub.InterfaceUtilisateur;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
+import com.videoclub.controllers.Account;
+import com.videoclub.controllers.Rental;
+import com.videoclub.models.account.User;
+import com.videoclub.models.movie.Movie;
+
 /**
- * Lien entre l'interface graphique et la database Contrôleur
+ * Lien entre l'interface graphique et la database Contrï¿½leur
  * 
  * @author Maxime Dupuis
  */
@@ -96,7 +103,7 @@ public class VideoClub
 
 		Vector<RentableMovie> choices = new Vector<RentableMovie>();
 		choices.add(new RentableMovie("Les totons volants", true));
-		choices.add(new RentableMovie("Martine au club échangiste", false));
+		choices.add(new RentableMovie("Martine au club ï¿½changiste", false));
 		choices.add(new RentableMovie("Les foufounes rouges", false));
 		choices.add(new RentableMovie("Lucile va au garage", false));
 		choices.add(new RentableMovie("Bleu nuit version Miley Cyrus", false));
@@ -128,18 +135,9 @@ public class VideoClub
 	/**
 	 * Asks database for a list of all the usernames
 	 */
-	public Vector<User> getUserChoices()
+	public ArrayList<User> getUserChoices()
 	{
-		System.out.println("getUserChoices()");
-
-		Vector<User> choices = new Vector<User>();
-		choices.add(new User("Alice", "Nom"));
-		choices.add(new User("Bob", "Nom"));
-		choices.add(new User("Casper", "Nom"));
-		choices.add(new User("Donald", "Nom"));
-		choices.add(new User("Emile", "Nom"));
-		choices.add(new User("Francis", "Nom"));
-
+		ArrayList<User> choices = Account.getUsers();
 		return choices;
 	}
 
@@ -184,6 +182,20 @@ public class VideoClub
 	{
 		System.out.println("createUser(LoginInfo info)");
 		System.out.println(info);
+		
+		User newUser = new User();
+		newUser.setFirstName(info.getFirstName());
+		newUser.setLastName(info.getLastName());
+		newUser.setUsername(info.getName());
+		newUser.setPassword(info.getPassword());
+		
+		try {
+            newUser.save();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		
+		// TODO: Success msg after creation
 	}
 
 	/**
@@ -191,10 +203,19 @@ public class VideoClub
 	 * 
 	 * @param name
 	 */
-	public void removeUsers(Vector<User> users)
+	public void removeUsers(ArrayList<User> users)
 	{
-		System.out.println("removeUsers(Vector<User> users)");
-		System.out.println(users);
+//		System.out.println("removeUsers(Vector<User> users)");
+//		System.out.println(users);
+		
+		for (User user : users) {
+		    try {
+                user.remove();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+		}
 	}
 
 	/**
