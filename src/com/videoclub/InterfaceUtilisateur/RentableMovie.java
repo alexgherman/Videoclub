@@ -1,16 +1,16 @@
 package com.videoclub.InterfaceUtilisateur;
 
-
 /**
  * Dummy class
+ * 
  * @author Maxime Dupuis
- *
+ * 
  */
 public class RentableMovie
 {
 	private String name;
 	private boolean isNewMovie;
-	
+
 	public String getName()
 	{
 		return name;
@@ -36,16 +36,16 @@ public class RentableMovie
 		this.name = name;
 		this.isNewMovie = isNewMovie;
 	}
-	
+
 	public String toString()
 	{
 		String str = name + ": ";
-		
-		if(isNewMovie)
+
+		if (isNewMovie)
 			str += "(Nouveauté)";
 		else
-			str += "(Régulier)";		
-		
+			str += "(Régulier)";
+
 		return str;
 	}
 }

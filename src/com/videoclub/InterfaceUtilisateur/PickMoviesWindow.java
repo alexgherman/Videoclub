@@ -8,7 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,8 +24,8 @@ import javax.swing.JScrollPane;
  */
 public class PickMoviesWindow extends JDialog
 {
-	private Vector<RentableMovie> movieChoices = new Vector<RentableMovie>();
-	private Vector<RentableMovie> selectedMovies = new Vector<RentableMovie>();
+	private ArrayList<RentableMovie> movieChoices = new ArrayList<RentableMovie>();
+	private ArrayList<RentableMovie> selectedMovies = new ArrayList<RentableMovie>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
 	private JLabel selectionLabel = new JLabel("Votre sélection:");
@@ -34,22 +34,22 @@ public class PickMoviesWindow extends JDialog
 	private JButton closeButton = new JButton("Fermer");
 
 	private JPanel movieChoicesPanel = new JPanel();
-	private JScrollPane choicesPanel = new JScrollPane(movieChoicesPanel);	//Un JScrollPane garde toujours la même dimension. S'il y a trop de composants, il crée un scrollBar
-	
+	private JScrollPane choicesPanel = new JScrollPane(movieChoicesPanel); //Un JScrollPane garde toujours la même dimension. S'il y a trop de composants, il crée un scrollBar
+
 	private JPanel movieSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(movieSelectionPanel);
 
-	public Vector<RentableMovie> getSelection()
+	public ArrayList<RentableMovie> getSelection()
 	{
 		return selectedMovies;
 	}
-	
+
 	/**
 	 * Constructeur
 	 */
 	PickMoviesWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Choisir films", true);
+		super((Frame) null, "Choisir films", true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		// Screen Size
@@ -58,14 +58,13 @@ public class PickMoviesWindow extends JDialog
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		movieChoicesPanel.setLayout(new BoxLayout(movieChoicesPanel, BoxLayout.Y_AXIS));
 		movieSelectionPanel.setLayout(new BoxLayout(movieSelectionPanel, BoxLayout.Y_AXIS));
-		
+
 		movieChoices = videoClub.getMovieChoices();
-		
+
 		for (RentableMovie movie : movieChoices)
 		{
 			addChoiceMovie(movie);
@@ -122,8 +121,7 @@ public class PickMoviesWindow extends JDialog
 				}
 			});
 	}
-	
-	
+
 	/**
 	 * Ajoute un film dans la liste des choix
 	 */
@@ -143,27 +141,27 @@ public class PickMoviesWindow extends JDialog
 			});
 		revalidate();
 	}
-	
+
 	/**
 	 * Enlève un film de la liste des choix
 	 */
 	private void removeChoiceMovie(RentableMovie movie)
 	{
-		for(Component c : movieChoicesPanel.getComponents())
+		for (Component c : movieChoicesPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
-			
-			if(bouton.getText().equals(movie.toString()))
+			JButton bouton = (JButton) c;
+
+			if (bouton.getText().equals(movie.toString()))
 			{
 				movieChoicesPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
+
 		revalidate();
 	}
-	
+
 	/**
 	 * Ajoute un film dans la liste de sélection
 	 */
@@ -181,31 +179,31 @@ public class PickMoviesWindow extends JDialog
 					removeSelectionMovie(movie);
 				}
 			});
-		
+
 		selectedMovies.add(movie);
 		revalidate();
 	}
-	
+
 	/**
 	 * Enlève un film de la liste des sélections
 	 */
 	private void removeSelectionMovie(RentableMovie movie)
 	{
-		for(Component c : movieSelectionPanel.getComponents())
+		for (Component c : movieSelectionPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
+			JButton bouton = (JButton) c;
 			bouton.setVisible(true);
-			
-			if(bouton.getText().equals(movie.toString()))
+
+			if (bouton.getText().equals(movie.toString()))
 			{
 				movieSelectionPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
+
 		selectedMovies.remove(movie);
-		
+
 		revalidate();
 	}
 }

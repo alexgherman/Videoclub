@@ -22,7 +22,8 @@ import javax.swing.SpinnerNumberModel;
 import com.videoclub.controllers.Rental;
 
 /**
- * Cr�e une fen�tre reli�e � un VideoClub. Permet d'y ajouter des films � louer
+ * Cr�e une fen�tre reli�e � un VideoClub. Permet d'y ajouter des films
+ * � louer
  * 
  * @author Maxime Dupuis
  * 
@@ -47,29 +48,26 @@ public class CreateRentableMovieWindow extends JDialog
 	JLabel priceLabel = new JLabel("Prix:");
 	SpinnerNumberModel priceModelQ = new SpinnerNumberModel(new Double(0), new Double(0), new Double(99999.99), new Double(.01));
 	JSpinner priceSpinner = new JSpinner(priceModelQ);
-	 
-	
+
 	private JLabel isNewLabel = new JLabel("Nouveaut�:");
 	private JCheckBox isNewCheckBox = new JCheckBox();
 
 	private JButton saveButton = new JButton("Enregistrer");
 	private JButton closeButton = new JButton("Fermer");
-	
+
 	CreateRentableMovieWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Ajouter Location", true);
+		super((Frame) null, "Ajouter Location", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
-		setSize(400,250);
-		setMinimumSize(new Dimension(400,250));
+		setSize(400, 250);
+		setMinimumSize(new Dimension(400, 250));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
-		
-		
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -95,45 +93,45 @@ public class CreateRentableMovieWindow extends JDialog
 		 */
 		c.gridx = 0;
 		c.gridy = 1;
-        c.weightx = 0;
-        panel.add(descriptionLabel, c);
- 
-        c.gridx = 1;
-        c.gridy = 1;
-        c.weightx = 10;
-        panel.add(descriptionTxtField, c);
- 
-        /**
-         * Release date
-         */
- 
-        c.gridx = 0;
-        c.gridy = 2;
-        c.weightx = 0;
-        panel.add(releaseDateLabel, c);
- 
-        c.gridx = 1;
-        c.gridy = 2;
-        c.weightx = 10;
-        panel.add(releaseDateSpinner, c);
-         
-        /**
-         * Price
-         */
-        c.gridx = 0;
-        c.gridy = 3;
-        c.weightx = 0;
-        panel.add(releaseDateLabel, c);
- 
-        c.gridx = 1;
-        c.gridy = 3;
-        c.weightx = 10;
-        panel.add(releaseDateSpinner, c);
-         
-        /**
-         * Quantity
-         */
-		
+		c.weightx = 0;
+		panel.add(descriptionLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 10;
+		panel.add(descriptionTxtField, c);
+
+		/**
+		 * Release date
+		 */
+
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weightx = 0;
+		panel.add(releaseDateLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		c.weightx = 10;
+		panel.add(releaseDateSpinner, c);
+
+		/**
+		 * Price
+		 */
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx = 0;
+		panel.add(releaseDateLabel, c);
+
+		c.gridx = 1;
+		c.gridy = 3;
+		c.weightx = 10;
+		panel.add(releaseDateSpinner, c);
+
+		/**
+		 * Quantity
+		 */
+
 		c.gridx = 0;
 		c.gridy = 4;
 		c.weightx = 0;
@@ -174,42 +172,38 @@ public class CreateRentableMovieWindow extends JDialog
 		getContentPane().add(panel);
 
 		saveButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
 			{
-				String name = nameTxtField.getText();
-				String description = descriptionTxtField.getText();
-				
-				
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					String name = nameTxtField.getText();
+					String description = descriptionTxtField.getText();
 
-				boolean isNew = isNewCheckBox.isSelected();
-				String releaseDate = String.valueOf((Integer) releaseDateSpinner.getValue());
-				Integer numberOfCopies = (Integer) quantitySpinner.getValue();
-				if (name.equals(""))
-                {
-                    JOptionPane.showMessageDialog(null,
-                            "Le film n'a pas de nom!", "Message",
-                            JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-				        
-				Rental.addNewMovie(name, description, releaseDate, isNew, numberOfCopies);
-				
-//				RentableMovie rentableMovie = new RentableMovie(name, isNew);
-//
-//				for (int i = 0; i < (Integer) quantitySpinner.getValue(); ++i)
-//					videoClub.addRentableMovie(rentableMovie);
-			}
-		});
+					boolean isNew = isNewCheckBox.isSelected();
+					String releaseDate = String.valueOf((Integer) releaseDateSpinner.getValue());
+					Integer numberOfCopies = (Integer) quantitySpinner.getValue();
+					if (name.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Le film n'a pas de nom!", "Message", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+
+					Rental.addNewMovie(name, description, releaseDate, isNew, numberOfCopies);
+
+					//				RentableMovie rentableMovie = new RentableMovie(name, isNew);
+					//
+					//				for (int i = 0; i < (Integer) quantitySpinner.getValue(); ++i)
+					//					videoClub.addRentableMovie(rentableMovie);
+				}
+			});
 
 		closeButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
 			{
-				dispose();
-			}
-		});
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					dispose();
+				}
+			});
 	}
 }

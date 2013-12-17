@@ -21,135 +21,134 @@ import javax.swing.JTextField;
  * Fen�tre qui demande le nom et le mot de passe � l'utilisateur
  * 
  * @author Maxime Dupuis
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class CreateUserWindow extends JDialog
-{	
+{
 	private JLabel nameLabel = new JLabel("Nom:");
 	private JTextField nameField = new JTextField();
-	
+
 	private JLabel passwordLabel = new JLabel("Password:");
 	private JPasswordField passwordField = new JPasswordField();
-	
+
 	private JLabel firstNameLabel = new JLabel("First name:");
-    private JTextField firstNameField = new JTextField();
-    
-    private JLabel lastNameLabel = new JLabel("Last name:");
-    private JTextField lastNameField = new JTextField();
-    
+	private JTextField firstNameField = new JTextField();
+
+	private JLabel lastNameLabel = new JLabel("Last name:");
+	private JTextField lastNameField = new JTextField();
+
 	private JButton saveButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
-	
+
 	private LoginInfo loginInfo = null;
-	
+
 	public LoginInfo getLoginInfo()
 	{
 		return loginInfo;
 	}
-	
+
 	CreateUserWindow()
 	{
-		super((Frame)null, "Identification", true);
+		super((Frame) null, "Identification", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 		// Screen Size
-		setSize(300,250);
-		setMinimumSize(new Dimension(300,175));
+		setSize(300, 250);
+		setMinimumSize(new Dimension(300, 175));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		c.insets = new Insets(10,10,10,10);
+		c.insets = new Insets(10, 10, 10, 10);
 		c.weighty = 1;
 
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
-		panel.add(nameLabel,c);
-		
+		panel.add(nameLabel, c);
+
 		c.gridx = 1;
 		c.weightx = 1;
-		panel.add(nameField,c);
-		
+		panel.add(nameField, c);
+
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 0;
-		panel.add(passwordLabel,c);
-		
+		panel.add(passwordLabel, c);
+
 		c.gridx = 1;
 		c.weightx = 1;
-		panel.add(passwordField,c);
-		
+		panel.add(passwordField, c);
+
 		c.gridx = 0;
-        c.gridy = 2;
-        c.weightx = 0;
-        panel.add(firstNameLabel,c);
-        
-        c.gridx = 1;
-        c.weightx = 1;
-        panel.add(firstNameField,c);
-        
-        c.gridx = 0;
-        c.gridy = 3;
-        c.weightx = 0;
-        panel.add(lastNameLabel,c);
-        
-        c.gridx = 1;
-        c.weightx = 1;
-        panel.add(lastNameField,c);
-        
+		c.gridy = 2;
+		c.weightx = 0;
+		panel.add(firstNameLabel, c);
+
+		c.gridx = 1;
+		c.weightx = 1;
+		panel.add(firstNameField, c);
+
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx = 0;
+		panel.add(lastNameLabel, c);
+
+		c.gridx = 1;
+		c.weightx = 1;
+		panel.add(lastNameField, c);
+
 		c.gridx = 0;
 		c.gridy = 4;
 		c.weighty = 0;
-		panel.add(saveButton,c);
+		panel.add(saveButton, c);
 
 		c.gridx = 1;
-		panel.add(closeButton,c);
-		
+		panel.add(closeButton, c);
+
 		getContentPane().add(panel);
-				
+
 		saveButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
 			{
-				String name = nameField.getText();
-				if(name.equals(""))
+				@Override
+				public void actionPerformed(ActionEvent arg0)
 				{
-					JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
-					return;
+					String name = nameField.getText();
+					if (name.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+
+					String password = new String(passwordField.getPassword());
+					if (password.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Mot de passe obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+
+					String firstName = firstNameField.getText();
+					String lastName = lastNameField.getText();
+
+					loginInfo = new LoginInfo(name, password, firstName, lastName);
+
+					dispose();
 				}
-				
-				String password = new String(passwordField.getPassword());
-				if(password.equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "Mot de passe obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				String firstName = firstNameField.getText();
-				String lastName = lastNameField.getText();
-				
-				loginInfo = new LoginInfo(name, password, firstName, lastName);
-				
-				dispose();
-			}
-		});
-		
+			});
+
 		closeButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
 			{
-				dispose();
-			}
-		});
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					dispose();
+				}
+			});
 	}
 }

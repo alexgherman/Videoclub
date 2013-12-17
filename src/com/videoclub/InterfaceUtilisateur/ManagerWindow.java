@@ -9,7 +9,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -51,8 +50,7 @@ public class ManagerWindow extends JDialog
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		updateAuthorizations(videoClub);
 
@@ -105,8 +103,7 @@ public class ManagerWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					CreateRentableMovieWindow win = new CreateRentableMovieWindow(
-							videoClub);
+					CreateRentableMovieWindow win = new CreateRentableMovieWindow(videoClub);
 					win.setVisible(true);
 				}
 			});
@@ -145,7 +142,7 @@ public class ManagerWindow extends JDialog
 					PickMoviesWindow win = new PickMoviesWindow(videoClub);
 					win.setVisible(true);
 
-					Vector<RentableMovie> selectedMovies = win.getSelection();
+					ArrayList<RentableMovie> selectedMovies = win.getSelection();
 					videoClub.removeMovies(selectedMovies);
 				}
 			});
@@ -158,7 +155,7 @@ public class ManagerWindow extends JDialog
 					PickItemsWindow win = new PickItemsWindow(videoClub);
 					win.setVisible(true);
 
-					Vector<SellableItem> selectedItems = win.getSelection();
+					ArrayList<SellableItem> selectedItems = win.getSelection();
 					videoClub.removeItems(selectedItems);
 				}
 			});
@@ -198,6 +195,7 @@ public class ManagerWindow extends JDialog
 		addItemButton.setEnabled(hasManagerRights);
 		removeMovieButton.setEnabled(hasManagerRights);
 		removeItemButton.setEnabled(hasManagerRights);
+		removeUserButton.setEnabled(hasManagerRights);
 
 	}
 }

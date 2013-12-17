@@ -8,7 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,8 +24,8 @@ import javax.swing.JScrollPane;
  */
 public class PickItemsWindow extends JDialog
 {
-	private Vector<SellableItem> itemChoices = new Vector<SellableItem>();
-	private Vector<SellableItem> selectedItems = new Vector<SellableItem>();
+	private ArrayList<SellableItem> itemChoices = new ArrayList<SellableItem>();
+	private ArrayList<SellableItem> selectedItems = new ArrayList<SellableItem>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
 	private JLabel selectionLabel = new JLabel("Votre sélection:");
@@ -34,22 +34,22 @@ public class PickItemsWindow extends JDialog
 	private JButton closeButton = new JButton("Fermer");
 
 	private JPanel itemChoicesPanel = new JPanel();
-	private JScrollPane choicesPanel = new JScrollPane(itemChoicesPanel);	
-	
+	private JScrollPane choicesPanel = new JScrollPane(itemChoicesPanel);
+
 	private JPanel itemSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(itemSelectionPanel);
 
-	public Vector<SellableItem> getSelection()
+	public ArrayList<SellableItem> getSelection()
 	{
 		return selectedItems;
 	}
-	
+
 	/**
 	 * Constructeur
 	 */
 	PickItemsWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Choisir articles", true);
+		super((Frame) null, "Choisir articles", true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		// Screen Size
@@ -58,19 +58,18 @@ public class PickItemsWindow extends JDialog
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		itemChoicesPanel.setLayout(new BoxLayout(itemChoicesPanel, BoxLayout.Y_AXIS));
 		itemSelectionPanel.setLayout(new BoxLayout(itemSelectionPanel, BoxLayout.Y_AXIS));
-		
+
 		itemChoices = videoClub.getItemChoices();
-		
+
 		for (SellableItem item : itemChoices)
 		{
 			addChoiceitem(item);
 		}
-		
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -101,8 +100,8 @@ public class PickItemsWindow extends JDialog
 		c.gridx = 1;
 		panel.add(closeButton, c);
 
-		setContentPane(panel);		
-		
+		setContentPane(panel);
+
 		okButton.addActionListener(new ActionListener()
 			{
 				@Override
@@ -122,8 +121,7 @@ public class PickItemsWindow extends JDialog
 				}
 			});
 	}
-	
-	
+
 	/**
 	 * Ajoute un item dans la liste des choix
 	 */
@@ -143,27 +141,27 @@ public class PickItemsWindow extends JDialog
 			});
 		revalidate();
 	}
-	
+
 	/**
 	 * Enlève un item de la liste des choix
 	 */
 	private void removeChoiceitem(SellableItem item)
 	{
-		for(Component c : itemChoicesPanel.getComponents())
+		for (Component c : itemChoicesPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
-			
-			if(bouton.getText().equals(item.toString()))
+			JButton bouton = (JButton) c;
+
+			if (bouton.getText().equals(item.toString()))
 			{
 				itemChoicesPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
+
 		revalidate();
 	}
-	
+
 	/**
 	 * Ajoute un item dans la liste de sélection
 	 */
@@ -181,31 +179,31 @@ public class PickItemsWindow extends JDialog
 					removeSelectionitem(item);
 				}
 			});
-		
+
 		selectedItems.add(item);
 		revalidate();
 	}
-	
+
 	/**
 	 * Enlève un item de la liste des sélections
 	 */
 	private void removeSelectionitem(SellableItem item)
 	{
-		for(Component c : itemSelectionPanel.getComponents())
+		for (Component c : itemSelectionPanel.getComponents())
 		{
-			JButton bouton = (JButton)c;
+			JButton bouton = (JButton) c;
 			bouton.setVisible(true);
-			
-			if(bouton.getText().equals(item.toString()))
+
+			if (bouton.getText().equals(item.toString()))
 			{
 				itemSelectionPanel.remove(bouton);
 				this.update(getGraphics());
 				break;
 			}
 		}
-		
+
 		selectedItems.remove(item);
-		
+
 		revalidate();
 	}
 }

@@ -2,7 +2,6 @@ package com.videoclub.InterfaceUtilisateur;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import com.videoclub.controllers.Account;
 import com.videoclub.controllers.Rental;
@@ -17,8 +16,8 @@ import com.videoclub.models.movie.Movie;
 public class VideoClub
 {
 	private final String name = "Video Club Awesome";
-	
-	private int newMoviePrice;	//En cents
+
+	private int newMoviePrice; // En cents
 	private int oldMoviePrice;
 
 	public static void main(String[] args)
@@ -30,10 +29,10 @@ public class VideoClub
 	public void start()
 	{
 		System.out.println("start()");
-		
+
 		newMoviePrice = 1000;
 		oldMoviePrice = 500;
-		
+
 		WelcomeWindow win = new WelcomeWindow(this);
 		win.setVisible(true);
 	}
@@ -64,10 +63,11 @@ public class VideoClub
 	 * Rent item from database Item no longer avaible to customer until returned
 	 * 
 	 * @param movieSelection
+	 * @param movieRentingCustomer
 	 */
-	public void rentMovies(Vector<RentableMovie> movieSelection)
+	public void rentMovies(ArrayList<RentableMovie> movieSelection, LoginInfo movieRentingCustomer)
 	{
-		System.out.println("pickMovies(Vector<RentableMovie> movieSelection)");
+		System.out.println("pickMovies(ArrayList<RentableMovie> movieSelection)");
 		System.out.println("Movies selected: \n[");
 		for (RentableMovie movie : movieSelection)
 		{
@@ -81,9 +81,9 @@ public class VideoClub
 	 * 
 	 * @param itemSelection
 	 */
-	public void buyItems(Vector<SellableItem> itemSelection)
+	public void buyItems(ArrayList<SellableItem> itemSelection)
 	{
-		System.out.println("pickItems(Vector<SellableItem> itemSelection)");
+		System.out.println("pickItems(ArrayList<SellableItem> itemSelection)");
 		System.out.println("Items selected: \n[");
 		for (SellableItem item : itemSelection)
 		{
@@ -97,11 +97,11 @@ public class VideoClub
 	 * 
 	 * @return movie choices
 	 */
-	public Vector<RentableMovie> getMovieChoices()
+	public ArrayList<RentableMovie> getMovieChoices()
 	{
 		System.out.println("getMovieChoices()");
 
-		Vector<RentableMovie> choices = new Vector<RentableMovie>();
+		ArrayList<RentableMovie> choices = new ArrayList<RentableMovie>();
 		choices.add(new RentableMovie("Les totons volants", true));
 		choices.add(new RentableMovie("Martine au club �changiste", false));
 		choices.add(new RentableMovie("Les foufounes rouges", false));
@@ -117,11 +117,11 @@ public class VideoClub
 	 * 
 	 * @return item choices
 	 */
-	public Vector<SellableItem> getItemChoices()
+	public ArrayList<SellableItem> getItemChoices()
 	{
-		System.out.println("getMovieChoices()");
+		System.out.println("getItemChoices()");
 
-		Vector<SellableItem> choices = new Vector<SellableItem>();
+		ArrayList<SellableItem> choices = new ArrayList<SellableItem>();
 		choices.add(new SellableItem("Chips", 150)); // Prix en cents btw
 		choices.add(new SellableItem("Liqueur", 200));
 		choices.add(new SellableItem("Bonbons", 100));
@@ -156,18 +156,21 @@ public class VideoClub
 	 */
 	public boolean validManager(LoginInfo info)
 	{
-	    User u = new User();
-	    User manager = null; // potential manager
-	    try {
-	        System.out.println("name");
-	        System.out.println(info.getName());
-	        manager = u.getByUsername(info.getName());
-        } catch (InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-	    
-	    return manager != null && manager.isManager();
+		User u = new User();
+		User manager = null; // potential manager
+		try
+		{
+			System.out.println("name");
+			System.out.println(info.getName());
+			manager = u.getByUsername(info.getName());
+		}
+		catch (InstantiationException | IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return manager != null && manager.isManager();
 	}
 
 	/**
@@ -177,8 +180,8 @@ public class VideoClub
 	{
 		System.out.println("validUser(LoginInfo info)");
 		System.out.println(info);
-		
-		return true;
+
+		return false;
 	}
 
 	/**
@@ -186,23 +189,28 @@ public class VideoClub
 	 * 
 	 * @param info
 	 */
-	public void createUser(LoginInfo info)
+	public boolean createUser(LoginInfo info)
 	{
 		System.out.println("createUser(LoginInfo info)");
 		System.out.println(info);
-		
+
 		User newUser = new User();
 		newUser.setFirstName(info.getFirstName());
 		newUser.setLastName(info.getLastName());
 		newUser.setUsername(info.getName());
 		newUser.setPassword(info.getPassword());
-		
-		try {
-            newUser.save();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
+
+		try
+		{
+			newUser.save();
+			return true;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+
 		// TODO: Success msg after creation
 	}
 
@@ -213,16 +221,20 @@ public class VideoClub
 	 */
 	public void removeUsers(ArrayList<User> users)
 	{
-//		System.out.println("removeUsers(Vector<User> users)");
-//		System.out.println(users);
-		
-		for (User user : users) {
-		    try {
-                user.remove();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+		// System.out.println("removeUsers(ArrayList<User> users)");
+		// System.out.println(users);
+
+		for (User user : users)
+		{
+			try
+			{
+				user.remove();
+			}
+			catch (SQLException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -231,9 +243,9 @@ public class VideoClub
 	 * 
 	 * @param itemsToRemove
 	 */
-	public void removeItems(Vector<SellableItem> itemsToRemove)
+	public void removeItems(ArrayList<SellableItem> itemsToRemove)
 	{
-		System.out.println("removeItems(Vector<SellableItem> itemsToRemove)");
+		System.out.println("removeItems(ArrayList<SellableItem> itemsToRemove)");
 		System.out.println(itemsToRemove);
 		// TODO Auto-generated method stub
 
@@ -244,9 +256,9 @@ public class VideoClub
 	 * 
 	 * @param moviesToRemove
 	 */
-	public void removeMovies(Vector<RentableMovie> moviesToRemove)
+	public void removeMovies(ArrayList<RentableMovie> moviesToRemove)
 	{
-		System.out.println("removeMovies(Vector<RentableMovie> moviesToRemove)");
+		System.out.println("removeMovies(ArrayList<RentableMovie> moviesToRemove)");
 		System.out.println(moviesToRemove);
 		// TODO Auto-generated method stub
 
@@ -254,7 +266,7 @@ public class VideoClub
 
 	public int getMoviePrice(RentableMovie movie)
 	{
-		if(movie.isNewMovie())
+		if (movie.isNewMovie())
 			return newMoviePrice;
 		else
 			return oldMoviePrice;

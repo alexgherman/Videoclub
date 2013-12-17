@@ -1,6 +1,5 @@
 package com.videoclub.InterfaceUtilisateur;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -9,10 +8,9 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.Vector;
+import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
+import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 /**
@@ -44,7 +42,7 @@ public class EmployeeWindow extends JDialog
 
 	private JButton payButton = new JButton("Payer");
 	private JButton emptyCartButton = new JButton("Effacer tout");
-	
+
 	/**
 	 * Constructeur
 	 */
@@ -59,19 +57,19 @@ public class EmployeeWindow extends JDialog
 
 		// Screen Size
 		setSize(300, 500);
-		setMinimumSize(new Dimension(300, 500));
+		setMinimumSize(new Dimension(200, 200));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		// Window Layout
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 10, 10, 10);
+		c.weightx = 1;
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -99,7 +97,7 @@ public class EmployeeWindow extends JDialog
 					PickMoviesWindow win = new PickMoviesWindow(videoClub);
 					win.setVisible(true);
 
-					Vector<RentableMovie> selectedMovies = win.getSelection();
+					ArrayList<RentableMovie> selectedMovies = win.getSelection();
 
 					if (!selectedMovies.isEmpty())
 					{
@@ -118,7 +116,7 @@ public class EmployeeWindow extends JDialog
 					PickItemsWindow win = new PickItemsWindow(videoClub);
 					win.setVisible(true);
 
-					Vector<SellableItem> selectedItems = win.getSelection();
+					ArrayList<SellableItem> selectedItems = win.getSelection();
 
 					if (!selectedItems.isEmpty())
 					{
@@ -133,14 +131,66 @@ public class EmployeeWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					JOptionPane.showMessageDialog(
-							null,
-							"Demander au client de payer: "
-									+ ((float) cart.getTotal() / 100) + " $",
-							"Paiement", JOptionPane.INFORMATION_MESSAGE);
-					
-					videoClub.buyItems(cart.getItems());
-					videoClub.rentMovies(cart.getMovies());
+					// If a customer rents a movie he needs to login
+					LoginInfo movieRentingCustomer = null;
+					if (!cart.getMovies().isEmpty())
+					{
+						LoginWindow win = new LoginWindow();
+						win.setVisible(true);
+
+						movieRentingCustomer = win.getLoginInfo();
+						if (!videoClub.validUser(movieRentingCustomer)) // Login
+																		// failed,
+																		// wanna
+																		// add a
+																		// member?
+						{
+							int answer = JOptionPane.showConfirmDialog(null, "Désirez-vous ajouter un membre au système?", "Échec d'identification!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+							if (answer == JOptionPane.YES_OPTION) // Yes, add a
+																	// member!
+							{
+								CreateUserWindow createUserWin = new CreateUserWindow();
+								createUserWin.setVisible(true);
+
+								LoginInfo info = createUserWin.getLoginInfo();
+								if (info != null) // Here's a new member!
+								{
+									if (!videoClub.createUser(info)) //CreateUser failed (maybe a user with the same name exists)
+									{
+										return;
+									}
+									else
+									{
+										movieRentingCustomer = info;
+									}
+								}
+								else
+								// Changed my mind, abort!
+
+								{
+									return;
+								}
+							}
+							else
+							// No, abort!
+							{
+								return;
+							}
+						}
+					}
+
+					// Customer doesn't want to rent a movie OR he's
+					// successfully logged in
+
+					// Ask for a confirmation before doing the transaction
+					int confirmation = JOptionPane.showConfirmDialog(null, "Veuillez confirmer la transaction de: " + ((float) cart.getTotal() / 100) + " $", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+
+					if (confirmation == JOptionPane.OK_OPTION)
+					{
+						videoClub.buyItems(cart.getItems());
+						videoClub.rentMovies(cart.getMovies(), movieRentingCustomer);
+					}
 				}
 			});
 
@@ -166,7 +216,6 @@ public class EmployeeWindow extends JDialog
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
-		c.gridheight = 1;
 		c.weighty = 1;
 		c.weightx = 1;
 
@@ -178,28 +227,23 @@ public class EmployeeWindow extends JDialog
 	private JPanel cartPanel(Cart cart, VideoClub videoClub)
 	{
 		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.X_AXIS));
-
-		JPanel thingsPanel = new JPanel();
-		JPanel pricesPanel = new JPanel();
-
-		thingsPanel.setLayout(new BoxLayout(thingsPanel, BoxLayout.Y_AXIS));
-		pricesPanel.setLayout(new BoxLayout(pricesPanel, BoxLayout.Y_AXIS));
-		//pricesPanel.setAlignmentX(RIGHT_ALIGNMENT);
-
-		listPanel.add(thingsPanel);
-		listPanel.add(pricesPanel);
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
 		JScrollPane scrollPane = new JScrollPane(listPanel);
 
 		for (RentableMovie movie : cart.getMovies())
 		{
 			String thing = "Location: " + movie.getName();
-			String price = ((float) videoClub.getMoviePrice(movie) / 100)
-					+ " $";
+			String price = ((float) videoClub.getMoviePrice(movie) / 100) + " $";
 
-			thingsPanel.add(new JLabel(thing));
-			pricesPanel.add(new JLabel(price));
+			JPanel linePanel = new JPanel();
+			linePanel.setLayout(new BoxLayout(linePanel, BoxLayout.X_AXIS));
+
+			linePanel.add(new JLabel(thing));
+			linePanel.add(Box.createHorizontalGlue());
+			linePanel.add(new JLabel(price));
+
+			listPanel.add(linePanel);
 		}
 
 		for (SellableItem item : cart.getItems())
@@ -207,25 +251,34 @@ public class EmployeeWindow extends JDialog
 			String thing = "Achat: " + item.getName();
 			String price = ((float) item.getPrice() / 100) + " $";
 
-			thingsPanel.add(new JLabel(thing));
-			
-			JLabel priceLabel = new JLabel(price);
-			priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			pricesPanel.add(priceLabel);
+			JPanel linePanel = new JPanel();
+			linePanel.setLayout(new BoxLayout(linePanel, BoxLayout.X_AXIS));
+
+			linePanel.add(new JLabel(thing));
+			linePanel.add(Box.createHorizontalGlue());
+			linePanel.add(new JLabel(price));
+
+			listPanel.add(linePanel);
 		}
 
-		String price = ((float) cart.getTotal() / 100) + " $";
-		thingsPanel.add(new JLabel("Total"));
-		pricesPanel.add(new JLabel(price), BorderLayout.EAST);
+		listPanel.add(new JSeparator());
 
-		
-		
+		String price = ((float) cart.getTotal() / 100) + " $";
+
+		JPanel linePanel = new JPanel();
+		linePanel.setLayout(new BoxLayout(linePanel, BoxLayout.X_AXIS));
+
+		linePanel.add(new JLabel("Total"));
+		linePanel.add(Box.createHorizontalGlue());
+		linePanel.add(new JLabel(price));
+
+		listPanel.add(linePanel);
+
 		// Put everything in a single JPanel that will be returned
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		// c.insets = new Insets(10, 10, 10, 10);
 
 		c.gridx = 0;
 		c.gridy = 0;

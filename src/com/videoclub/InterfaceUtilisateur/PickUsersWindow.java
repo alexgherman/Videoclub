@@ -9,7 +9,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -62,13 +61,10 @@ public class PickUsersWindow extends JDialog
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
-				- getSize().height / 2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
-		userChoicesPanel.setLayout(new BoxLayout(userChoicesPanel,
-				BoxLayout.Y_AXIS));
-		userSelectionPanel.setLayout(new BoxLayout(userSelectionPanel,
-				BoxLayout.Y_AXIS));
+		userChoicesPanel.setLayout(new BoxLayout(userChoicesPanel, BoxLayout.Y_AXIS));
+		userSelectionPanel.setLayout(new BoxLayout(userSelectionPanel, BoxLayout.Y_AXIS));
 
 		userChoices = videoClub.getUserChoices();
 

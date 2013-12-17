@@ -34,19 +34,19 @@ public class WelcomeWindow extends JFrame
 	 */
 	WelcomeWindow(final VideoClub videoClub)
 	{
-		super(videoClub.getName());	//Titre de la fenêtre		
+		super(videoClub.getName()); //Titre de la fenêtre		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 		//Screen Size
 		setSize(300, 200);
-		setMinimumSize(new Dimension(300,200));
-		
+		setMinimumSize(new Dimension(300, 200));
+
 		//Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		//Window Layout
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
@@ -54,8 +54,8 @@ public class WelcomeWindow extends JFrame
 		c.fill = GridBagConstraints.BOTH;
 		c.ipady = 10;
 		c.weightx = 1;
-		c.insets = new Insets(10,10,10,10);
-		
+		c.insets = new Insets(10, 10, 10, 10);
+
 		c.weighty = 1;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -63,7 +63,7 @@ public class WelcomeWindow extends JFrame
 		panel.add(welcomeLabel, c);
 
 		c.weighty = 0;
-		c.gridy=1;
+		c.gridy = 1;
 		c.gridwidth = 1;
 		panel.add(employeeButton, c);
 
@@ -89,7 +89,7 @@ public class WelcomeWindow extends JFrame
 				{
 					ManagerWindow win = new ManagerWindow(videoClub);
 					win.setVisible(true);
-					
+
 				}
 			});
 	}
