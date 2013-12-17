@@ -44,7 +44,7 @@ public class EmployeeWindow extends JDialog
 
 	private JButton payButton = new JButton("Payer");
 	private JButton emptyCartButton = new JButton("Effacer tout");
-
+	
 	/**
 	 * Constructeur
 	 */

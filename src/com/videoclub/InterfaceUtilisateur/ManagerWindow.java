@@ -42,24 +42,25 @@ public class ManagerWindow extends JDialog
 	 */
 	ManagerWindow(final VideoClub videoClub)
 	{
-		super((Frame)null, "Mode G�rant", true);
+		super((Frame) null, "Mode G�rant", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		//Screen Size
+
+		// Screen Size
 		setSize(425, 200);
-		setMinimumSize(new Dimension(425,200));
-		
-		//Screen centered
+		setMinimumSize(new Dimension(425, 200));
+
+		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
+				- getSize().height / 2);
 
 		updateAuthorizations(videoClub);
-		
-		//Window Layout
+
+		// Window Layout
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(10,10,10,10);
+		c.insets = new Insets(10, 10, 10, 10);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -73,7 +74,7 @@ public class ManagerWindow extends JDialog
 		c.gridx = 1;
 		c.gridy = 1;
 		panel.add(addItemButton, c);
-		
+
 		c.gridx = 2;
 		panel.add(addUserButton, c);
 
@@ -84,7 +85,7 @@ public class ManagerWindow extends JDialog
 		c.gridx = 1;
 		c.gridy = 2;
 		panel.add(removeItemButton, c);
-		
+
 		c.gridx = 2;
 		panel.add(removeUserButton, c);
 
@@ -104,7 +105,8 @@ public class ManagerWindow extends JDialog
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					CreateRentableMovieWindow win = new CreateRentableMovieWindow(videoClub);
+					CreateRentableMovieWindow win = new CreateRentableMovieWindow(
+							videoClub);
 					win.setVisible(true);
 				}
 			});
@@ -118,21 +120,22 @@ public class ManagerWindow extends JDialog
 					win.setVisible(true);
 				}
 			});
-		
+
 		addUserButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
 			{
-			    CreateUserWindow win = new CreateUserWindow();
-				win.setVisible(true);
-				
-				LoginInfo info = win.getLoginInfo();
-				if (info != null) {
-				    videoClub.createUser(info);
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					CreateUserWindow win = new CreateUserWindow();
+					win.setVisible(true);
+
+					LoginInfo info = win.getLoginInfo();
+					if (info != null)
+					{
+						videoClub.createUser(info);
+					}
 				}
-			}
-		});
+			});
 
 		removeMovieButton.addActionListener(new ActionListener()
 			{
@@ -159,38 +162,42 @@ public class ManagerWindow extends JDialog
 					videoClub.removeItems(selectedItems);
 				}
 			});
-		
-		removeUserButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				PickUsersWindow win = new PickUsersWindow(videoClub);
-				win.setVisible(true);
 
-				ArrayList<User> selectedUsers = win.getSelection();
-				videoClub.removeUsers(selectedUsers);
-			}
-		});
+		removeUserButton.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					PickUsersWindow win = new PickUsersWindow(videoClub);
+					win.setVisible(true);
+
+					ArrayList<User> selectedUsers = win.getSelection();
+					videoClub.removeUsers(selectedUsers);
+				}
+			});
 	}
 
 	/**
-	 * Si c'est bien le g�rant, on active les boutons pour qu'il puisse utiliser
-	 * ses fonctionnalit�s r�serv�es
+	 * Si c'est bien le g�rant, on active les boutons pour qu'il puisse
+	 * utiliser ses fonctionnalit�s r�serv�es
 	 */
 	private void updateAuthorizations(VideoClub videoClub)
 	{
 		LoginWindow win = new LoginWindow();
 		win.setVisible(true);
 		LoginInfo info = win.getLoginInfo();
-		
-		if (info != null) {
-		    boolean hasManagerRights = videoClub.validManager(info);
-	        
-	        addMovieButton.setEnabled(hasManagerRights);
-	        addItemButton.setEnabled(hasManagerRights);
-	        removeMovieButton.setEnabled(hasManagerRights);
-	        removeItemButton.setEnabled(hasManagerRights);
+
+		boolean hasManagerRights = false;
+
+		if (info != null)
+		{
+			hasManagerRights = videoClub.validManager(info);
 		}
+
+		addMovieButton.setEnabled(hasManagerRights);
+		addItemButton.setEnabled(hasManagerRights);
+		removeMovieButton.setEnabled(hasManagerRights);
+		removeItemButton.setEnabled(hasManagerRights);
+
 	}
 }
