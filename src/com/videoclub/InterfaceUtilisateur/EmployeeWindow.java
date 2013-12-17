@@ -145,6 +145,7 @@ public class EmployeeWindow extends JDialog
 				public void actionPerformed(ActionEvent arg0)
 				{
 					cart.clear();
+					updateCartPanel();
 				}
 			});
 	}
