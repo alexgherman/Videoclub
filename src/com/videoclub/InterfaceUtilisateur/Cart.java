@@ -45,7 +45,7 @@ public class Cart
 		
 		for(RentableMovie movie : movies)
 		{
-			videoClub.getMoviePrice(movie);
+			total += videoClub.getMoviePrice(movie);
 		}
 		
 		for(SellableItem item : items)
