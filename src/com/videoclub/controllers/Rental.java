@@ -1,4 +1,4 @@
-package com.videoclub.rental;
+package com.videoclub.controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,8 +53,9 @@ public class Rental {
             
             movie.setDescription(movieDescription);
             movie.save();
-            
+            System.out.println(movie);
             for(int i = 0; i < numberOfCopies; i++) {
+                
                 MovieCopy movieCopy = new MovieCopy();
                 movieCopy.setMovie(movie);
                 movieCopy.save();

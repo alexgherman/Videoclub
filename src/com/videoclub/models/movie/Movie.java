@@ -49,7 +49,7 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
     }
     
     public String toString() {
-        return description.toString();
+        return "[" + getId() + "] " + description.toString();
     }
 
     /**
@@ -69,15 +69,14 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
         
     }
     
-    public Integer save() throws SQLException {
+    public boolean save() throws SQLException {
         if (id == null) {
-            create();
-            Integer lastId = Database.instance().getLastInsertedId();
+            Integer lastId = create();
             this.setId(lastId);
-            return lastId;
+            return lastId > 0;
         } else {
             update();
-            return 0;
+            return true;
         }
     }
     

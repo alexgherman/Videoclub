@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * Fenêtre qui demande le nom et le mot de passe à l'utilisateur
+ * Fenï¿½tre qui demande le nom et le mot de passe ï¿½ l'utilisateur
  * 
  * @author Maxime Dupuis
  *
@@ -31,6 +31,12 @@ public class LoginWindow extends JDialog
 	
 	private JLabel passwordLabel = new JLabel("Password:");
 	private JPasswordField passwordField = new JPasswordField();
+	
+	private JLabel firstNameLabel = new JLabel("First name:");
+	private JTextField firstNameField = new JTextField();
+ 
+	private JLabel lastNameLabel = new JLabel("Last name:");
+	private JTextField lastNameField = new JTextField();
 	
 	private JButton saveButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
@@ -110,7 +116,10 @@ public class LoginWindow extends JDialog
 					return;
 				}
 				
-				loginInfo = new LoginInfo(name, password);
+				String firstName = firstNameField.getText();
+				String lastName = lastNameField.getText();
+				
+				loginInfo = new LoginInfo(name, password, firstName, lastName);
 				
 				dispose();
 			}

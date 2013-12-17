@@ -18,7 +18,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import com.videoclub.rental.Rental;
+import com.videoclub.controllers.Rental;
 
 /**
  * Cr�e une fen�tre reli�e � un VideoClub. Permet d'y ajouter des films � louer
