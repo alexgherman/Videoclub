@@ -96,7 +96,17 @@ public class Fixtures {
             db.update(sql);
             
             /**
-             * Description Movie table
+             * Movie copies table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.MOVIE_COPIES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT   NOT NULL, " +
+                  "MOVIE_ID                      INTEGER                             NOT NULL)"; 
+
+            db.update(sql);
+            
+            /**
+             * Users table
              */
 
             sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.USERS.getTableName() + " (" +
@@ -106,19 +116,12 @@ public class Fixtures {
                   "FIRST_NAME                    TEXT                                   NOT NULL, " +
                   "LAST_NAME                     TEXT                                   NOT NULL, " +
                   "CREATED                       TEXT                                   NOT NULL, " +
-                  "LAST_VISIT                    TEXT                                   NOT NULL)";
+                  "LAST_VISIT                    TEXT                                   NOT NULL, " +
+                  "GROUP_ID                      INTEGER                                NOT NULL)";
 
             db.update(sql);
             
-            /**
-             * Movie copies table
-             */
 
-            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.MOVIE_COPIES.getTableName() + " (" +
-                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT   NOT NULL, " +
-                  "MOVIE_ID                      INTEGER                             NOT NULL)"; 
-
-            db.update(sql);
             
                         
             

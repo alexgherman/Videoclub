@@ -184,11 +184,13 @@ public class ManagerWindow extends JDialog
 		win.setVisible(true);
 		LoginInfo info = win.getLoginInfo();
 		
-		boolean hasManagerRights = videoClub.validManager(info);
-		
-		addMovieButton.setEnabled(hasManagerRights);
-		addItemButton.setEnabled(hasManagerRights);
-		removeMovieButton.setEnabled(hasManagerRights);
-		removeItemButton.setEnabled(hasManagerRights);
+		if (info != null) {
+		    boolean hasManagerRights = videoClub.validManager(info);
+	        
+	        addMovieButton.setEnabled(hasManagerRights);
+	        addItemButton.setEnabled(hasManagerRights);
+	        removeMovieButton.setEnabled(hasManagerRights);
+	        removeItemButton.setEnabled(hasManagerRights);
+		}
 	}
 }

@@ -32,12 +32,6 @@ public class LoginWindow extends JDialog
 	private JLabel passwordLabel = new JLabel("Password:");
 	private JPasswordField passwordField = new JPasswordField();
 	
-	private JLabel firstNameLabel = new JLabel("First name:");
-	private JTextField firstNameField = new JTextField();
- 
-	private JLabel lastNameLabel = new JLabel("Last name:");
-	private JTextField lastNameField = new JTextField();
-	
 	private JButton saveButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
 	
@@ -111,7 +105,7 @@ public class LoginWindow extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String name = nameField.getText();
+				String name = nameField.getText().trim();
                 
 				if(name.equals(""))
 				{
@@ -119,7 +113,7 @@ public class LoginWindow extends JDialog
 					return;
 				}
 				
-				String password = new String(passwordField.getPassword());
+				String password = new String(passwordField.getPassword()).trim();
 				if(password.equals(""))
 				{
 					JOptionPane.showMessageDialog(null, "Mot de passe obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);

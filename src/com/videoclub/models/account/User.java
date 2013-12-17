@@ -40,6 +40,8 @@ public class User extends Common<User> implements CommonInterface<User> {
 	
 	private String password;
 	
+	private Integer groupId;
+	
 	private String salt = "";
 	
 	public Integer getId() {
@@ -99,10 +101,24 @@ public class User extends Common<User> implements CommonInterface<User> {
         this.password = password;
     }
     
+    public Integer getGroupId() {
+        // 1 = admin (Gerant)
+        // 2 = regular user
+        return (groupId == null ? 2 : groupId);
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+    
     public String toString() {
-        return "{" + getId() + ": " + getUsername() + ", " + getPassword() + ", " + getFirstName() + ", " + getLastName() + "}";
+        return "{" + getId() + ": " + getUsername() + ", " + getPassword() + ", " + getFirstName() + ", " + getLastName() + ", " + getGroupId() + "}";
     }
 	
+    public boolean isManager() {
+        return (getGroupId() != null && getGroupId() == 1);
+    }
+    
 	public boolean checkSameUser(User user) {
 	   
 	   return (user.getUsername().equals(this.getUsername()) &&
@@ -163,6 +179,7 @@ public class User extends Common<User> implements CommonInterface<User> {
         this.setLastName(loaded.getLastName());
         this.setCreated(loaded.getCreated());
         this.setLastVisit(loaded.getLastVisit());
+        this.setGroupId(loaded.getGroupId());
     }
     
     /**
@@ -179,6 +196,7 @@ public class User extends Common<User> implements CommonInterface<User> {
         user.setLastName((String) row.get("LAST_NAME"));
         user.setCreated((String) row.get("CREATED"));
         user.setLastVisit((String) row.get("LAST_VISIT"));
+        user.setGroupId(Integer.valueOf(new String(row.get("GROUP_ID"))));
         
         return user;
     }
@@ -196,14 +214,16 @@ public class User extends Common<User> implements CommonInterface<User> {
                 + "FIRST_NAME,"
                 + "LAST_NAME,"
                 + "CREATED,"
-                + "LAST_VISIT" +
+                + "LAST_VISIT,"
+                + "GROUP_ID" +
          ") VALUES ("
                 + "'" + username + "', "
                 + "'" + password + "', "
                 + "'" + firstName + "', "
                 + "'" + lastName + "', "
                 + "'" + created + "', "
-                + "'" + lastVisit + "'" +
+                + "'" + lastVisit + "',"
+                + "'" + getGroupId() + "'" +
          ");";
 
         return Database.instance().update(sql);
@@ -259,6 +279,5 @@ public class User extends Common<User> implements CommonInterface<User> {
 //        System.out.println("Same user: " + u1.checkSameUser(u2));
         
 
-    }
-    
+    }    
 }

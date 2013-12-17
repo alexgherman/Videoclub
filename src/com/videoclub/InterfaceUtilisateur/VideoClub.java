@@ -156,10 +156,18 @@ public class VideoClub
 	 */
 	public boolean validManager(LoginInfo info)
 	{
-		System.out.println("validManager(LoginInfo info)");
-		System.out.println(info);
-
-		return true;
+	    User u = new User();
+	    User manager = null; // potential manager
+	    try {
+	        System.out.println("name");
+	        System.out.println(info.getName());
+	        manager = u.getByUsername(info.getName());
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	    
+	    return manager != null && manager.isManager();
 	}
 
 	/**
