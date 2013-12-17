@@ -1,5 +1,6 @@
 package com.videoclub.InterfaceUtilisateur;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 /**
@@ -203,13 +205,18 @@ public class EmployeeWindow extends JDialog
 			String price = ((float) item.getPrice() / 100) + " $";
 
 			thingsPanel.add(new JLabel(thing));
-			pricesPanel.add(new JLabel(price));
+			
+			JLabel priceLabel = new JLabel(price);
+			priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+			pricesPanel.add(priceLabel);
 		}
 
 		String price = ((float) cart.getTotal() / 100) + " $";
 		thingsPanel.add(new JLabel("Total"));
-		pricesPanel.add(new JLabel(price));
+		pricesPanel.add(new JLabel(price), BorderLayout.EAST);
 
+		
+		
 		// Put everything in a single JPanel that will be returned
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());

@@ -4,7 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import com.videoclub.controllers.Account;
+import com.videoclub.account.Account;
+//import com.videoclub.controllers.Account;
 import com.videoclub.controllers.Rental;
 import com.videoclub.models.account.User;
 import com.videoclub.models.movie.Movie;
