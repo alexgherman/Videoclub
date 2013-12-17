@@ -138,6 +138,9 @@ public class EmployeeWindow extends JDialog
 							"Demander au client de payer: "
 									+ ((float) cart.getTotal() / 100) + " $",
 							"Paiement", JOptionPane.INFORMATION_MESSAGE);
+					
+					videoClub.buyItems(cart.getItems());
+					videoClub.rentMovies(cart.getMovies());
 				}
 			});
 
