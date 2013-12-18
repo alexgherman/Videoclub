@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.videoclub.controllers.Account;
 import com.videoclub.controllers.Rental;
 import com.videoclub.models.account.User;
+import com.videoclub.models.movie.DescriptionMovie;
 import com.videoclub.models.movie.Movie;
 
 /**
@@ -62,14 +63,14 @@ public class VideoClub
 	/**
 	 * Rent item from database Item no longer avaible to customer until returned
 	 * 
-	 * @param movieSelection
+	 * @param arrayList
 	 * @param movieRentingCustomer
 	 */
-	public void rentMovies(ArrayList<RentableMovie> movieSelection, LoginInfo movieRentingCustomer)
+	public void rentMovies(ArrayList<Movie> arrayList, LoginInfo movieRentingCustomer)
 	{
 		System.out.println("pickMovies(ArrayList<RentableMovie> movieSelection)");
 		System.out.println("Movies selected: \n[");
-		for (RentableMovie movie : movieSelection)
+		for (Movie movie : arrayList)
 		{
 			System.out.println("\t" + movie.toString());
 		}
@@ -97,19 +98,28 @@ public class VideoClub
 	 * 
 	 * @return movie choices
 	 */
-	public ArrayList<RentableMovie> getMovieChoices()
+	public ArrayList<Movie> getMovieChoices()
 	{
 		System.out.println("getMovieChoices()");
 
-		ArrayList<RentableMovie> choices = new ArrayList<RentableMovie>();
-		choices.add(new RentableMovie("Les totons volants", true));
-		choices.add(new RentableMovie("Martine au club �changiste", false));
-		choices.add(new RentableMovie("Les foufounes rouges", false));
-		choices.add(new RentableMovie("Lucile va au garage", false));
-		choices.add(new RentableMovie("Bleu nuit version Miley Cyrus", false));
-		choices.add(new RentableMovie("Les tentacules au Japon", false));
-
-		return choices;
+		Movie m = new Movie();
+		DescriptionMovie dm = new DescriptionMovie();
+		ArrayList<Movie> choices = new ArrayList<Movie>();
+		ArrayList<DescriptionMovie> descriptions = new ArrayList<DescriptionMovie>();
+        
+        try {
+            choices = m.getAll();
+            for (Movie movie : choices) {
+                System.out.println("-" + movie.getId());
+                dm = dm.getById(movie.getDescription().getId());
+                movie.setDescription(dm);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return choices;
 	}
 
 	/**
@@ -254,21 +264,22 @@ public class VideoClub
 	/**
 	 * Remove movies from database
 	 * 
-	 * @param moviesToRemove
+	 * @param selectedMovies
 	 */
-	public void removeMovies(ArrayList<RentableMovie> moviesToRemove)
+	public void removeMovies(ArrayList<Movie> selectedMovies)
 	{
-		System.out.println("removeMovies(ArrayList<RentableMovie> moviesToRemove)");
-		System.out.println(moviesToRemove);
+		System.out.println("removeMovies(ArrayList<Movie> moviesToRemove)");
+		System.out.println(selectedMovies);
 		// TODO Auto-generated method stub
 
 	}
 
-	public int getMoviePrice(RentableMovie movie)
+	public int getMoviePrice(Movie movie)
 	{
-		if (movie.isNewMovie())
+		if (movie.getDescription().isNewRelease())
 			return newMoviePrice;
 		else
 			return oldMoviePrice;
 	}
+	
 }

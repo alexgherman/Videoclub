@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.videoclub.models.account.User;
+import com.videoclub.models.movie.Movie;
 
 @SuppressWarnings("serial")
 /**
@@ -143,7 +144,7 @@ public class ManagerWindow extends JDialog
 					PickMoviesWindow win = new PickMoviesWindow(videoClub);
 					win.setVisible(true);
 
-					ArrayList<RentableMovie> selectedMovies = win.getSelection();
+					ArrayList<Movie> selectedMovies = win.getSelection();
 					
 					int answer = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce film de location?", "Supression de film", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (answer == JOptionPane.YES_OPTION)

@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,30 +17,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.videoclub.models.movie.Movie;
+
 @SuppressWarnings("serial")
 /**
- * Fenêtre de sélection de films à louer
+ * Fenï¿½tre de sï¿½lection de films ï¿½ louer
  * @author Maxime Dupuis
  *
  */
 public class PickMoviesWindow extends JDialog
 {
-	private ArrayList<RentableMovie> movieChoices = new ArrayList<RentableMovie>();
-	private ArrayList<RentableMovie> selectedMovies = new ArrayList<RentableMovie>();
+	private ArrayList<Movie> movieChoices = new ArrayList<Movie>();
+	private ArrayList<Movie> selectedMovies = new ArrayList<Movie>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
-	private JLabel selectionLabel = new JLabel("Votre sélection:");
+	private JLabel selectionLabel = new JLabel("Votre sï¿½lection:");
 
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
 
 	private JPanel movieChoicesPanel = new JPanel();
-	private JScrollPane choicesPanel = new JScrollPane(movieChoicesPanel); //Un JScrollPane garde toujours la même dimension. S'il y a trop de composants, il crée un scrollBar
+	private JScrollPane choicesPanel = new JScrollPane(movieChoicesPanel); //Un JScrollPane garde toujours la mï¿½me dimension. S'il y a trop de composants, il crï¿½e un scrollBar
 
 	private JPanel movieSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(movieSelectionPanel);
 
-	public ArrayList<RentableMovie> getSelection()
+	public ArrayList<Movie> getSelection()
 	{
 		return selectedMovies;
 	}
@@ -65,7 +68,7 @@ public class PickMoviesWindow extends JDialog
 
 		movieChoices = videoClub.getMovieChoices();
 
-		for (RentableMovie movie : movieChoices)
+		for (Movie movie : movieChoices)
 		{
 			addChoiceMovie(movie);
 		}
@@ -125,7 +128,7 @@ public class PickMoviesWindow extends JDialog
 	/**
 	 * Ajoute un film dans la liste des choix
 	 */
-	private void addChoiceMovie(final RentableMovie movie)
+	private void addChoiceMovie(final Movie movie)
 	{
 		JButton bouton = new JButton(movie.toString());
 		movieChoicesPanel.add(bouton);
@@ -143,9 +146,9 @@ public class PickMoviesWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un film de la liste des choix
+	 * Enlï¿½ve un film de la liste des choix
 	 */
-	private void removeChoiceMovie(RentableMovie movie)
+	private void removeChoiceMovie(Movie movie)
 	{
 		for (Component c : movieChoicesPanel.getComponents())
 		{
@@ -163,9 +166,9 @@ public class PickMoviesWindow extends JDialog
 	}
 
 	/**
-	 * Ajoute un film dans la liste de sélection
+	 * Ajoute un film dans la liste de sï¿½lection
 	 */
-	private void addSelectionMovie(final RentableMovie movie)
+	private void addSelectionMovie(final Movie movie)
 	{
 		JButton bouton = new JButton(movie.toString());
 		movieSelectionPanel.add(bouton);
@@ -185,9 +188,9 @@ public class PickMoviesWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un film de la liste des sélections
+	 * Enlï¿½ve un film de la liste des sï¿½lections
 	 */
-	private void removeSelectionMovie(RentableMovie movie)
+	private void removeSelectionMovie(Movie movie)
 	{
 		for (Component c : movieSelectionPanel.getComponents())
 		{

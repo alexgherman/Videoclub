@@ -20,9 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
+import com.videoclub.models.movie.Movie;
+
 @SuppressWarnings("serial")
 /**
- * Fenêtre de l'employé/client
+ * Fenï¿½tre de l'employï¿½/client
  * Construit un Cart
  * 
  * @author Maxime Dupuis
@@ -48,7 +50,7 @@ public class EmployeeWindow extends JDialog
 	 */
 	EmployeeWindow(final VideoClub videoClub)
 	{
-		super((Frame) null, "Mode Employé", true);
+		super((Frame) null, "Mode Employï¿½", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Cart panel
@@ -97,7 +99,7 @@ public class EmployeeWindow extends JDialog
 					PickMoviesWindow win = new PickMoviesWindow(videoClub);
 					win.setVisible(true);
 
-					ArrayList<RentableMovie> selectedMovies = win.getSelection();
+					ArrayList<Movie> selectedMovies = win.getSelection();
 
 					if (!selectedMovies.isEmpty())
 					{
@@ -145,7 +147,7 @@ public class EmployeeWindow extends JDialog
 																		// add a
 																		// member?
 						{
-							int answer = JOptionPane.showConfirmDialog(null, "Désirez-vous ajouter un membre au système?", "Échec d'identification!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+							int answer = JOptionPane.showConfirmDialog(null, "Dï¿½sirez-vous ajouter un membre au systï¿½me?", "ï¿½chec d'identification!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 							if (answer == JOptionPane.YES_OPTION) // Yes, add a
 																	// member!
@@ -231,9 +233,9 @@ public class EmployeeWindow extends JDialog
 
 		JScrollPane scrollPane = new JScrollPane(listPanel);
 
-		for (RentableMovie movie : cart.getMovies())
+		for (Movie movie : cart.getMovies())
 		{
-			String thing = "Location: " + movie.getName();
+			String thing = "Location: " + movie.getDescription().getTitle();
 			String price = ((float) videoClub.getMoviePrice(movie) / 100) + " $";
 
 			JPanel linePanel = new JPanel();
