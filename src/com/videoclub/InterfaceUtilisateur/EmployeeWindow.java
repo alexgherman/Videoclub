@@ -141,6 +141,8 @@ public class EmployeeWindow extends JDialog
 						win.setVisible(true);
 
 						movieRentingCustomer = win.getLoginInfo();
+						if(movieRentingCustomer == null) return;
+						
 						if (!videoClub.validUser(movieRentingCustomer)) // Login
 																		// failed,
 																		// wanna
