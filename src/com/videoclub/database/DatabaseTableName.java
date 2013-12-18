@@ -2,6 +2,7 @@ package com.videoclub.database;
 
 import com.videoclub.models.article.*;
 import com.videoclub.models.movie.*;
+import com.videoclub.models.movie.rent.*;
 import com.videoclub.models.account.*;
 
 public enum DatabaseTableName {
@@ -12,7 +13,9 @@ public enum DatabaseTableName {
     MOVIES("movies", new Movie()),
     MOVIE_COPIES("movie_copies", new MovieCopy()),
     DESCRIPTION_MOVIES("description_movies", new DescriptionMovie()),
-    USERS("users", new User());
+    USERS("users", new User()),
+    RENTS("rents", new Rent()),
+    RENT_ARTICLES("rent_articles", new RentArticle());
     
     private final String tableName;
     private final Object obj;

@@ -121,9 +121,28 @@ public class Fixtures {
 
             db.update(sql);
             
+            /**
+             * Rent table
+             */
 
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.RENTS.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
+                  "USER_ID                       INTEGER                                   NOT NULL, " +
+                  "RENT_DATE                     TEXT                                   NOT NULL)";
+
+            db.update(sql);
             
-                        
+                     
+            /**
+             * Rent table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.RENT_ARTICLES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
+                  "RENT_ID                       INTEGER                                NOT NULL, " +
+                  "MOVIE_ID                      INTEGER                                NOT NULL)";
+
+            db.update(sql);
             
         } catch (Exception e) {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -151,6 +170,8 @@ public class Fixtures {
         databaseTableNameList.add(DatabaseTableName.DESCRIPTION_MOVIES.getTableName());
         databaseTableNameList.add(DatabaseTableName.USERS.getTableName());
         databaseTableNameList.add(DatabaseTableName.MOVIE_COPIES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.RENTS.getTableName());
+        databaseTableNameList.add(DatabaseTableName.RENT_ARTICLES.getTableName());
         
         /**
          * check if table exists

@@ -8,6 +8,8 @@ import com.videoclub.controllers.Rental;
 import com.videoclub.models.account.User;
 import com.videoclub.models.movie.DescriptionMovie;
 import com.videoclub.models.movie.Movie;
+import com.videoclub.models.movie.rent.Rent;
+import com.videoclub.models.movie.rent.RentArticle;
 
 /**
  * Lien entre l'interface graphique et la database Contr�leur
@@ -63,14 +65,35 @@ public class VideoClub
 	 * @param arrayList
 	 * @param movieRentingCustomer
 	 */
-	public void rentMovies(ArrayList<Movie> arrayList, LoginInfo movieRentingCustomer)
+	public void rentMovies(ArrayList<Movie> arrayList, User movieRentingCustomer)
 	{
 		
 		System.out.println("pickMovies(ArrayList<RentableMovie> movieSelection)");
 		System.out.println("Movies selected: \n[");
+		
+		Rent rent = new Rent();
+        rent.setUserId(movieRentingCustomer.getId());
+        
+        try {
+            rent.save();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+//        System.out.println("rent id:" + rent.getId());
+//        
 		for (Movie movie : arrayList)
 		{
-			System.out.println("\t" + movie.toString());
+		    RentArticle rentArticle = new RentArticle();
+		    rentArticle.setMovieId(movie.getId());
+		    rentArticle.setRentId(rent.getId());
+		    try {
+                rentArticle.save();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 		}
 		System.out.println("]");
 	}
@@ -103,7 +126,6 @@ public class VideoClub
 		Movie m = new Movie();
 		DescriptionMovie dm = new DescriptionMovie();
 		ArrayList<Movie> choices = new ArrayList<Movie>();
-		ArrayList<DescriptionMovie> descriptions = new ArrayList<DescriptionMovie>();
         
         try {
             choices = m.getAll();
