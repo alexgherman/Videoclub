@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
+import com.videoclub.models.account.User;
 import com.videoclub.models.movie.Movie;
 
 @SuppressWarnings("serial")
@@ -193,7 +194,17 @@ public class EmployeeWindow extends JDialog
 					if (confirmation == JOptionPane.OK_OPTION)
 					{
 						videoClub.buyItems(cart.getItems());
-						videoClub.rentMovies(cart.getMovies(), movieRentingCustomer);
+						User u = new User();
+						User user = new User();
+						try {
+                            user = u.getByUsername(movieRentingCustomer.getName());
+                        } catch (InstantiationException
+                                | IllegalAccessException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+						
+						videoClub.rentMovies(cart.getMovies(), user);
 					}
 				}
 			});

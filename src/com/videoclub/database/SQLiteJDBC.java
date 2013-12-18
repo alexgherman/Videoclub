@@ -162,7 +162,7 @@ public class SQLiteJDBC {
 //            System.out.println(rs.);
             
             if (!rs.next()) {
-                System.out.println("no rows found");
+//                System.out.println("no rows found");
             } else {
                 do {
                     result.add(iterateResultSet(rs, columnNames));
