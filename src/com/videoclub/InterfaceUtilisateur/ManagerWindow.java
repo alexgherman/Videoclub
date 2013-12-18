@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.videoclub.models.account.User;
@@ -32,9 +33,9 @@ public class ManagerWindow extends JDialog
 	private JButton addItemButton = new JButton("Ajouter article");
 	private JButton addUserButton = new JButton("Ajouter utilisateur");
 
-	private JButton removeMovieButton = new JButton("Enlever film");
-	private JButton removeItemButton = new JButton("Enlever article");
-	private JButton removeUserButton = new JButton("Enlever utilisateur");
+	private JButton removeMovieButton = new JButton("Supprimer film");
+	private JButton removeItemButton = new JButton("Supprimer article");
+	private JButton removeUserButton = new JButton("Supprimer utilisateur");
 
 	/**
 	 * Constructeur
@@ -143,7 +144,12 @@ public class ManagerWindow extends JDialog
 					win.setVisible(true);
 
 					ArrayList<RentableMovie> selectedMovies = win.getSelection();
-					videoClub.removeMovies(selectedMovies);
+					
+					int answer = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce film de location?", "Supression de film", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (answer == JOptionPane.YES_OPTION)
+					{
+						videoClub.removeMovies(selectedMovies);
+					}
 				}
 			});
 
@@ -156,7 +162,13 @@ public class ManagerWindow extends JDialog
 					win.setVisible(true);
 
 					ArrayList<SellableItem> selectedItems = win.getSelection();
-					videoClub.removeItems(selectedItems);
+					
+					int answer = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet article?", "Supression d'article", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (answer == JOptionPane.YES_OPTION)
+					{
+						videoClub.removeItems(selectedItems);
+					}
+					
 				}
 			});
 
@@ -169,7 +181,12 @@ public class ManagerWindow extends JDialog
 					win.setVisible(true);
 
 					ArrayList<User> selectedUsers = win.getSelection();
-					videoClub.removeUsers(selectedUsers);
+					
+					int answer = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce membre?", "Supression de membre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (answer == JOptionPane.YES_OPTION)
+					{
+						videoClub.removeUsers(selectedUsers);
+					}
 				}
 			});
 	}
