@@ -29,6 +29,7 @@ import com.videoclub.models.movie.Movie;
 public class ManagerWindow extends JDialog
 {
 	private JButton identificationButton = new JButton("Identification");
+	private JButton pricesButton = new JButton("Modifier prix");
 
 	private JButton addMovieButton = new JButton("Ajouter film");
 	private JButton addItemButton = new JButton("Ajouter article");
@@ -47,8 +48,8 @@ public class ManagerWindow extends JDialog
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
-		setSize(475, 200);
-		setMinimumSize(new Dimension(475, 200));
+		setSize(475, 250);
+		setMinimumSize(new Dimension(475, 250));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -61,29 +62,37 @@ public class ManagerWindow extends JDialog
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(10, 10, 10, 10);
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.weighty = 1;
 
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 3;
 		panel.add(identificationButton, c);
-
+		
+		c.gridx = 0;
 		c.gridy = 1;
+		panel.add(pricesButton, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		panel.add(addMovieButton, c);
 
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		panel.add(addItemButton, c);
 
 		c.gridx = 2;
 		panel.add(addUserButton, c);
 
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		panel.add(removeMovieButton, c);
 
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		panel.add(removeItemButton, c);
 
 		c.gridx = 2;
@@ -99,6 +108,15 @@ public class ManagerWindow extends JDialog
 					updateAuthorizations(videoClub);
 				}
 			});
+		
+		pricesButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				JOptionPane.showMessageDialog(null, "Dans le prochain patch!", "Modifier prix des films", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 
 		addMovieButton.addActionListener(new ActionListener()
 			{
@@ -190,6 +208,8 @@ public class ManagerWindow extends JDialog
 					}
 				}
 			});
+		
+	
 	}
 
 	/**

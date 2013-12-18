@@ -49,7 +49,7 @@ public class Movie extends Common<Movie> implements CommonInterface<Movie> {
     }
     
     public String toString() {
-        return "[" + getId() + "] " + description.toString();
+        return description.toString();
     }
 
     /**
