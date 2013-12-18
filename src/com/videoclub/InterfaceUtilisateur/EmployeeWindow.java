@@ -194,6 +194,7 @@ public class EmployeeWindow extends JDialog
 					{
 						videoClub.buyItems(cart.getItems());
 						videoClub.rentMovies(cart.getMovies(), movieRentingCustomer);
+						dispose();
 					}
 				}
 			});
