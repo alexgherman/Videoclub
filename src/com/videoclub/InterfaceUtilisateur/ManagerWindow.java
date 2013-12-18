@@ -47,8 +47,8 @@ public class ManagerWindow extends JDialog
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
-		setSize(425, 200);
-		setMinimumSize(new Dimension(425, 200));
+		setSize(475, 200);
+		setMinimumSize(new Dimension(475, 200));
 
 		// Screen centered
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

@@ -18,8 +18,8 @@ public class VideoClub
 {
 	private final String name = "Video Club Awesome";
 
-	private int newMoviePrice; // En cents
-	private int oldMoviePrice;
+	private int newMoviePrice = 1000;; // En cents
+	private int oldMoviePrice = 500;
 
 	public static void main(String[] args)
 	{
@@ -29,10 +29,7 @@ public class VideoClub
 
 	public void start()
 	{
-		System.out.println("start()");
-
-		newMoviePrice = 1000;
-		oldMoviePrice = 500;
+		System.out.println("start()");		
 
 		WelcomeWindow win = new WelcomeWindow(this);
 		win.setVisible(true);
