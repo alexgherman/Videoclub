@@ -2,18 +2,20 @@ package com.videoclub.InterfaceUtilisateur;
 
 import java.util.ArrayList;
 
+import com.videoclub.models.movie.Movie;
+
 public class Cart
 {
-	private ArrayList<RentableMovie> movies = new ArrayList<RentableMovie>();
+	private ArrayList<Movie> movies = new ArrayList<Movie>();
 
-	public ArrayList<RentableMovie> getMovies()
+	public ArrayList<Movie> getMovies()
 	{
 		return movies;
 	}
 
-	public void setMovies(ArrayList<RentableMovie> movies)
+	public void setMovies(ArrayList<Movie> selectedMovies)
 	{
-		this.movies = movies;
+		this.movies = selectedMovies;
 	}
 
 	public ArrayList<SellableItem> getItems()
@@ -44,7 +46,7 @@ public class Cart
 	{
 		int total = 0; //En cents
 
-		for (RentableMovie movie : movies)
+		for (Movie movie : movies)
 		{
 			total += videoClub.getMoviePrice(movie);
 		}
