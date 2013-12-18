@@ -119,6 +119,10 @@ public class User extends Common<User> implements CommonInterface<User> {
         return (getGroupId() != null && getGroupId() == 1);
     }
     
+    public boolean isRegular() {
+        return (getGroupId() != null && getGroupId() == 2);
+    }
+    
 	public boolean checkSameUser(User user) {
 	   
 	   return (user.getUsername().equals(this.getUsername()) &&

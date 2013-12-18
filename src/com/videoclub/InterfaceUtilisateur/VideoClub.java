@@ -110,7 +110,6 @@ public class VideoClub
         try {
             choices = m.getAll();
             for (Movie movie : choices) {
-                System.out.println("-" + movie.getId());
                 dm = dm.getById(movie.getDescription().getId());
                 movie.setDescription(dm);
             }
@@ -188,10 +187,19 @@ public class VideoClub
 	 */
 	public boolean validUser(LoginInfo info)
 	{
-		System.out.println("validUser(LoginInfo info)");
-		System.out.println(info);
+	    User u = new User();
+        User user = null;
+        try
+        {
+            user = u.getByUsername(info.getName());
+        }
+        catch (InstantiationException | IllegalAccessException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		return false;
+        return user != null && user.isRegular();
 	}
 
 	/**
