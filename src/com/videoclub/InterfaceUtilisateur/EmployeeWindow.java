@@ -20,8 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
+import com.videoclub.controllers.Account;
+import com.videoclub.controllers.Rental;
 import com.videoclub.models.account.User;
 import com.videoclub.models.movie.Movie;
+import com.videoclub.models.movie.Order;
 
 @SuppressWarnings("serial")
 /**
@@ -119,7 +122,7 @@ public class EmployeeWindow extends JDialog
 					PickItemsWindow win = new PickItemsWindow(videoClub);
 					win.setVisible(true);
 
-					ArrayList<SellableItem> selectedItems = win.getSelection();
+					ArrayList<com.videoclub.models.article.Article> selectedItems = win.getSelection();
 
 					if (!selectedItems.isEmpty())
 					{
@@ -193,19 +196,14 @@ public class EmployeeWindow extends JDialog
 
 					if (confirmation == JOptionPane.OK_OPTION)
 					{
-						videoClub.buyItems(cart.getItems());
-
-						User u = new User();
-						User user = new User();
-						try {
-                            user = u.getByUsername(movieRentingCustomer.getName());
-                        } catch (InstantiationException
-                                | IllegalAccessException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
 						
-						videoClub.rentMovies(cart.getMovies(), user);
+						
+						User user = Account.matchUser(movieRentingCustomer);
+						Order order = Rental.createOrder(user);
+						videoClub.rentMovies(cart.getMovies(), order);
+						videoClub.buyItems(cart.getItems(), order);
+                        
+						
 						dispose();
 					}
 				}
@@ -263,10 +261,10 @@ public class EmployeeWindow extends JDialog
 			listPanel.add(linePanel);
 		}
 
-		for (SellableItem item : cart.getItems())
+		for (com.videoclub.models.article.Article item : cart.getItems())
 		{
-			String thing = "Achat: " + item.getName();
-			String price = ((float) item.getPrice() / 100) + " $";
+			String thing = "Achat: " + item.getDescription().getName();
+			String price = ((float) item.getDescription().getPrice() / 100) + " $";
 
 			JPanel linePanel = new JPanel();
 			linePanel.setLayout(new BoxLayout(linePanel, BoxLayout.X_AXIS));

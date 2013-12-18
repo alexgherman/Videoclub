@@ -122,25 +122,36 @@ public class Fixtures {
             db.update(sql);
             
             /**
-             * Rent table
+             * Order table
              */
 
-            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.RENTS.getTableName() + " (" +
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.ORDERS.getTableName() + " (" +
                   "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
                   "USER_ID                       INTEGER                                   NOT NULL, " +
-                  "RENT_DATE                     TEXT                                   NOT NULL)";
+                  "DATE                          TEXT                                   NOT NULL)";
 
             db.update(sql);
             
                      
             /**
-             * Rent table
+             * Rent articles table
              */
 
             sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.RENT_ARTICLES.getTableName() + " (" +
                   "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
-                  "RENT_ID                       INTEGER                                NOT NULL, " +
+                  "ORDER_ID                      INTEGER                                NOT NULL, " +
                   "MOVIE_ID                      INTEGER                                NOT NULL)";
+
+            db.update(sql);
+            
+            /**
+             * Purchase articles table
+             */
+
+            sql = "CREATE TABLE IF NOT EXISTS    " + DatabaseTableName.PURCHASE_ARTICLES.getTableName() + " (" +
+                  "ID                            INTEGER PRIMARY KEY AUTOINCREMENT      NOT NULL, " +
+                  "ORDER_ID                      INTEGER                                NOT NULL, " +
+                  "ARTICLE_ID                    INTEGER                                NOT NULL)";
 
             db.update(sql);
             
@@ -170,8 +181,9 @@ public class Fixtures {
         databaseTableNameList.add(DatabaseTableName.DESCRIPTION_MOVIES.getTableName());
         databaseTableNameList.add(DatabaseTableName.USERS.getTableName());
         databaseTableNameList.add(DatabaseTableName.MOVIE_COPIES.getTableName());
-        databaseTableNameList.add(DatabaseTableName.RENTS.getTableName());
+        databaseTableNameList.add(DatabaseTableName.ORDERS.getTableName());
         databaseTableNameList.add(DatabaseTableName.RENT_ARTICLES.getTableName());
+        databaseTableNameList.add(DatabaseTableName.PURCHASE_ARTICLES.getTableName());
         
         /**
          * check if table exists

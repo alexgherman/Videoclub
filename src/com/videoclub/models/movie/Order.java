@@ -1,4 +1,5 @@
-package com.videoclub.models.movie.rent;
+package com.videoclub.models.movie;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,21 +10,21 @@ import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.*;
 
-public class RentArticle extends Common<RentArticle> implements CommonInterface<RentArticle> {
+public class Order extends Common<Order> implements CommonInterface<Order> {
     
     HashMap<String, String> fieldValues = new HashMap<String, String>();
     
     private Integer id = null;
-    private Integer orderId = null;
-    private Integer movieId = null;
+    private Integer userId = null;
+    private String date = null;
     
     
-    public RentArticle() {
-        super(DatabaseTableName.RENT_ARTICLES, RentArticle.class);
+    public Order() {
+        super(DatabaseTableName.ORDERS, Order.class);
     }
     
-    public RentArticle(Integer id) {
-        super(DatabaseTableName.RENT_ARTICLES, RentArticle.class);
+    public Order(Integer id) {
+        super(DatabaseTableName.ORDERS, Order.class);
         setId(id);
     }
     
@@ -36,21 +37,22 @@ public class RentArticle extends Common<RentArticle> implements CommonInterface<
         this.id = id;
     }
     
-    public Integer getOrderId() {
-        return orderId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getMovieId() {
-        return movieId;
+    public String getDate() {
+        return date;
     }
 
-    public void setMovieId(Integer movieId) {
-        this.movieId = movieId;
+    public void setDate(String date) {
+        this.date = date;
     }
+
     
     public String toString() {
         return "[" + getId() + "] " + " ";
@@ -61,9 +63,12 @@ public class RentArticle extends Common<RentArticle> implements CommonInterface<
      * @throws SQLException
      */
     public Integer create() throws SQLException {
+
+        Long now = (System.currentTimeMillis() / 1000L);
         
-        String sql = "INSERT INTO " + tableName + " (ORDER_ID, MOVIE_ID) "
-                   + "VALUES (" + getOrderId() + ", " + getMovieId() + ");";
+        setDate(now.toString());
+        String sql = "INSERT INTO " + tableName + " (USER_ID, DATE) "
+                   + "VALUES (" + getUserId() + ", " + getDate() + ");";
         
         return Database.instance().update(sql);
     }
@@ -87,25 +92,22 @@ public class RentArticle extends Common<RentArticle> implements CommonInterface<
      * Construct the article entity from a resultSet row
      */
     @Override
-    public RentArticle constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
-        RentArticle rentArticle = new RentArticle();
-        rentArticle.setId(Integer.parseInt((String) row.get("ID")));
-        rentArticle.setOrderId(Integer.parseInt((String) row.get("ORDER_ID")));
-        rentArticle.setMovieId(Integer.parseInt((String) row.get("MOVIE_ID")));
-        return rentArticle;
+    public Order constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
+        Order rent = new Order();
+        rent.setId(Integer.parseInt((String) row.get("ID")));
+        rent.setUserId(Integer.parseInt((String) row.get("USER_ID")));
+        rent.setDate((String) row.get("DATE"));
+        return rent;
     }
     
     public static void main(String [] args) {
         
-        RentArticle rentArticle = new RentArticle();
-        rentArticle.setMovieId(23);
-        rentArticle.setOrderId(24);
-        
+        Order order = new Order();
+        order.setUserId(1);
         
         try {
-            rentArticle.save();
+            order.save();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
@@ -113,6 +115,7 @@ public class RentArticle extends Common<RentArticle> implements CommonInterface<
         
     }
 
-}
 
+    
+}
 

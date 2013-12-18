@@ -162,7 +162,7 @@ public class ManagerWindow extends JDialog
 					PickItemsWindow win = new PickItemsWindow(videoClub);
 					win.setVisible(true);
 
-					ArrayList<SellableItem> selectedItems = win.getSelection();
+					ArrayList<com.videoclub.models.article.Article> selectedItems = win.getSelection();
 					
 					int answer = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet article?", "Supression d'article", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (answer == JOptionPane.YES_OPTION)

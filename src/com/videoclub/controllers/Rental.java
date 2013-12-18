@@ -7,6 +7,7 @@ import com.videoclub.models.account.User;
 import com.videoclub.models.movie.DescriptionMovie;
 import com.videoclub.models.movie.Movie;
 import com.videoclub.models.movie.MovieCopy;
+import com.videoclub.models.movie.Order;
 
 public class Rental {
 
@@ -80,6 +81,17 @@ public class Rental {
             System.out.println(movie.getDescription().getTitle());
         }
         
+    }
+    
+    public static Order createOrder(User user) {
+        Order order = new Order();
+        order.setUserId(user.getId());
+        try {
+            order.save();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return order;
     }
     
 }

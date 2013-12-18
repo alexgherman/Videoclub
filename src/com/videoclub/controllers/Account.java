@@ -3,6 +3,7 @@ package com.videoclub.controllers;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.videoclub.InterfaceUtilisateur.LoginInfo;
 import com.videoclub.models.account.User;
 import com.videoclub.models.article.DescriptionArticle;
 import com.videoclub.models.movie.Movie;
@@ -82,5 +83,18 @@ public class Account {
         System.out.println("getUsers() test:");
         System.out.println(Account.getUsers());
         
+    }
+    
+    public static User matchUser(LoginInfo customer) {
+        User u = new User();
+        User user = new User();
+        try {
+            user = u.getByUsername(customer.getName());
+        } catch (InstantiationException
+                | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        
+        return user;
     }
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.videoclub.InterfaceUtilisateur.SellableItem;
 import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.*;
@@ -98,16 +99,33 @@ public class Article extends Common<Article> implements CommonInterface<Article>
     
     public static void main(String [] args) {
         
-        DescriptionArticle description = new DescriptionArticle("code1", "Coke", "blabla_description", 10.85f);
-//        description.save();
+        DescriptionArticle description1 = new DescriptionArticle("code1", "Chips", "delicious chips", 1.85f);
+        DescriptionArticle description2 = new DescriptionArticle("code1", "Liqueur", "delicious liquer", 2.00f);
+        DescriptionArticle description3 = new DescriptionArticle("code1", "Bonbons", "delicious bonbons", 2.00f);
         
-        Article article = new Article();
+        try {
+            description1.save();
+            description2.save();
+            description3.save();            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         
+        Article article1 = new Article();
+        Article article2 = new Article();
+        Article article3 = new Article();
         
+        article1.setDescription(description1);
+        article2.setDescription(description2);
+        article3.setDescription(description3);
         
-//        article.save();
-        
-        System.out.println(article);
+        try {
+            article1.save();
+            article2.save();
+            article3.save();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         
     }
     

@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,19 +17,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.videoclub.models.article.Article;
+
 @SuppressWarnings("serial")
 /**
- * Fenêtre d'articles à acheter
+ * Fenï¿½tre d'articles ï¿½ acheter
  * @author Maxime Dupuis
  *
  */
 public class PickItemsWindow extends JDialog
 {
-	private ArrayList<SellableItem> itemChoices = new ArrayList<SellableItem>();
-	private ArrayList<SellableItem> selectedItems = new ArrayList<SellableItem>();
+	private ArrayList<com.videoclub.models.article.Article> itemChoices = new ArrayList<com.videoclub.models.article.Article>();
+	private ArrayList<com.videoclub.models.article.Article> selectedItems = new ArrayList<com.videoclub.models.article.Article>();
 
 	private JLabel choiceLabel = new JLabel("Choix:");
-	private JLabel selectionLabel = new JLabel("Votre sélection:");
+	private JLabel selectionLabel = new JLabel("Votre sï¿½lection:");
 
 	private JButton okButton = new JButton("OK");
 	private JButton closeButton = new JButton("Fermer");
@@ -39,7 +42,7 @@ public class PickItemsWindow extends JDialog
 	private JPanel itemSelectionPanel = new JPanel();
 	private JScrollPane selectionPanel = new JScrollPane(itemSelectionPanel);
 
-	public ArrayList<SellableItem> getSelection()
+	public ArrayList<com.videoclub.models.article.Article> getSelection()
 	{
 		return selectedItems;
 	}
@@ -65,7 +68,7 @@ public class PickItemsWindow extends JDialog
 
 		itemChoices = videoClub.getItemChoices();
 
-		for (SellableItem item : itemChoices)
+		for (com.videoclub.models.article.Article item : itemChoices)
 		{
 			addChoiceitem(item);
 		}
@@ -125,7 +128,7 @@ public class PickItemsWindow extends JDialog
 	/**
 	 * Ajoute un item dans la liste des choix
 	 */
-	private void addChoiceitem(final SellableItem item)
+	private void addChoiceitem(final com.videoclub.models.article.Article item)
 	{
 		JButton bouton = new JButton(item.toString());
 		itemChoicesPanel.add(bouton);
@@ -143,9 +146,9 @@ public class PickItemsWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un item de la liste des choix
+	 * Enlï¿½ve un item de la liste des choix
 	 */
-	private void removeChoiceitem(SellableItem item)
+	private void removeChoiceitem(com.videoclub.models.article.Article item)
 	{
 		for (Component c : itemChoicesPanel.getComponents())
 		{
@@ -163,9 +166,9 @@ public class PickItemsWindow extends JDialog
 	}
 
 	/**
-	 * Ajoute un item dans la liste de sélection
+	 * Ajoute un item dans la liste de sï¿½lection
 	 */
-	private void addSelectionitem(final SellableItem item)
+	private void addSelectionitem(final com.videoclub.models.article.Article item)
 	{
 		JButton bouton = new JButton(item.toString());
 		itemSelectionPanel.add(bouton);
@@ -185,9 +188,9 @@ public class PickItemsWindow extends JDialog
 	}
 
 	/**
-	 * Enlève un item de la liste des sélections
+	 * Enlï¿½ve un item de la liste des sï¿½lections
 	 */
-	private void removeSelectionitem(SellableItem item)
+	private void removeSelectionitem(com.videoclub.models.article.Article item)
 	{
 		for (Component c : itemSelectionPanel.getComponents())
 		{
