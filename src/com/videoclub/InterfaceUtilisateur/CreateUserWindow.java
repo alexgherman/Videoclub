@@ -26,16 +26,16 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class CreateUserWindow extends JDialog
 {
-	private JLabel nameLabel = new JLabel("Nom:");
+	private JLabel nameLabel = new JLabel("Identifiant:");
 	private JTextField nameField = new JTextField();
 
-	private JLabel passwordLabel = new JLabel("Password:");
+	private JLabel passwordLabel = new JLabel("Mot de passe:");
 	private JPasswordField passwordField = new JPasswordField();
 
-	private JLabel firstNameLabel = new JLabel("First name:");
+	private JLabel firstNameLabel = new JLabel("Prénom:");
 	private JTextField firstNameField = new JTextField();
 
-	private JLabel lastNameLabel = new JLabel("Last name:");
+	private JLabel lastNameLabel = new JLabel("Nom de famille:");
 	private JTextField lastNameField = new JTextField();
 
 	private JButton saveButton = new JButton("OK");
@@ -50,7 +50,7 @@ public class CreateUserWindow extends JDialog
 
 	CreateUserWindow()
 	{
-		super((Frame) null, "Identification", true);
+		super((Frame) null, "Créer un utilisateur", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Screen Size
@@ -122,19 +122,33 @@ public class CreateUserWindow extends JDialog
 					String name = nameField.getText();
 					if (name.equals(""))
 					{
-						JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Avertissement", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 
 					String password = new String(passwordField.getPassword());
 					if (password.equals(""))
 					{
-						JOptionPane.showMessageDialog(null, "Mot de passe obligatoire!", "Message", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Mot de passe obligatoire!", "Avertissement", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 
 					String firstName = firstNameField.getText();
+					if (firstName.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Prénom obligatoire!", "Avertissement", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					
+					
 					String lastName = lastNameField.getText();
+					if (lastName.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Nom obligatoire!", "Avertissement", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					
+					
 
 					loginInfo = new LoginInfo(name, password, firstName, lastName);
 
