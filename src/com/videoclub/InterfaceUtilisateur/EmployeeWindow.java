@@ -8,6 +8,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -35,7 +37,7 @@ public class EmployeeWindow extends JDialog
 {
 	private VideoClub videoClub;
 
-	JPanel panel;
+	JPanel panel = new JPanel();;
 
 	private JButton pickMoviesButton = new JButton("Choisir Films");
 	private JButton pickItemsButton = new JButton("Choisir Articles");
@@ -67,7 +69,6 @@ public class EmployeeWindow extends JDialog
 		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
 
 		// Window Layout
-		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -142,13 +143,12 @@ public class EmployeeWindow extends JDialog
 						win.setVisible(true);
 
 						movieRentingCustomer = win.getLoginInfo();
-						if(movieRentingCustomer == null) return;
-						
-						if (!videoClub.validUser(movieRentingCustomer)) // Login
-																		// failed,
-																		// wanna
-																		// add a
-																		// member?
+						if (movieRentingCustomer == null)	//If we close the loginWindow, go back to employeeWindow
+						{
+							return;
+						}
+
+						if (!videoClub.validUser(movieRentingCustomer)) // Login failed, wannaadd a member?
 						{
 							int answer = JOptionPane.showConfirmDialog(null, "D�sirez-vous ajouter un membre au syst�me?", "�chec d'identification!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
@@ -185,8 +185,6 @@ public class EmployeeWindow extends JDialog
 						}
 					}
 
-					// Customer doesn't want to rent a movie OR he's
-					// successfully logged in
 
 					// Ask for a confirmation before doing the transaction
 					int confirmation = JOptionPane.showConfirmDialog(null, "Veuillez confirmer la transaction de: " + ((float) cart.getTotal() / 100) + " $", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
@@ -195,17 +193,24 @@ public class EmployeeWindow extends JDialog
 					{
 						videoClub.buyItems(cart.getItems());
 
-						User u = new User();
-						User user = new User();
-						try {
-                            user = u.getByUsername(movieRentingCustomer.getName());
-                        } catch (InstantiationException
-                                | IllegalAccessException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+						//if(movieRentingCustomer!=null)
+						if(!cart.getMovies().isEmpty())
+						{
+							User u = new User();
+							User user = new User();
+							try
+							{
+								user = u.getByUsername(movieRentingCustomer.getName());
+							}
+							catch (InstantiationException | IllegalAccessException e)
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+							videoClub.rentMovies(cart.getMovies(), user);
+						}
 						
-						videoClub.rentMovies(cart.getMovies(), user);
 						dispose();
 					}
 				}
@@ -220,6 +225,37 @@ public class EmployeeWindow extends JDialog
 					updateCartPanel();
 				}
 			});
+
+		addComponentListener(new ComponentListener()
+			{
+				public void componentResized(ComponentEvent e)
+				{
+					revalidate();
+				}
+
+				@Override
+				public void componentHidden(ComponentEvent e)
+				{
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void componentMoved(ComponentEvent e)
+				{
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void componentShown(ComponentEvent e)
+				{
+					// TODO Auto-generated method stub
+
+				}
+
+			});
+
 	}
 
 	private void updateCartPanel()
@@ -228,13 +264,17 @@ public class EmployeeWindow extends JDialog
 		cartPanel = cartPanel(cart, videoClub);
 
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.insets = new Insets(10, 10, 10, 10);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
 		c.weighty = 1;
 		c.weightx = 1;
+
+		/*
+		 * cartPanel.removeAll(); cartPanel.add(new JButton("allo"),c); //
+		 */
 
 		panel.add(cartPanel, c);
 
