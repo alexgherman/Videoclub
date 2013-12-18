@@ -14,6 +14,8 @@ public class LoginInfo
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 	}
+	
+	
 
 	public String getName()
 	{

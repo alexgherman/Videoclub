@@ -190,11 +190,6 @@ public class AddRentableMovieWindow extends JFrame
 					}
 
 					Rental.addNewMovie(name, description, releaseDate, isNew, numberOfCopies);
-
-					//				RentableMovie rentableMovie = new RentableMovie(name, isNew);
-
-					//				for (int i = 0; i <  ++i)
-					//					videoClub.addRentableMovie(rentableMovie);
 				}
 			});
 

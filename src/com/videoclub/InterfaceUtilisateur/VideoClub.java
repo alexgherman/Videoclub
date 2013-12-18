@@ -65,6 +65,7 @@ public class VideoClub
 	 */
 	public void rentMovies(ArrayList<Movie> arrayList, LoginInfo movieRentingCustomer)
 	{
+		
 		System.out.println("pickMovies(ArrayList<RentableMovie> movieSelection)");
 		System.out.println("Movies selected: \n[");
 		for (Movie movie : arrayList)
