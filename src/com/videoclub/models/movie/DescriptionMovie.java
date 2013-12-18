@@ -195,32 +195,12 @@ public class DescriptionMovie extends Common<DescriptionMovie> implements Common
      */
     public static ArrayList<Movie> returnWithPopulatedDescriptions(ArrayList<Movie> articles) {
 
-//      ----- unnecessary overhead for an sqlite database ----
-//      Uncomment if situation changes
-//      ArrayList<Integer> descriptionIds = new ArrayList<Integer>();
-      
-      // collect the description ids
         for (Movie movie : articles) {
-//          ----- unnecessary overhead for an sqlite database ----
-//          descriptionIds.add(article.getDescription().getId());
             DescriptionMovie descriptionArticle = new DescriptionMovie();
             descriptionArticle.setId(movie.getDescription().getId());
             descriptionArticle.load();
             movie.setDescription(descriptionArticle);
         }
-       
-//      ----- unnecessary overhead for an sqlite database ----
-//      // resolve the description objects
-//      DescriptionArticle descriptionArticle = new DescriptionArticle();
-//      ArrayList<DescriptionArticle> descriptionArticles = null;
-//      try {
-//          descriptionArticles = descriptionArticle.getById(descriptionIds);
-//      } catch (InstantiationException | IllegalAccessException e) {
-//          e.printStackTrace(); // TODO: change the exception error
-//      }
-//      
-//      // link the articles with their collected description objects
-//      // ...
         
         return articles;
     }
