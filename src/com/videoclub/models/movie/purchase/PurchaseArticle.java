@@ -1,5 +1,4 @@
-package com.videoclub.models.movie.rent;
-
+package com.videoclub.models.movie.purchase;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,21 +9,21 @@ import com.videoclub.database.Database;
 import com.videoclub.database.DatabaseTableName;
 import com.videoclub.models.*;
 
-public class Rent extends Common<Rent> implements CommonInterface<Rent> {
+public class PurchaseArticle extends Common<PurchaseArticle> implements CommonInterface<PurchaseArticle> {
     
     HashMap<String, String> fieldValues = new HashMap<String, String>();
     
     private Integer id = null;
-    private Integer userId = null;
-    private String rentDate = null;
+    private Integer orderId = null;
+    private Integer articleId = null;
     
     
-    public Rent() {
-        super(DatabaseTableName.RENTS, Rent.class);
+    public PurchaseArticle() {
+        super(DatabaseTableName.PURCHASE_ARTICLES, PurchaseArticle.class);
     }
     
-    public Rent(Integer id) {
-        super(DatabaseTableName.RENTS, Rent.class);
+    public PurchaseArticle(Integer id) {
+        super(DatabaseTableName.PURCHASE_ARTICLES, PurchaseArticle.class);
         setId(id);
     }
     
@@ -37,22 +36,21 @@ public class Rent extends Common<Rent> implements CommonInterface<Rent> {
         this.id = id;
     }
     
-    public Integer getUserId() {
-        return userId;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public String getRentDate() {
-        return rentDate;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public void setRentDate(String rentDate) {
-        this.rentDate = rentDate;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
-
     
     public String toString() {
         return "[" + getId() + "] " + " ";
@@ -63,12 +61,9 @@ public class Rent extends Common<Rent> implements CommonInterface<Rent> {
      * @throws SQLException
      */
     public Integer create() throws SQLException {
-
-        Long now = (System.currentTimeMillis() / 1000L);
         
-        setRentDate(now.toString());
-        String sql = "INSERT INTO " + tableName + " (USER_ID, RENT_DATE) "
-                   + "VALUES (" + getUserId() + ", " + getRentDate() + ");";
+        String sql = "INSERT INTO " + tableName + " (ORDER_ID, ARTICLE_ID) "
+                   + "VALUES (" + getOrderId() + ", " + getArticleId() + ");";
         
         return Database.instance().update(sql);
     }
@@ -92,23 +87,24 @@ public class Rent extends Common<Rent> implements CommonInterface<Rent> {
      * Construct the article entity from a resultSet row
      */
     @Override
-    public Rent constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
-        Rent rent = new Rent();
-        rent.setId(Integer.parseInt((String) row.get("ID")));
-        rent.setUserId(Integer.parseInt((String) row.get("USER_ID")));
-        rent.setRentDate((String) row.get("RENT_DATE"));
-        return rent;
+    public PurchaseArticle constructEntity(HashMap<String, String> row) throws InstantiationException, IllegalAccessException {
+        PurchaseArticle rentArticle = new PurchaseArticle();
+        rentArticle.setId(Integer.parseInt((String) row.get("ID")));
+        rentArticle.setOrderId(Integer.parseInt((String) row.get("ORDER_ID")));
+        rentArticle.setOrderId(Integer.parseInt((String) row.get("ARTICLE_ID")));
+        return rentArticle;
     }
     
     public static void main(String [] args) {
         
-        Rent rent = new Rent();
-        rent.setUserId(1);
+        PurchaseArticle rentArticle = new PurchaseArticle();
+        rentArticle.setArticleId(23);
+        rentArticle.setOrderId(24);
+        
         
         try {
-            rent.save();
+            rentArticle.save();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
@@ -116,7 +112,6 @@ public class Rent extends Common<Rent> implements CommonInterface<Rent> {
         
     }
 
-
-    
 }
+
 

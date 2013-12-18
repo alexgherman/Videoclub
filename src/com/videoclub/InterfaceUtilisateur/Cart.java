@@ -18,17 +18,17 @@ public class Cart
 		this.movies = selectedMovies;
 	}
 
-	public ArrayList<SellableItem> getItems()
+	public ArrayList<com.videoclub.models.article.Article> getItems()
 	{
 		return items;
 	}
 
-	public void setItems(ArrayList<SellableItem> items)
+	public void setItems(ArrayList<com.videoclub.models.article.Article> items)
 	{
 		this.items = items;
 	}
 
-	private ArrayList<SellableItem> items = new ArrayList<SellableItem>();
+	private ArrayList<com.videoclub.models.article.Article> items = new ArrayList<com.videoclub.models.article.Article>();
 	private VideoClub videoClub;
 
 	Cart(VideoClub videoClub)
@@ -51,9 +51,9 @@ public class Cart
 			total += videoClub.getMoviePrice(movie);
 		}
 
-		for (SellableItem item : items)
+		for (com.videoclub.models.article.Article item : items)
 		{
-			total += item.getPrice();
+			total += item.getDescription().getPrice();
 		}
 
 		return total;

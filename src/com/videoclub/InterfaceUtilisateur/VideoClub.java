@@ -4,11 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.videoclub.controllers.Account;
+import com.videoclub.controllers.Article;
 import com.videoclub.controllers.Rental;
 import com.videoclub.models.account.User;
 import com.videoclub.models.movie.DescriptionMovie;
 import com.videoclub.models.movie.Movie;
-import com.videoclub.models.movie.rent.Rent;
+import com.videoclub.models.movie.Order;
+import com.videoclub.models.movie.purchase.PurchaseArticle;
 import com.videoclub.models.movie.rent.RentArticle;
 
 /**
@@ -65,29 +67,14 @@ public class VideoClub
 	 * @param arrayList
 	 * @param movieRentingCustomer
 	 */
-	public void rentMovies(ArrayList<Movie> arrayList, User movieRentingCustomer)
+	public void rentMovies(ArrayList<Movie> arrayList, Order order)
 	{
-		
-		System.out.println("pickMovies(ArrayList<RentableMovie> movieSelection)");
-		System.out.println("Movies selected: \n[");
-		
-		Rent rent = new Rent();
-        rent.setUserId(movieRentingCustomer.getId());
         
-        try {
-            rent.save();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-//        System.out.println("rent id:" + rent.getId());
-//        
 		for (Movie movie : arrayList)
 		{
 		    RentArticle rentArticle = new RentArticle();
 		    rentArticle.setMovieId(movie.getId());
-		    rentArticle.setRentId(rent.getId());
+		    rentArticle.setOrderId(order.getId());
 		    try {
                 rentArticle.save();
             } catch (SQLException e) {
@@ -95,7 +82,6 @@ public class VideoClub
                 e.printStackTrace();
             }
 		}
-		System.out.println("]");
 	}
 
 	/**
@@ -103,15 +89,21 @@ public class VideoClub
 	 * 
 	 * @param itemSelection
 	 */
-	public void buyItems(ArrayList<SellableItem> itemSelection)
+	public void buyItems(ArrayList<com.videoclub.models.article.Article> itemSelection, Order order)
 	{
-		System.out.println("pickItems(ArrayList<SellableItem> itemSelection)");
-		System.out.println("Items selected: \n[");
-		for (SellableItem item : itemSelection)
+		for (com.videoclub.models.article.Article item : itemSelection)
 		{
-			System.out.println("\t" + item.toString());
+		    PurchaseArticle purchaseArticle = new PurchaseArticle();
+		    purchaseArticle.setArticleId(item.getId());
+		    purchaseArticle.setOrderId(order.getId());
+		    try {
+		        
+		        purchaseArticle.save();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 		}
-		System.out.println("]");
 	}
 
 	/**
@@ -121,8 +113,6 @@ public class VideoClub
 	 */
 	public ArrayList<Movie> getMovieChoices()
 	{
-		System.out.println("getMovieChoices()");
-
 		Movie m = new Movie();
 		DescriptionMovie dm = new DescriptionMovie();
 		ArrayList<Movie> choices = new ArrayList<Movie>();
@@ -146,17 +136,10 @@ public class VideoClub
 	 * 
 	 * @return item choices
 	 */
-	public ArrayList<SellableItem> getItemChoices()
+	public ArrayList<com.videoclub.models.article.Article> getItemChoices()
 	{
-		System.out.println("getItemChoices()");
 
-		ArrayList<SellableItem> choices = new ArrayList<SellableItem>();
-		choices.add(new SellableItem("Chips", 150)); // Prix en cents btw
-		choices.add(new SellableItem("Liqueur", 200));
-		choices.add(new SellableItem("Bonbons", 100));
-		choices.add(new SellableItem("Jouet", 500));
-		choices.add(new SellableItem("La matrice IV", 2000));
-		choices.add(new SellableItem("Les samurai pas fins", 2000));
+		ArrayList<com.videoclub.models.article.Article> choices = Article.getArticles();
 
 		return choices;
 	}
@@ -281,7 +264,7 @@ public class VideoClub
 	 * 
 	 * @param itemsToRemove
 	 */
-	public void removeItems(ArrayList<SellableItem> itemsToRemove)
+	public void removeItems(ArrayList<com.videoclub.models.article.Article> itemsToRemove)
 	{
 		System.out.println("removeItems(ArrayList<SellableItem> itemsToRemove)");
 		System.out.println(itemsToRemove);

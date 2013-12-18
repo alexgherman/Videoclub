@@ -102,7 +102,7 @@ public class DescriptionArticle extends Common<DescriptionArticle> implements Co
                 + "DESCRIPTION,"
                 + "PRICE" +
          ") VALUES ("
-                + "'" + code + "', "
+                + "'" + generateRandomCode() + "', "
                 + "'" + name + "', "
                 + "'" + description + "', " 
                 + price + "" +
