@@ -192,11 +192,9 @@ public class EmployeeWindow extends JDialog
 					// Ask for a confirmation before doing the transaction
 					int confirmation = JOptionPane.showConfirmDialog(null, "Veuillez confirmer la transaction de: " + ((float) cart.getTotal() / 100) + " $", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
 
-					if (confirmation == JOptionPane.OK_OPTION)
+					if (confirmation == JOptionPane.OK_OPTION && movieRentingCustomer != null)
 					{
-
-						
-						
+					    System.out.println("customer:" + movieRentingCustomer);
 						User user = Account.matchUser(movieRentingCustomer);
 						Order order = Rental.createOrder(user);
 						videoClub.rentMovies(cart.getMovies(), order);
