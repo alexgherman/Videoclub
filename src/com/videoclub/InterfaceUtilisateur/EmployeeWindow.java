@@ -194,7 +194,7 @@ public class EmployeeWindow extends JDialog
 					if (confirmation == JOptionPane.OK_OPTION)
 					{
 						videoClub.buyItems(cart.getItems());
-<<<<<<< HEAD
+
 						User u = new User();
 						User user = new User();
 						try {
@@ -206,10 +206,7 @@ public class EmployeeWindow extends JDialog
                         }
 						
 						videoClub.rentMovies(cart.getMovies(), user);
-=======
-						videoClub.rentMovies(cart.getMovies(), movieRentingCustomer);
 						dispose();
->>>>>>> 3679b993fb49e80ea569d4bbadab73114c046429
 					}
 				}
 			});
